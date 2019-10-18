@@ -1,0 +1,15 @@
+.map {
+  display: flex;
+  flex-flow: row wrap;
+  width: 640px;
+  height: 480px;
+  background-color: brown;
+  position: relative;
+}
+
+.tile {
+  width: 32px;
+  height: 32px;
+  background-image: url("../img/sol.png");
+  line-height: 0;
+}
