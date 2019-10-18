@@ -1,24 +1,7 @@
 import React from "react";
 import Player from "./Player";
+import { tileNames, tilesMap } from "./tilesMap.js";
 import "./Map.css";
-
-const map1 = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
 
 class Map extends React.Component {
   constructor(props) {
@@ -103,6 +86,17 @@ class Map extends React.Component {
     }
   }
 
+  randomGrass = () => {
+    let randomNum = Math.floor(Math.random() * 40);
+    if (randomNum === 6 || randomNum === 23) {
+      return "highGrass";
+    } else if (randomNum === 21) {
+      return "flowers";
+    } else {
+      return "grass";
+    }
+  };
+
   render() {
     return (
       <div className="map">
@@ -111,11 +105,19 @@ class Map extends React.Component {
           x={this.state.x}
           y={this.state.y}
         />
-        {map1.map(row => {
-          return row.map(column => {
-            return <div className="tile"></div>;
-          });
-        })}
+        {tilesMap.map(row =>
+          row.map(column => {
+            return (
+              <div
+                style={{
+                  background: `url(/tiles/${
+                    column === "v001" ? this.randomGrass() : tileNames[column]
+                  }.png)`
+                }}
+              ></div>
+            );
+          })
+        )}
       </div>
     );
   }
