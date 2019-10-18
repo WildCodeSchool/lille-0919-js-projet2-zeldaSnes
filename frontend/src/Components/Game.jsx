@@ -2,6 +2,7 @@ import React from "react";
 import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
+import { tileNames, tilesMap } from "./tilesMap.js";
 
 class Game extends React.Component {
   constructor(props) {
@@ -34,7 +35,10 @@ class Game extends React.Component {
     switch (newKeyCode) {
       case 37:
         let newPosition = this.state.x - 1;
-        if (newPosition < 0) {
+        if (
+          newPosition < 0 ||
+          tilesMap[this.state.y][this.state.x - 1].includes("Z")
+        ) {
           break;
         } else {
           this.setState({
@@ -47,7 +51,10 @@ class Game extends React.Component {
       case 38:
         event.preventDefault();
         let newPosition2 = this.state.y - 1;
-        if (newPosition2 < 0) {
+        if (
+          newPosition2 < 0 ||
+          tilesMap[this.state.y - 1][this.state.x].includes("Z")
+        ) {
           break;
         } else {
           this.setState({
@@ -59,7 +66,10 @@ class Game extends React.Component {
 
       case 39:
         let newPosition3 = this.state.x + 1;
-        if (newPosition3 > 19) {
+        if (
+          newPosition3 > 19 ||
+          tilesMap[this.state.y][this.state.x + 1].includes("Z")
+        ) {
           break;
         } else {
           this.setState({
@@ -72,7 +82,10 @@ class Game extends React.Component {
       case 40:
         event.preventDefault();
         let newPosition4 = this.state.y + 1;
-        if (newPosition4 > 14) {
+        if (
+          newPosition4 > 14 ||
+          tilesMap[this.state.y + 1][this.state.x].includes("Z")
+        ) {
           break;
         } else {
           this.setState({
