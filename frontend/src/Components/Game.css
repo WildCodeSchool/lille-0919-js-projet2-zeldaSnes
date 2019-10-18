@@ -1,12 +1,11 @@
-
 .gameScreen {
-    margin: 0 auto;
-    width: 640px;
+  position: relative;
+  margin: 0 auto;
+  width: 640px;
 }
 
 .gameUI {
-    width: 640px;
-    height: 80px;
-    background-color: red;
+  width: 640px;
+  height: 80px;
+  background-color: red;
 }
-
