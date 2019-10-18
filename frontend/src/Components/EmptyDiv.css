@@ -1,0 +1,7 @@
+.EmptyDiv {
+    flex-basis: calc(50% - 320px);
+    padding: 0 2%;
+    color: transparent;
+    margin-top: auto;
+}
+
