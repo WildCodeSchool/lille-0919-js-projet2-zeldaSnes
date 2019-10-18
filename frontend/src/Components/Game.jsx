@@ -7,8 +7,8 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      x: 9,
-      y: 6,
+      x: 3,
+      y: 4,
       keyCode: 40,
       canMoove: true
     };
