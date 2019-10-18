@@ -10,6 +10,6 @@
 .tile {
   width: 32px;
   height: 32px;
-  background-image: url("../img/sol.png");
+  background-color: black;
   line-height: 0;
 }
