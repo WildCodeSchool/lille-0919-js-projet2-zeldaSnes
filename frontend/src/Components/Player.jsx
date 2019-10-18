@@ -4,10 +4,6 @@ import "./Player.css";
 // Affiche le player et calcul le mouvement a faire provenant de Map
 
 class Player extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   // Fonction qui récupere l'input du clavier pour afficher le bon asset et faire bouger le player
   getAsset() {
     let direction;
