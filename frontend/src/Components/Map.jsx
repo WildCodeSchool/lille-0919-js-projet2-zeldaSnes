@@ -1,5 +1,5 @@
 import React from "react";
-import Player from "./Player/Player";
+import Player from "./Player";
 import "./Map.css";
 
 const map1 = [
