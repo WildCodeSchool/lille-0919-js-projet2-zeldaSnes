@@ -11,6 +11,9 @@ function ControlsTab() {
         <p>MENU</p>
         <img src={Arrows} alt="" />
         <p>MOOVES</p>
+        <button>
+          <p>Music</p>
+        </button>
       </div>
     </div>
   );
