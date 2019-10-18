@@ -34,6 +34,7 @@ class Game extends React.Component {
     let newKeyCode = event.keyCode;
     switch (newKeyCode) {
       case 37:
+        event.preventDefault();
         let newPosition = this.state.x - 1;
         if (
           newPosition < 0 ||
@@ -65,6 +66,7 @@ class Game extends React.Component {
         break;
 
       case 39:
+        event.preventDefault();
         let newPosition3 = this.state.x + 1;
         if (
           newPosition3 > 19 ||
