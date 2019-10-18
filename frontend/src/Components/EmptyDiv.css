@@ -1,7 +1,13 @@
 .EmptyDiv {
-    flex-basis: calc(50% - 320px);
-    padding: 0 2%;
-    color: transparent;
-    margin-top: auto;
+  flex-basis: calc(50% - 320px);
+  padding: 0;
+  color: transparent;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
 }
 
+.EmptyDiv img {
+  width: 400px;
+  margin: 0;
+}

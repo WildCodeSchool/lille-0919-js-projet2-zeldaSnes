@@ -5,6 +5,7 @@
   background-repeat: no-repeat;
   min-height: calc(100vh);
   padding-bottom: 20px;
+  padding-top: 30px;
 }
 .Container {
   display: flex;
