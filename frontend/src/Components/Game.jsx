@@ -2,7 +2,7 @@ import React from "react";
 import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
-import { tileNames, tilesMap } from "./tilesMap.js";
+import { tileNames, tilesMap, tilesMap2 } from "./tilesMap.js";
 
 class Game extends React.Component {
   constructor(props) {
@@ -11,7 +11,9 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyCode: 40,
-      canMoove: true
+      canMoove: true,
+      mapNumber: tilesMap,
+      shouldUpdate: false
     };
   }
 
@@ -32,19 +34,32 @@ class Game extends React.Component {
   // Fonction qui récupere l'input du clavier pour afficher le bon asset et faire bouger le player
   getMouvment(event) {
     let newKeyCode = event.keyCode;
-    //téléportation du player au bout des chemins
+    //téléportation du player au bout des chemins & modification de map
     if (this.state.x === 19 && this.state.y === 4 && newKeyCode === 39) {
-      return this.setState({
-        y: 14,
-        x: 5
-      });
+      return (
+        this.setState({
+          y: 14,
+          x: 5,
+          shouldUpdate: true
+        }),
+        this.setState({
+          shouldUpdate: false
+        })
+      );
     } else if (this.state.x === 5 && this.state.y === 14 && newKeyCode === 40) {
-      return this.setState({
-        y: 4,
-        x: 19
-      });
+      return (
+        this.setState({
+          y: 4,
+          x: 19,
+          mapNumber: tilesMap2,
+          shouldUpdate: true
+        }),
+        this.setState({
+          shouldUpdate: false
+        })
+      );
     }
-    // fin téléportation du player au bout des chemins
+    // fin téléportation du player au bout des chemins & modification de map
     else {
       switch (newKeyCode) {
         case 37:
@@ -52,7 +67,7 @@ class Game extends React.Component {
           let newPosition = this.state.x - 1;
           if (
             newPosition < 0 ||
-            tilesMap[this.state.y][this.state.x - 1].includes("Z")
+            this.state.mapNumber[this.state.y][this.state.x - 1].includes("Z")
           ) {
             break;
           } else {
@@ -68,7 +83,7 @@ class Game extends React.Component {
           let newPosition2 = this.state.y - 1;
           if (
             newPosition2 < 0 ||
-            tilesMap[this.state.y - 1][this.state.x].includes("Z")
+            this.state.mapNumber[this.state.y - 1][this.state.x].includes("Z")
           ) {
             break;
           } else {
@@ -84,7 +99,7 @@ class Game extends React.Component {
           let newPosition3 = this.state.x + 1;
           if (
             newPosition3 > 19 ||
-            tilesMap[this.state.y][this.state.x + 1].includes("Z")
+            this.state.mapNumber[this.state.y][this.state.x + 1].includes("Z")
           ) {
             break;
           } else {
@@ -100,7 +115,7 @@ class Game extends React.Component {
           let newPosition4 = this.state.y + 1;
           if (
             newPosition4 > 14 ||
-            tilesMap[this.state.y + 1][this.state.x].includes("Z")
+            this.state.mapNumber[this.state.y + 1][this.state.x].includes("Z")
           ) {
             break;
           } else {
@@ -113,6 +128,7 @@ class Game extends React.Component {
         default:
           return "";
       }
+      console.log(this.state.mapNumber);
     }
   }
 
@@ -121,7 +137,10 @@ class Game extends React.Component {
       <div className="game">
         <div className="gameUI"></div>
         <div className="gameScreen">
-          <Map />
+          <Map
+            mapNumber={this.state.mapNumber}
+            shouldUpdate={this.state.shouldUpdate}
+          />
           <Player
             keyCode={this.state.keyCode}
             x={this.state.x}

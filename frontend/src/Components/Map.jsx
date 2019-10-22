@@ -1,11 +1,15 @@
 import React from "react";
 
-import { tileNames, tilesMap } from "./tilesMap.js";
+import { tileNames, tilesMap, tilesMap2 } from "./tilesMap.js";
 import "./Map.css";
 
 class Map extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   shouldComponentUpdate() {
-    return false;
+    return this.props.shouldUpdate;
   }
 
   randomGrass() {
@@ -22,7 +26,7 @@ class Map extends React.Component {
   render() {
     return (
       <div className="map">
-        {tilesMap.map(row =>
+        {this.props.mapNumber.map(row =>
           row.map(column => {
             return (
               <div
