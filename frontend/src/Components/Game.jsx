@@ -35,23 +35,68 @@ class Game extends React.Component {
   getMouvment(event) {
     let newKeyCode = event.keyCode;
     //téléportation du player au bout des chemins & modification de map
-    if (this.state.x === 19 && this.state.y === 4 && newKeyCode === 39) {
+    if (
+      this.state.x === 19 &&
+      this.state.y === 4 &&
+      newKeyCode === 39 &&
+      this.state.mapNumber === tilesMap
+    ) {
       return (
         this.setState({
           y: 14,
           x: 5,
+          mapNumber: tilesMap2,
           shouldUpdate: true
         }),
         this.setState({
           shouldUpdate: false
         })
       );
-    } else if (this.state.x === 5 && this.state.y === 14 && newKeyCode === 40) {
+    } else if (
+      this.state.x === 5 &&
+      this.state.y === 14 &&
+      newKeyCode === 40 &&
+      this.state.mapNumber === tilesMap
+    ) {
       return (
         this.setState({
           y: 4,
           x: 19,
           mapNumber: tilesMap2,
+          shouldUpdate: true
+        }),
+        this.setState({
+          shouldUpdate: false
+        })
+      );
+    } else if (
+      this.state.x === 19 &&
+      this.state.y === 4 &&
+      newKeyCode === 39 &&
+      this.state.mapNumber === tilesMap2
+    ) {
+      return (
+        this.setState({
+          y: 14,
+          x: 5,
+          mapNumber: tilesMap,
+          shouldUpdate: true
+        }),
+        this.setState({
+          shouldUpdate: false
+        })
+      );
+    } else if (
+      this.state.x === 5 &&
+      this.state.y === 14 &&
+      newKeyCode === 40 &&
+      this.state.mapNumber === tilesMap2
+    ) {
+      return (
+        this.setState({
+          y: 4,
+          x: 19,
+          mapNumber: tilesMap,
           shouldUpdate: true
         }),
         this.setState({
