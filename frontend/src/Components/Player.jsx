@@ -17,11 +17,29 @@ class Player extends React.Component {
     let newKeyCode = this.props.keyCode;
     switch (newKeyCode) {
       case 37:
-        this.setState({ direction: "link/linkLeft.png" });
+        this.setState({ direction: "link/linkLeft-Step1.png" });
+        setTimeout(() => {
+          this.setState({ direction: "link/linkLeft-Step2.png" });
+          setTimeout(() => {
+            this.setState({ direction: "link/linkLeft-Step3.png" });
+            setTimeout(() => {
+              this.setState({ direction: "link/linkLeft.png" });
+            }, 30);
+          }, 30);
+        }, 30);
         break;
 
       case 38:
-        this.setState({ direction: "link/linkBack.png" });
+        this.setState({ direction: "link/linkBack-Step1.png" });
+        setTimeout(() => {
+          this.setState({ direction: "link/linkBack-Step2.png" });
+          setTimeout(() => {
+            this.setState({ direction: "link/linkBack-Step3.png" });
+            setTimeout(() => {
+              this.setState({ direction: "link/linkBack.png" });
+            }, 30);
+          }, 30);
+        }, 30);
         break;
 
       case 39:
@@ -39,7 +57,16 @@ class Player extends React.Component {
         break;
 
       case 40:
-        this.setState({ direction: "link/linkFront.png" });
+        this.setState({ direction: "link/linkFront-Step1.png" });
+        setTimeout(() => {
+          this.setState({ direction: "link/linkFront-Step2.png" });
+          setTimeout(() => {
+            this.setState({ direction: "link/linkFront-Step3.png" });
+            setTimeout(() => {
+              this.setState({ direction: "link/linkFront.png" });
+            }, 30);
+          }, 30);
+        }, 30);
         break;
       default:
         this.setState({ direction: "linkFront.png" });
