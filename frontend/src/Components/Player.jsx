@@ -1,10 +1,10 @@
 import React from "react";
 import "./Player.css";
 
-// Affiche le player et calcul le mouvement a faire provenant de Map
+// Display the Player on the Map and get the movment from Map component
 
 class Player extends React.Component {
-  // Fonction qui récupere l'input du clavier pour afficher le bon asset et faire bouger le player
+  //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
     let direction;
     switch (this.props.keyCode) {

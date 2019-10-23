@@ -15,7 +15,7 @@ class Game extends React.Component {
     };
   }
 
-  // Fonction qui écoute les input du clavier sur toutela fenetre
+  // Method which get inputs from the keyboard on all the screen
 
   componentDidMount() {
     window.onkeydown = event => {
@@ -29,7 +29,7 @@ class Game extends React.Component {
     };
   }
 
-  // Fonction qui récupere l'input du clavier pour afficher le bon asset et faire bouger le player
+  //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMouvment(event) {
     let newKeyCode = event.keyCode;
     switch (newKeyCode) {
