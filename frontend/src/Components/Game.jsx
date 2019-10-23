@@ -33,16 +33,17 @@ class Game extends React.Component {
   getMovement(event) {
     let newKey = event.key;
     let newPosition;
+    let x = this.state.x;
+    let y = this.state.y;
+    const topBorder = 0;
+    const leftBorder = 0;
+    const bottomBorder = 14;
+    const rightBorder = 19;
     switch (newKey) {
       case "ArrowLeft":
         event.preventDefault();
-        newPosition = this.state.x - 1;
-        if (
-          newPosition < 0 ||
-          tilesMap[this.state.y][this.state.x - 1].includes("Z")
-        ) {
-          break;
-        } else {
+        newPosition = x - 1;
+        if (newPosition >= leftBorder && !tilesMap[y][x - 1].includes("Z")) {
           this.setState({
             x: newPosition,
             keyName: newKey
@@ -52,13 +53,8 @@ class Game extends React.Component {
 
       case "ArrowUp":
         event.preventDefault();
-        newPosition = this.state.y - 1;
-        if (
-          newPosition < 0 ||
-          tilesMap[this.state.y - 1][this.state.x].includes("Z")
-        ) {
-          break;
-        } else {
+        newPosition = y - 1;
+        if (newPosition >= topBorder && !tilesMap[y - 1][x].includes("Z")) {
           this.setState({
             y: newPosition,
             keyName: newKey
@@ -68,13 +64,8 @@ class Game extends React.Component {
 
       case "ArrowRight":
         event.preventDefault();
-        newPosition = this.state.x + 1;
-        if (
-          newPosition > 19 ||
-          tilesMap[this.state.y][this.state.x + 1].includes("Z")
-        ) {
-          break;
-        } else {
+        newPosition = x + 1;
+        if (newPosition <= rightBorder && !tilesMap[y][x + 1].includes("Z")) {
           this.setState({
             x: newPosition,
             keyName: newKey
@@ -84,13 +75,8 @@ class Game extends React.Component {
 
       case "ArrowDown":
         event.preventDefault();
-        newPosition = this.state.y + 1;
-        if (
-          newPosition > 14 ||
-          tilesMap[this.state.y + 1][this.state.x].includes("Z")
-        ) {
-          break;
-        } else {
+        newPosition = y + 1;
+        if (newPosition <= bottomBorder && !tilesMap[y + 1][x].includes("Z")) {
           this.setState({
             y: newPosition,
             keyName: newKey
