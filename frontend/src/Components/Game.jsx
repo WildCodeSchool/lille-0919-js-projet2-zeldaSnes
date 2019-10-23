@@ -24,7 +24,7 @@ class Game extends React.Component {
         setTimeout(() => {
           this.setState({ canMove: true });
         }, 120);
-        this.getMovement(event);
+        this.getMovement(event.keyCode);
       }
     };
   }
