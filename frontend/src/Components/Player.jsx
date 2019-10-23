@@ -7,24 +7,24 @@ class Player extends React.Component {
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
     let direction;
-    switch (this.props.keyCode) {
-      case 37:
+    switch (this.props.keyName) {
+      case "ArrowLeft":
         direction = "link/linkLeft.png";
         break;
 
-      case 38:
+      case "ArrowUp":
         direction = "link/linkBack.png";
         break;
 
-      case 39:
+      case "ArrowRight":
         direction = "link/linkRight.png";
         break;
 
-      case 40:
+      case "ArrowDown":
         direction = "link/linkFront.png";
         break;
       default:
-        direction = "linkFront.png";
+        direction = "link/linkFront.png";
     }
     return direction;
   }

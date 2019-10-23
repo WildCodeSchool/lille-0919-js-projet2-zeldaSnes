@@ -10,7 +10,7 @@ class Game extends React.Component {
     this.state = {
       x: 3,
       y: 4,
-      keyCode: 40,
+      keyName: "ArrowDown",
       canMove: true
     };
   }
@@ -45,7 +45,7 @@ class Game extends React.Component {
         } else {
           this.setState({
             x: newPosition,
-            keyCode: newKey
+            keyName: newKey
           });
         }
         break;
@@ -61,7 +61,7 @@ class Game extends React.Component {
         } else {
           this.setState({
             y: newPosition,
-            keyCode: newKey
+            keyName: newKey
           });
         }
         break;
@@ -77,7 +77,7 @@ class Game extends React.Component {
         } else {
           this.setState({
             x: newPosition,
-            keyCode: newKey
+            keyName: newKey
           });
         }
         break;
@@ -93,7 +93,7 @@ class Game extends React.Component {
         } else {
           this.setState({
             y: newPosition,
-            keyCode: newKey
+            keyName: newKey
           });
         }
         break;
@@ -109,7 +109,7 @@ class Game extends React.Component {
         <div className="gameScreen">
           <Map />
           <Player
-            keyCode={this.state.keyCode}
+            keyName={this.state.keyName}
             x={this.state.x}
             y={this.state.y}
           />
