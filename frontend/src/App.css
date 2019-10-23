@@ -1,6 +1,6 @@
 .App {
   background-color: #608863;
-  background-image: url("./img/Background.svg");
+  background-image: url("./img/background.svg");
   background-position: bottom right;
   background-repeat: no-repeat;
   min-height: calc(100vh);

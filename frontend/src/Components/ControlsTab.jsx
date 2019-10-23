@@ -1,6 +1,6 @@
 import React from "react";
-import Spacebar from "../img/Spacebar.svg";
-import Arrows from "../img/Arrows.svg";
+import spacebar from "../img/spacebar.svg";
+import arrows from "../img/arrows.svg";
 import Music from "./Music";
 import "./ControlsTab.css";
 
@@ -20,9 +20,9 @@ class ControlsTab extends React.Component {
     return (
       <div className="ControlsTab">
         <div className="ControlsBg">
-          <img src={Spacebar} alt="" />
+          <img src={spacebar} alt="" />
           <p>MENU</p>
-          <img src={Arrows} alt="" />
+          <img src={arrows} alt="" />
           <p>MOOVES</p>
           <button
             onClick={event => {

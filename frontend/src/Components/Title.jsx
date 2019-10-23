@@ -1,9 +1,9 @@
 import React from "react";
-import ZeldaLogo from "../img/ZeldaLogo.svg";
+import zeldaLogo from "../img/zeldaLogo.svg";
 import "./Title.css";
 
 function Title() {
-  return <img alt="logo" src={ZeldaLogo} />;
+  return <img className="titleImg" alt="logo" src={zeldaLogo} />;
 }
 
 export default Title;
