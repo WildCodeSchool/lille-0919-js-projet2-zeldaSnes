@@ -4,27 +4,34 @@ import "./Player.css";
 // Display the Player on the Map and get the movment from Map component
 
 class Player extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      assetHeight: 32,
+      assetWidth: 32
+    };
+  }
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
     let direction;
-    switch (this.props.keyCode) {
-      case 37:
+    switch (this.props.keyName) {
+      case "ArrowLeft":
         direction = "link/linkLeft.png";
         break;
 
-      case 38:
+      case "ArrowUp":
         direction = "link/linkBack.png";
         break;
 
-      case 39:
+      case "ArrowRight":
         direction = "link/linkRight.png";
         break;
 
-      case 40:
+      case "ArrowDown":
         direction = "link/linkFront.png";
         break;
       default:
-        direction = "linkFront.png";
+        direction = "link/linkFront.png";
     }
     return direction;
   }
@@ -34,8 +41,8 @@ class Player extends React.Component {
       <div
         className="player"
         style={{
-          top: `${this.props.y * 32}px`,
-          left: `${this.props.x * 32}px`
+          top: `${this.props.y * this.state.assetHeight}px`,
+          left: `${this.props.x * this.state.assetWidth}px`
         }}
       >
         <img src={this.getAsset()} alt={"Player"} />

@@ -9,6 +9,7 @@ class Map extends React.Component {
   }
 
   randomGrass() {
+    //40, 6, 23 and 21 are random numbers with no special meanings used to display tiles randomly
     let randomNum = Math.floor(Math.random() * 40);
     if (randomNum === 6 || randomNum === 23) {
       return "highGrass";

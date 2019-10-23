@@ -10,7 +10,7 @@ class Game extends React.Component {
     this.state = {
       x: 3,
       y: 4,
-      keyCode: 40,
+      keyName: "ArrowDown",
       canMove: true
     };
   }
@@ -24,18 +24,19 @@ class Game extends React.Component {
         setTimeout(() => {
           this.setState({ canMove: true });
         }, 120);
-        this.getMovement(event.keyCode);
+        this.getMovement(event);
       }
     };
   }
 
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
-    let newKeyCode = event.keyCode;
-    switch (newKeyCode) {
-      case 37:
+    let newKey = event.key;
+    let newPosition;
+    switch (newKey) {
+      case "ArrowLeft":
         event.preventDefault();
-        let newPosition = this.state.x - 1;
+        newPosition = this.state.x - 1;
         if (
           newPosition < 0 ||
           tilesMap[this.state.y][this.state.x - 1].includes("Z")
@@ -44,60 +45,60 @@ class Game extends React.Component {
         } else {
           this.setState({
             x: newPosition,
-            keyCode: newKeyCode
+            keyName: newKey
           });
         }
         break;
 
-      case 38:
+      case "ArrowUp":
         event.preventDefault();
-        let newPosition2 = this.state.y - 1;
+        newPosition = this.state.y - 1;
         if (
-          newPosition2 < 0 ||
+          newPosition < 0 ||
           tilesMap[this.state.y - 1][this.state.x].includes("Z")
         ) {
           break;
         } else {
           this.setState({
-            y: newPosition2,
-            keyCode: newKeyCode
+            y: newPosition,
+            keyName: newKey
           });
         }
         break;
 
-      case 39:
+      case "ArrowRight":
         event.preventDefault();
-        let newPosition3 = this.state.x + 1;
+        newPosition = this.state.x + 1;
         if (
-          newPosition3 > 19 ||
+          newPosition > 19 ||
           tilesMap[this.state.y][this.state.x + 1].includes("Z")
         ) {
           break;
         } else {
           this.setState({
-            x: newPosition3,
-            keyCode: newKeyCode
+            x: newPosition,
+            keyName: newKey
           });
         }
         break;
 
-      case 40:
+      case "ArrowDown":
         event.preventDefault();
-        let newPosition4 = this.state.y + 1;
+        newPosition = this.state.y + 1;
         if (
-          newPosition4 > 14 ||
+          newPosition > 14 ||
           tilesMap[this.state.y + 1][this.state.x].includes("Z")
         ) {
           break;
         } else {
           this.setState({
-            y: newPosition4,
-            keyCode: newKeyCode
+            y: newPosition,
+            keyName: newKey
           });
         }
         break;
       default:
-        return "";
+        return;
     }
   }
 
@@ -108,7 +109,7 @@ class Game extends React.Component {
         <div className="gameScreen">
           <Map />
           <Player
-            keyCode={this.state.keyCode}
+            keyName={this.state.keyName}
             x={this.state.x}
             y={this.state.y}
           />
