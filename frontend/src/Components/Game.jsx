@@ -24,17 +24,17 @@ class Game extends React.Component {
         setTimeout(() => {
           this.setState({ canMove: true });
         }, 120);
-        this.getMovement(event.keyCode);
+        this.getMovement(event);
       }
     };
   }
 
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
-    let newKeyCode = event.keyCode;
-    let newPosition = 0;
-    switch (newKeyCode) {
-      case 37:
+    let newKey = event.key;
+    let newPosition;
+    switch (newKey) {
+      case "ArrowLeft":
         event.preventDefault();
         newPosition = this.state.x - 1;
         if (
@@ -45,12 +45,12 @@ class Game extends React.Component {
         } else {
           this.setState({
             x: newPosition,
-            keyCode: newKeyCode
+            keyCode: newKey
           });
         }
         break;
 
-      case 38:
+      case "ArrowUp":
         event.preventDefault();
         newPosition = this.state.y - 1;
         if (
@@ -61,12 +61,12 @@ class Game extends React.Component {
         } else {
           this.setState({
             y: newPosition,
-            keyCode: newKeyCode
+            keyCode: newKey
           });
         }
         break;
 
-      case 39:
+      case "ArrowRight":
         event.preventDefault();
         newPosition = this.state.x + 1;
         if (
@@ -77,14 +77,14 @@ class Game extends React.Component {
         } else {
           this.setState({
             x: newPosition,
-            keyCode: newKeyCode
+            keyCode: newKey
           });
         }
         break;
 
-      case 40:
+      case "ArrowDown":
         event.preventDefault();
-        let newPosition = this.state.y + 1;
+        newPosition = this.state.y + 1;
         if (
           newPosition > 14 ||
           tilesMap[this.state.y + 1][this.state.x].includes("Z")
@@ -93,7 +93,7 @@ class Game extends React.Component {
         } else {
           this.setState({
             y: newPosition,
-            keyCode: newKeyCode
+            keyCode: newKey
           });
         }
         break;
