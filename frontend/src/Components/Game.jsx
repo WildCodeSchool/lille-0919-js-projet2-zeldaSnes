@@ -32,10 +32,11 @@ class Game extends React.Component {
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMouvment(event) {
     let newKeyCode = event.keyCode;
+    let newPosition = 0;
     switch (newKeyCode) {
       case 37:
         event.preventDefault();
-        let newPosition = this.state.x - 1;
+        newPosition = this.state.x - 1;
         if (
           newPosition < 0 ||
           tilesMap[this.state.y][this.state.x - 1].includes("Z")
@@ -51,15 +52,15 @@ class Game extends React.Component {
 
       case 38:
         event.preventDefault();
-        let newPosition2 = this.state.y - 1;
+        newPosition = this.state.y - 1;
         if (
-          newPosition2 < 0 ||
+          newPosition < 0 ||
           tilesMap[this.state.y - 1][this.state.x].includes("Z")
         ) {
           break;
         } else {
           this.setState({
-            y: newPosition2,
+            y: newPosition,
             keyCode: newKeyCode
           });
         }
@@ -67,15 +68,15 @@ class Game extends React.Component {
 
       case 39:
         event.preventDefault();
-        let newPosition3 = this.state.x + 1;
+        newPosition = this.state.x + 1;
         if (
-          newPosition3 > 19 ||
+          newPosition > 19 ||
           tilesMap[this.state.y][this.state.x + 1].includes("Z")
         ) {
           break;
         } else {
           this.setState({
-            x: newPosition3,
+            x: newPosition,
             keyCode: newKeyCode
           });
         }
@@ -83,21 +84,21 @@ class Game extends React.Component {
 
       case 40:
         event.preventDefault();
-        let newPosition4 = this.state.y + 1;
+        let newPosition = this.state.y + 1;
         if (
-          newPosition4 > 14 ||
+          newPosition > 14 ||
           tilesMap[this.state.y + 1][this.state.x].includes("Z")
         ) {
           break;
         } else {
           this.setState({
-            y: newPosition4,
+            y: newPosition,
             keyCode: newKeyCode
           });
         }
         break;
       default:
-        return "";
+        return;
     }
   }
 
