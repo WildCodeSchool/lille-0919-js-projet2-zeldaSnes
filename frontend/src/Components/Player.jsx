@@ -13,8 +13,8 @@ class Player extends React.Component {
 
   // Fonction qui récupere l'input du clavier pour afficher le bon asset et faire bouger le player
 
-  getAsset(event) {
-    let newKeyCode = event.keyCode;
+  getAsset() {
+    let newKeyCode = this.props.keyCode;
     switch (newKeyCode) {
       case 37:
         this.setState({ direction: "link/linkLeft.png" });
@@ -25,16 +25,17 @@ class Player extends React.Component {
         break;
 
       case 39:
-        this.setState({ direction: "link/link-right-1-step.png" });
+        this.setState({ direction: "link/linkRight-Step1.png" });
         setTimeout(() => {
-          this.setState({ direction: "link/link-right-2-step.png" });
-        }, 40);
-        setTimeout(() => {
-          this.setState({ direction: "link/link-right-3-step.png" });
-        }, 40);
-        setTimeout(() => {
-          this.setState({ direction: "link/linkRight.png" });
-        }, 40);
+          this.setState({ direction: "link/linkRight-Step2.png" });
+          setTimeout(() => {
+            this.setState({ direction: "link/linkRight-Step3.png" });
+            setTimeout(() => {
+              this.setState({ direction: "link/linkRight.png" });
+            }, 30);
+          }, 30);
+        }, 30);
+
         break;
 
       case 40:
@@ -44,10 +45,12 @@ class Player extends React.Component {
         this.setState({ direction: "linkFront.png" });
     }
   }
-  componentDidMount() {
-    window.onkeydown = event => {
-      this.getAsset(event);
-    };
+
+  componentWillReceiveProps() {
+    this.getAsset();
+    /*setTimeout(() => {
+      this.getAsset();
+    }, 160);*/
   }
 
   render() {
@@ -56,7 +59,8 @@ class Player extends React.Component {
         className="player"
         style={{
           top: `${this.props.y * 32}px`,
-          left: `${this.props.x * 32}px`
+          left: `${this.props.x * 32}px`,
+          transition: "all 400ms"
         }}
       >
         <img src={this.state.direction} alt={"Player"} />
