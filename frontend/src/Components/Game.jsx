@@ -24,13 +24,13 @@ class Game extends React.Component {
         setTimeout(() => {
           this.setState({ canMoove: true });
         }, 120);
-        this.getMouvment(event);
+        this.getMovement(event);
       }
     };
   }
 
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
-  getMouvment(event) {
+  getMovement(event) {
     let newKeyCode = event.keyCode;
     switch (newKeyCode) {
       case 37:
