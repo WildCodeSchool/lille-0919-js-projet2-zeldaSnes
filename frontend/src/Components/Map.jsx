@@ -23,13 +23,13 @@ class Map extends React.Component {
     return (
       <div className="map">
         {tilesMap.map(row =>
-          row.map(column => {
+          row.map(tile => {
             return (
               <div
                 style={{
                   background: `url(/tiles/${
-                    column === "v001" ? this.randomGrass() : tileNames[column]
-                  }.png)`
+                    tile === "v001" ? this.randomGrass() : tileNames[tile]
+                    }.png)`
                 }}
               ></div>
             );
