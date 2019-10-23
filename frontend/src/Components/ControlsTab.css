@@ -29,7 +29,7 @@
   display: block;
   width: 50%;
   margin: 0 auto;
-  background-color: rgb(219, 219, 219);
+  background-color: rgba(219, 219, 219, 1);
   border: 2px solid black;
   padding: 0;
   height: 40px;
