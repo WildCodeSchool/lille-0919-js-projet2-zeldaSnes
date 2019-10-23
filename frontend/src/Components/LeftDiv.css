@@ -1,4 +1,4 @@
-.EmptyDiv {
+.leftDiv {
   flex-basis: calc(50% - 320px);
   padding: 0;
   color: transparent;
@@ -7,7 +7,7 @@
   justify-content: center;
 }
 
-.EmptyDiv img {
+.leftDiv img {
   width: 400px;
   margin: 0;
 }
