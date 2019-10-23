@@ -11,7 +11,7 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyCode: 40,
-      canMoove: true
+      canMove: true
     };
   }
 
@@ -19,10 +19,10 @@ class Game extends React.Component {
 
   componentDidMount() {
     window.onkeydown = event => {
-      if (this.state.canMoove) {
-        this.setState({ canMoove: false });
+      if (this.state.canMove) {
+        this.setState({ canMove: false });
         setTimeout(() => {
-          this.setState({ canMoove: true });
+          this.setState({ canMove: true });
         }, 120);
         this.getMovement(event);
       }
