@@ -12,7 +12,7 @@ class ControlsTab extends React.Component {
     };
   }
 
-  getMusic() {
+  toggleMusic() {
     this.setState({ canMusic: !this.state.canMusic });
   }
 
@@ -26,7 +26,7 @@ class ControlsTab extends React.Component {
           <p>MOOVES</p>
           <button
             onClick={event => {
-              this.getMusic();
+              this.toggleMusic();
             }}
           >
             <Music canMusic={this.state.canMusic} />
