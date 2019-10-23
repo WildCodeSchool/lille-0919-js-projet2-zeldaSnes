@@ -1,4 +1,4 @@
-const tileNames = {                 /* v = vegetal, w = water, g = ground, b = buildings, o = objects */
+const tileNames = {                 /* v = vegetal, w = water, g = ground, b = buildings, o = objects Z = can't get in*/
     'w001Z': 'water',
     'w002Z': 'waterBorderTop',
     'w003': 'waterBorderBottom',
