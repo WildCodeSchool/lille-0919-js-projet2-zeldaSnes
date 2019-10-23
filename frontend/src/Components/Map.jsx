@@ -12,7 +12,8 @@ class Map extends React.Component {
     let randomNum = Math.floor(Math.random() * 40);
     if (randomNum === 6 || randomNum === 23) {
       return "highGrass";
-    } else if (randomNum === 21) {
+    }
+    if (randomNum === 21) {
       return "flowers";
     } else {
       return "grass";
@@ -29,7 +30,7 @@ class Map extends React.Component {
                 style={{
                   background: `url(/tiles/${
                     tile === "v001" ? this.randomGrass() : tileNames[tile]
-                    }.png)`
+                  }.png)`
                 }}
               ></div>
             );
