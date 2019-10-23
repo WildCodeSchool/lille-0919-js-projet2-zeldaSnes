@@ -11,7 +11,7 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyCode: 40,
-      canMoove: true
+      canMove: true
     };
   }
 
@@ -19,18 +19,18 @@ class Game extends React.Component {
 
   componentDidMount() {
     window.onkeydown = event => {
-      if (this.state.canMoove) {
-        this.setState({ canMoove: false });
+      if (this.state.canMove) {
+        this.setState({ canMove: false });
         setTimeout(() => {
-          this.setState({ canMoove: true });
+          this.setState({ canMove: true });
         }, 120);
-        this.getMouvment(event);
+        this.getMovement(event.keyCode);
       }
     };
   }
 
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
-  getMouvment(event) {
+  getMovement(event) {
     let newKeyCode = event.keyCode;
     let newPosition = 0;
     switch (newKeyCode) {
