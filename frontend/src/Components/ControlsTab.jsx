@@ -7,13 +7,6 @@ import "./ControlsTab.css";
 class ControlsTab extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      canMusic: false
-    };
-  }
-
-  toggleMusic() {
-    this.setState({ canMusic: !this.state.canMusic });
   }
 
   render() {
@@ -24,14 +17,7 @@ class ControlsTab extends React.Component {
           <p>MENU</p>
           <img src={arrows} alt="" />
           <p>MOOVES</p>
-          <button
-            onClick={event => {
-              this.toggleMusic();
-            }}
-          >
-            <Music canMusic={this.state.canMusic} />
-            <p>Music</p>
-          </button>
+          <Music />
         </div>
       </div>
     );
