@@ -98,6 +98,27 @@ class Game extends React.Component {
     }
   }
 
+  pnjmoves = [
+    "h",
+    "h",
+    "g",
+    "g",
+    "g",
+    "g",
+    "b",
+    "b",
+    "b",
+    "b",
+    "b",
+    "d",
+    "d",
+    "d",
+    "d",
+    "h",
+    "h",
+    "h"
+  ];
+
   getPNJMove(indexpnjmove) {
     let newPNJPosition = 0;
     switch (this.pnjmoves[indexpnjmove]) {
