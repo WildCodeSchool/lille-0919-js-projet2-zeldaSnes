@@ -39,6 +39,7 @@ class Game extends React.Component {
         }, 120);
         this.getMovement(event);
       }
+      this.getAttack(event);
     };
   }
 
@@ -126,6 +127,33 @@ class Game extends React.Component {
       default:
         return;
     }
+  }
+
+  getAttack(event) {
+    let newKeyCode = event.keyCode;
+    if (newKeyCode === 69)
+      switch (this.state.direction) {
+        case "g":
+          if (this.state.xPNJ === this.state.x - 1) {
+            this.setState({ PNJIsAlive: false });
+          }
+          break;
+        case "h":
+          if (this.state.yPNJ === this.state.y - 1) {
+            this.setState({ PNJIsAlive: false });
+          }
+          break;
+        case "d":
+          if (this.state.xPNJ === this.state.x + 1) {
+            this.setState({ PNJIsAlive: false });
+          }
+          break;
+        case "b":
+          if (this.state.yPNJ === this.state.y + 1) {
+            this.setState({ PNJIsAlive: false });
+          }
+          break;
+      }
   }
 
   pnjmoves = [
