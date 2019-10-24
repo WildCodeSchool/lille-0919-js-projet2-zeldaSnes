@@ -1,0 +1,30 @@
+.App {
+  background-color: #608863;
+  background-image: url("./img/background.svg");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  min-height: calc(100vh);
+  padding-bottom: 20px;
+  padding-top: 30px;
+}
+.Container {
+  display: flex;
+}
+
+@media screen and (max-width: 1280px) {
+  .ControlsTab .ControlsBg {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .EmptyDiv {
+    display: none;
+  }
+  .ControlsTab {
+    flex-basis: calc(100% - 640px);
+  }
+  .gameScreen {
+    margin-left: 2%;
+  }
+}

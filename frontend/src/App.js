@@ -1,9 +1,19 @@
 import React from "react";
-import logo from "./logo.svg";
+import Game from './Components/Game';
+import Title from './Components/Title';
+import LeftDiv from './Components/LeftDiv';
+import ControlsTab from './Components/ControlsTab';
 import "./App.css";
 
 function App() {
-  return <div className="App"></div>;
+  return <div className="App">
+    <Title />
+    <div className="Container">
+      <LeftDiv />
+      <Game />
+      <ControlsTab />
+    </div>
+  </div>;
 }
 
 export default App;
