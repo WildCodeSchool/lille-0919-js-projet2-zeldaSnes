@@ -7,15 +7,16 @@ class Player extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      asset: "link/linkFront-Step4.png"
+      asset: "link/linkFront/linkFront-Step4.png"
     };
   }
 
   assetAnimation(direction) {
     for (let i = 1, delay = 0; i <= 4; i++, delay = delay + 30) {
       setTimeout(() => {
-        this.setState({ asset: `link/link${direction}-Step${i}.png` });
-        console.log(this.state.asset);
+        this.setState({
+          asset: `link/link${direction}/link${direction}-Step${i}.png`
+        });
       }, delay);
     }
   }
@@ -42,29 +43,29 @@ class Player extends React.Component {
           this.assetAnimation("Front");
           break;
         default:
-          this.setState({ asset: "link/linkFront-Step4.png" });
+          this.setState({ asset: "link/linkFront/linkFront-Step4.png" });
       }
     } else {
       switch (this.props.lastDirection) {
         case 37:
           console.log("bip2");
 
-          this.setState({ asset: "link/linkLeft-Step4.png" });
+          this.setState({ asset: "link/linkLeft/linkLeft-Step4.png" });
           break;
 
         case 38:
-          this.setState({ asset: "link/linkBack-Step4.png" });
+          this.setState({ asset: "link/linkBack/linkBack-Step4.png" });
           break;
 
         case 39:
-          this.setState({ asset: "link/linkRight-Step4.png" });
+          this.setState({ asset: "link/linkRight/linkRight-Step4.png" });
           break;
 
         case 40:
-          this.setState({ asset: "link/linkFront-Step4.png" });
+          this.setState({ asset: "link/linkFront/linkFront-Step4.png" });
           break;
         default:
-          this.setState({ asset: "link/linkFront-Step4.png" });
+          this.setState({ asset: "link/linkFront/linkFront-Step4.png" });
           break;
       }
     }
