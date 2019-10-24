@@ -11,7 +11,10 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
-      canMove: true
+      canMove: true,
+      xPNJ: 10,
+      yPNJ: 10,
+      PNJIsAlive: true
     };
   }
 
@@ -25,6 +28,13 @@ class Game extends React.Component {
           this.setState({ canMove: true });
         }, 120);
         this.getMovement(event);
+
+        setInterval(() => {
+          if (this.indexpnjmove > this.pnjmoves.length - 1) {
+            this.indexpnjmove = 0;
+          }
+          this.getPNJMove(this.indexpnjmove);
+        }, 1000);
       }
     };
   }
@@ -88,6 +98,38 @@ class Game extends React.Component {
     }
   }
 
+  getPNJMove(indexpnjmove) {
+    let newPNJPosition = 0;
+    switch (this.pnjmoves[indexpnjmove]) {
+      case "g":
+        this.setState({
+          xPNJ: newPNJPosition
+        });
+        this.indexpnjmove += 1;
+        break;
+      case "h":
+        this.setState({
+          yPNJ: newPNJPosition
+        });
+        this.indexpnjmove += 1;
+        break;
+      case "d":
+        this.setState({
+          xPNJ: newPNJPosition
+        });
+        this.indexpnjmove += 1;
+        break;
+      case "b":
+        this.setState({
+          yPNJ: newPNJPosition
+        });
+        this.indexpnjmove += 1;
+        break;
+      default:
+        return;
+    }
+  }
+
   render() {
     return (
       <div className="game">
@@ -98,6 +140,12 @@ class Game extends React.Component {
             keyName={this.state.keyName}
             x={this.state.x}
             y={this.state.y}
+          />
+          <PNJ
+            PNJIsAlive={this.state.PNJIsAlive}
+            PNJdirection={this.state.PNJdirection}
+            xPNJ={this.state.xPNJ}
+            yPNJ={this.state.yPNJ}
           />
         </div>
       </div>
