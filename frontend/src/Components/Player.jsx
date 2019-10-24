@@ -7,93 +7,87 @@ class Player extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      direction: "link/linkFront.png"
+      asset: "link/linkFront-Step4.png"
     };
   }
 
+  assetAnimation(direction) {
+    for (let i = 1, delay = 0; i <= 4; i++, delay = delay + 30) {
+      setTimeout(() => {
+        this.setState({ asset: `link/link${direction}-Step${i}.png` });
+        console.log(this.state.asset);
+      }, delay);
+    }
+  }
   // Fonction qui récupere l'input du clavier pour afficher le bon asset et faire bouger le player
-
   getAsset() {
     let newKeyCode = this.props.keyCode;
-    switch (newKeyCode) {
-      case 37:
-        this.setState({ direction: "link/linkLeft-Step1.png" });
-        setTimeout(() => {
-          this.setState({ direction: "link/linkLeft-Step2.png" });
-          setTimeout(() => {
-            this.setState({ direction: "link/linkLeft-Step3.png" });
-            setTimeout(() => {
-              this.setState({ direction: "link/linkLeft.png" });
-            }, 30);
-          }, 30);
-        }, 30);
-        break;
+    if (this.props.lastDirection === newKeyCode) {
+      switch (newKeyCode) {
+        case 37:
+          this.assetAnimation("Left");
+          console.log("bip");
 
-      case 38:
-        this.setState({ direction: "link/linkBack-Step1.png" });
-        setTimeout(() => {
-          this.setState({ direction: "link/linkBack-Step2.png" });
-          setTimeout(() => {
-            this.setState({ direction: "link/linkBack-Step3.png" });
-            setTimeout(() => {
-              this.setState({ direction: "link/linkBack.png" });
-            }, 30);
-          }, 30);
-        }, 30);
-        break;
+          break;
 
-      case 39:
-        this.setState({ direction: "link/linkRight-Step1.png" });
-        setTimeout(() => {
-          this.setState({ direction: "link/linkRight-Step2.png" });
-          setTimeout(() => {
-            this.setState({ direction: "link/linkRight-Step3.png" });
-            setTimeout(() => {
-              this.setState({ direction: "link/linkRight.png" });
-            }, 30);
-          }, 30);
-        }, 30);
+        case 38:
+          this.assetAnimation("Back");
+          break;
 
-        break;
+        case 39:
+          this.assetAnimation("Right");
+          break;
 
-      case 40:
-        this.setState({ direction: "link/linkFront-Step1.png" });
-        setTimeout(() => {
-          this.setState({ direction: "link/linkFront-Step2.png" });
-          setTimeout(() => {
-            this.setState({ direction: "link/linkFront-Step3.png" });
-            setTimeout(() => {
-              this.setState({ direction: "link/linkFront.png" });
-            }, 30);
-          }, 30);
-        }, 30);
-        break;
-      default:
-        this.setState({ direction: "linkFront.png" });
+        case 40:
+          this.assetAnimation("Front");
+          break;
+        default:
+          this.setState({ asset: "link/linkFront-Step4.png" });
+      }
+    } else {
+      switch (this.props.lastDirection) {
+        case 37:
+          console.log("bip2");
+
+          this.setState({ asset: "link/linkLeft-Step4.png" });
+          break;
+
+        case 38:
+          this.setState({ asset: "link/linkBack-Step4.png" });
+          break;
+
+        case 39:
+          this.setState({ asset: "link/linkRight-Step4.png" });
+          break;
+
+        case 40:
+          this.setState({ asset: "link/linkFront-Step4.png" });
+          break;
+        default:
+          this.setState({ asset: "link/linkFront-Step4.png" });
+          break;
+      }
     }
   }
 
   componentWillReceiveProps() {
     this.getAsset();
-    /*setTimeout(() => {
-      this.getAsset();
-    }, 160);*/
   }
 
   render() {
+    //this.getAsset();
     return (
       <div
         className="player"
         style={{
           top: `${this.props.y * 32}px`,
           left: `${this.props.x * 32}px`,
-          transition: "all 400ms"
+          transition: "all 300ms"
         }}
       >
-        <img src={this.state.direction} alt={"Player"} />
+        <img src={this.state.asset} alt={"Player"} />
       </div>
     );
   }
 }
-
 export default Player;
