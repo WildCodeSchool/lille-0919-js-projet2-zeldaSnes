@@ -3,6 +3,7 @@ import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
 import { tileNames, tilesMap } from "./tilesMap.js";
+import PNJ from "./PNJ/PNJ";
 
 class Game extends React.Component {
   constructor(props) {
@@ -14,13 +15,23 @@ class Game extends React.Component {
       canMove: true,
       xPNJ: 10,
       yPNJ: 10,
-      PNJIsAlive: true
+      PNJIsAlive: true,
+      PNJdirection: "h"
     };
   }
 
+  indexpnjmove = 0;
   // Method which get inputs from the keyboard on all the screen
 
   componentDidMount() {
+    setInterval(() => {
+      if (this.indexpnjmove > this.pnjmoves.length - 1) {
+        this.indexpnjmove = 0;
+      }
+      console.log(this.indexpnjmove);
+      this.getPNJMove(this.indexpnjmove);
+    }, 1000);
+
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -28,13 +39,6 @@ class Game extends React.Component {
           this.setState({ canMove: true });
         }, 120);
         this.getMovement(event);
-
-        setInterval(() => {
-          if (this.indexpnjmove > this.pnjmoves.length - 1) {
-            this.indexpnjmove = 0;
-          }
-          this.getPNJMove(this.indexpnjmove);
-        }, 1000);
       }
     };
   }
@@ -123,28 +127,60 @@ class Game extends React.Component {
     let newPNJPosition = 0;
     switch (this.pnjmoves[indexpnjmove]) {
       case "g":
-        this.setState({
-          xPNJ: newPNJPosition
-        });
-        this.indexpnjmove += 1;
+        newPNJPosition = this.state.xPNJ - 1;
+        if (
+          newPNJPosition === this.state.x &&
+          this.state.y === this.state.yPNJ
+        ) {
+        } else {
+          this.setState({
+            xPNJ: newPNJPosition
+          });
+          this.indexpnjmove += 1;
+          this.setState({ PNJdirection: this.pnjmoves[indexpnjmove] });
+        }
         break;
       case "h":
-        this.setState({
-          yPNJ: newPNJPosition
-        });
-        this.indexpnjmove += 1;
+        newPNJPosition = this.state.yPNJ - 1;
+        if (
+          newPNJPosition === this.state.y &&
+          this.state.x === this.state.xPNJ
+        ) {
+        } else {
+          this.setState({
+            yPNJ: newPNJPosition
+          });
+          this.indexpnjmove += 1;
+          this.setState({ PNJdirection: this.pnjmoves[indexpnjmove] });
+        }
         break;
       case "d":
-        this.setState({
-          xPNJ: newPNJPosition
-        });
-        this.indexpnjmove += 1;
+        newPNJPosition = this.state.xPNJ + 1;
+        if (
+          newPNJPosition === this.state.x &&
+          this.state.y === this.state.yPNJ
+        ) {
+        } else {
+          this.setState({
+            xPNJ: newPNJPosition
+          });
+          this.indexpnjmove += 1;
+          this.setState({ PNJdirection: this.pnjmoves[indexpnjmove] });
+        }
         break;
       case "b":
-        this.setState({
-          yPNJ: newPNJPosition
-        });
-        this.indexpnjmove += 1;
+        newPNJPosition = this.state.yPNJ + 1;
+        if (
+          newPNJPosition === this.state.y &&
+          this.state.x === this.state.xPNJ
+        ) {
+        } else {
+          this.setState({
+            yPNJ: newPNJPosition
+          });
+          this.indexpnjmove += 1;
+          this.setState({ PNJdirection: this.pnjmoves[indexpnjmove] });
+        }
         break;
       default:
         return;
