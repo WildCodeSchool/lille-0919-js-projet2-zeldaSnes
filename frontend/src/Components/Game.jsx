@@ -60,8 +60,13 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = x - 1;
         newDirection = "g";
-        if (newPosition >= leftBorder && !tilesMap[y][x - 1].includes("Z")) {
+        if (
+          newPosition >= leftBorder &&
+          !tilesMap[y][x - 1].includes("Z") &&
+          (newPosition !== xPNJ || y !== yPNJ)
+        ) {
           this.setState({
+            direction: newDirection,
             x: newPosition,
             keyName: newKey
           });
@@ -72,8 +77,13 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = y - 1;
         newDirection = "h";
-        if (newPosition >= topBorder && !tilesMap[y - 1][x].includes("Z")) {
+        if (
+          newPosition >= topBorder &&
+          !tilesMap[y - 1][x].includes("Z") &&
+          (newPosition !== yPNJ || x !== xPNJ)
+        ) {
           this.setState({
+            direction: newDirection,
             y: newPosition,
             keyName: newKey
           });
@@ -84,8 +94,13 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = x + 1;
         newDirection = "d";
-        if (newPosition <= rightBorder && !tilesMap[y][x + 1].includes("Z")) {
+        if (
+          newPosition <= rightBorder &&
+          !tilesMap[y][x + 1].includes("Z") &&
+          (newPosition !== xPNJ || y !== yPNJ)
+        ) {
           this.setState({
+            direction: newDirection,
             x: newPosition,
             keyName: newKey
           });
@@ -95,8 +110,14 @@ class Game extends React.Component {
       case "ArrowDown":
         event.preventDefault();
         newPosition = y + 1;
-        if (newPosition <= bottomBorder && !tilesMap[y + 1][x].includes("Z")) {
+        newDirection = "b";
+        if (
+          newPosition <= bottomBorder &&
+          !tilesMap[y + 1][x].includes("Z") &&
+          (newPosition !== yPNJ || x !== xPNJ)
+        ) {
           this.setState({
+            direction: newDirection,
             y: newPosition,
             keyName: newKey
           });
