@@ -39,7 +39,6 @@ class Game extends React.Component {
         }, 120);
         this.getMovement(event);
       }
-      this.getAttack(event);
     };
   }
 
@@ -61,13 +60,8 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = x - 1;
         newDirection = "g";
-        if (
-          newPosition >= leftBorder &&
-          !tilesMap[y][x - 1].includes("Z") &&
-          (newPosition !== xPNJ || y !== yPNJ)
-        ) {
+        if (newPosition >= leftBorder && !tilesMap[y][x - 1].includes("Z")) {
           this.setState({
-            direction: newDirection,
             x: newPosition,
             keyName: newKey
           });
@@ -78,13 +72,8 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = y - 1;
         newDirection = "h";
-        if (
-          newPosition >= topBorder &&
-          !tilesMap[y - 1][x].includes("Z") &&
-          (newPosition !== yPNJ || x !== xPNJ)
-        ) {
+        if (newPosition >= topBorder && !tilesMap[y - 1][x].includes("Z")) {
           this.setState({
-            direction: newDirection,
             y: newPosition,
             keyName: newKey
           });
@@ -95,13 +84,8 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = x + 1;
         newDirection = "d";
-        if (
-          newPosition <= rightBorder &&
-          !tilesMap[y][x + 1].includes("Z") &&
-          (newPosition !== xPNJ || y !== yPNJ)
-        ) {
+        if (newPosition <= rightBorder && !tilesMap[y][x + 1].includes("Z")) {
           this.setState({
-            direction: newDirection,
             x: newPosition,
             keyName: newKey
           });
@@ -111,14 +95,8 @@ class Game extends React.Component {
       case "ArrowDown":
         event.preventDefault();
         newPosition = y + 1;
-        newDirection = "b";
-        if (
-          newPosition <= bottomBorder &&
-          !tilesMap[y + 1][x].includes("Z") &&
-          (newPosition !== yPNJ || x !== xPNJ)
-        ) {
+        if (newPosition <= bottomBorder && !tilesMap[y + 1][x].includes("Z")) {
           this.setState({
-            direction: newDirection,
             y: newPosition,
             keyName: newKey
           });
@@ -127,33 +105,6 @@ class Game extends React.Component {
       default:
         return;
     }
-  }
-
-  getAttack(event) {
-    let newKeyCode = event.keyCode;
-    if (newKeyCode === 69)
-      switch (this.state.direction) {
-        case "g":
-          if (this.state.xPNJ === this.state.x - 1) {
-            this.setState({ PNJIsAlive: false });
-          }
-          break;
-        case "h":
-          if (this.state.yPNJ === this.state.y - 1) {
-            this.setState({ PNJIsAlive: false });
-          }
-          break;
-        case "d":
-          if (this.state.xPNJ === this.state.x + 1) {
-            this.setState({ PNJIsAlive: false });
-          }
-          break;
-        case "b":
-          if (this.state.yPNJ === this.state.y + 1) {
-            this.setState({ PNJIsAlive: false });
-          }
-          break;
-      }
   }
 
   pnjmoves = [
@@ -183,10 +134,9 @@ class Game extends React.Component {
       case "g":
         newPNJPosition = this.state.xPNJ - 1;
         if (
-          newPNJPosition === this.state.x &&
-          this.state.y === this.state.yPNJ
+          newPNJPosition !== this.state.x ||
+          this.state.y !== this.state.yPNJ
         ) {
-        } else {
           this.setState({
             xPNJ: newPNJPosition
           });
@@ -197,10 +147,9 @@ class Game extends React.Component {
       case "h":
         newPNJPosition = this.state.yPNJ - 1;
         if (
-          newPNJPosition === this.state.y &&
-          this.state.x === this.state.xPNJ
+          newPNJPosition !== this.state.y ||
+          this.state.x !== this.state.xPNJ
         ) {
-        } else {
           this.setState({
             yPNJ: newPNJPosition
           });
@@ -211,10 +160,9 @@ class Game extends React.Component {
       case "d":
         newPNJPosition = this.state.xPNJ + 1;
         if (
-          newPNJPosition === this.state.x &&
-          this.state.y === this.state.yPNJ
+          newPNJPosition !== this.state.x ||
+          this.state.y !== this.state.yPNJ
         ) {
-        } else {
           this.setState({
             xPNJ: newPNJPosition
           });
@@ -225,10 +173,9 @@ class Game extends React.Component {
       case "b":
         newPNJPosition = this.state.yPNJ + 1;
         if (
-          newPNJPosition === this.state.y &&
-          this.state.x === this.state.xPNJ
+          newPNJPosition !== this.state.y ||
+          this.state.x !== this.state.xPNJ
         ) {
-        } else {
           this.setState({
             yPNJ: newPNJPosition
           });
