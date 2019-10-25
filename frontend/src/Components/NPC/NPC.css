@@ -1,9 +1,9 @@
-.PNJ {
+.NPC {
   position: absolute;
   z-index: 1;
   transition: all 0.2s;
 }
 
-.PNJdead {
+.NPCdead {
   display: none;
 }
