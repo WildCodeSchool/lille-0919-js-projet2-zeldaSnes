@@ -24,13 +24,6 @@ class Game extends React.Component {
   // Method which get inputs from the keyboard on all the screen
 
   componentDidMount() {
-    setInterval(() => {
-      if (this.indexNPCmove > this.NPCmoves.length - 1) {
-        this.indexNPCmove = 0;
-      }
-      this.getNPCMove(this.indexNPCmove);
-    }, 1000);
-
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -42,6 +35,17 @@ class Game extends React.Component {
       this.getAttack(event);
     };
   }
+
+  makeNpcMove = setInterval(() => {
+    if (this.state.NPCIsAlive) {
+      if (this.indexNPCmove > this.NPCmoves.length - 1) {
+        this.indexNPCmove = 0;
+      }
+      this.getNPCMove(this.indexNPCmove);
+    } else {
+      clearInterval(this.makeNpcMove);
+    }
+  }, 1000);
 
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
@@ -64,7 +68,7 @@ class Game extends React.Component {
         if (
           newPosition >= leftBorder &&
           !tilesMap[y][x - 1].includes("Z") &&
-          (newPosition !== xNPC || y !== yNPC)
+          (newPosition !== xNPC || y !== yNPC || !this.state.NPCIsAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -81,7 +85,7 @@ class Game extends React.Component {
         if (
           newPosition >= topBorder &&
           !tilesMap[y - 1][x].includes("Z") &&
-          (newPosition !== yNPC || x !== xNPC)
+          (newPosition !== yNPC || x !== xNPC || !this.state.NPCIsAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -98,7 +102,7 @@ class Game extends React.Component {
         if (
           newPosition <= rightBorder &&
           !tilesMap[y][x + 1].includes("Z") &&
-          (newPosition !== xNPC || y !== yNPC)
+          (newPosition !== xNPC || y !== yNPC || !this.state.NPCIsAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -115,7 +119,7 @@ class Game extends React.Component {
         if (
           newPosition <= bottomBorder &&
           !tilesMap[y + 1][x].includes("Z") &&
-          (newPosition !== yNPC || x !== xNPC)
+          (newPosition !== yNPC || x !== xNPC || !this.state.NPCIsAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -248,12 +252,13 @@ class Game extends React.Component {
             x={this.state.x}
             y={this.state.y}
           />
-          <NPC
-            NPCIsAlive={this.state.NPCIsAlive}
-            NPCdirection={this.state.NPCdirection}
-            xNPC={this.state.xNPC}
-            yNPC={this.state.yNPC}
-          />
+          {this.state.NPCIsAlive && (
+            <NPC
+              NPCdirection={this.state.NPCdirection}
+              xNPC={this.state.xNPC}
+              yNPC={this.state.yNPC}
+            />
+          )}
         </div>
       </div>
     );
