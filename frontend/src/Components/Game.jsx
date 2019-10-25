@@ -2,7 +2,7 @@ import React from "react";
 import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
-import { tileNames, tilesMap } from "./tilesMap.js";
+import { tilesMap } from "./tilesMap.js";
 
 class Game extends React.Component {
   constructor(props) {
