@@ -7,10 +7,3 @@
   padding: 0;
   height: 40px;
 }
-
-.music button p {
-  padding-top: 5px;
-  font-family: "VT323", monospace;
-  font-size: 20px;
-  color: black !important;
-}
