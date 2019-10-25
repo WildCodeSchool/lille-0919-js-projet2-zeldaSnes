@@ -4,7 +4,7 @@ import "./LeftDiv.css";
 function LeftDiv() {
   return (
     <div className="leftDiv">
-      <img src="sideLink.png" alt="Link-picture" />
+      <img src="sideLink.png" alt="Link" />
     </div>
   );
 }
