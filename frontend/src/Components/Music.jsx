@@ -23,12 +23,7 @@ class Music extends React.Component {
         >
           <p>Music</p>
         </button>
-        <audio
-          autoPlay
-          muted={this.state.canMusic}
-          loop
-          src="mainMusic.mp3"
-        ></audio>
+        <audio autoPlay muted="false" loop src="mainMusic.mp3"></audio>
       </div>
     );
   }

@@ -3,6 +3,8 @@ import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
 import { tileNames, tilesMap } from "./tilesMap.js";
+import UIfx from "uifx";
+import blocked from "./Bounce.mp3";
 
 class Game extends React.Component {
   constructor(props) {
@@ -11,9 +13,12 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
-      canMove: true
+      canMove: true,
+      blocked: false
     };
   }
+
+  blocked = new UIfx({ asset: blocked });
 
   // Method which get inputs from the keyboard on all the screen
 
@@ -48,6 +53,7 @@ class Game extends React.Component {
             x: newPosition,
             keyName: newKey
           });
+        } else {
         }
         break;
 
@@ -98,6 +104,7 @@ class Game extends React.Component {
             keyName={this.state.keyName}
             x={this.state.x}
             y={this.state.y}
+            blocked={this.state.blocked}
           />
         </div>
       </div>
