@@ -16,6 +16,10 @@ class Game extends React.Component {
     };
   }
 
+  playBounce() {
+    const bounce = new Audio("sound/Bounce.mp3");
+    bounce.play();
+  }
   // Method which get inputs from the keyboard on all the screen
 
   componentDidMount() {
@@ -50,6 +54,7 @@ class Game extends React.Component {
             keyName: newKey
           });
         } else {
+          this.playBounce();
         }
         break;
 
@@ -61,6 +66,8 @@ class Game extends React.Component {
             y: newPosition,
             keyName: newKey
           });
+        } else {
+          this.playBounce();
         }
         break;
 
@@ -72,7 +79,10 @@ class Game extends React.Component {
             x: newPosition,
             keyName: newKey
           });
+        } else {
+          this.playBounce();
         }
+
         break;
 
       case "ArrowDown":
@@ -83,6 +93,8 @@ class Game extends React.Component {
             y: newPosition,
             keyName: newKey
           });
+        } else {
+          this.playBounce();
         }
         break;
       default:
