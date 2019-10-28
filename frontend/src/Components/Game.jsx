@@ -12,13 +12,13 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
-      direction: "h",
+      direction: "down",
       canMove: true,
       NPC: {
         x: 10,
         y: 10,
         isAlive: true,
-        direction: "h"
+        direction: "up"
       }
     };
   }
@@ -35,7 +35,7 @@ class Game extends React.Component {
         }, 120);
         this.getMovement(event);
       }
-      this.getAttack(event);
+      this.attack(event);
     };
   }
 
@@ -44,7 +44,7 @@ class Game extends React.Component {
       if (this.indexNPCmove > this.NPCmoves.length - 1) {
         this.indexNPCmove = 0;
       }
-      this.getNPCMove(this.indexNPCmove);
+      this.NPCMove(this.indexNPCmove);
     } else {
       clearInterval(this.makeNpcMove);
     }
@@ -77,13 +77,13 @@ class Game extends React.Component {
     let newPosition;
     let x = this.state.x;
     let y = this.state.y;
-    let newDirection = "b";
+    let newDirection = "down";
 
     switch (newKey) {
       case "ArrowLeft":
         event.preventDefault();
         newPosition = x - 1;
-        newDirection = "g";
+        newDirection = "left";
         if (this.isMovePossible(x - 1, y)) {
           this.setState({
             direction: newDirection,
@@ -96,7 +96,7 @@ class Game extends React.Component {
       case "ArrowUp":
         event.preventDefault();
         newPosition = y - 1;
-        newDirection = "h";
+        newDirection = "up";
         if (this.isMovePossible(x, y - 1)) {
           this.setState({
             direction: newDirection,
@@ -109,7 +109,7 @@ class Game extends React.Component {
       case "ArrowRight":
         event.preventDefault();
         newPosition = x + 1;
-        newDirection = "d";
+        newDirection = "right";
         if (this.isMovePossible(x + 1, y)) {
           this.setState({
             direction: newDirection,
@@ -122,7 +122,7 @@ class Game extends React.Component {
       case "ArrowDown":
         event.preventDefault();
         newPosition = y + 1;
-        newDirection = "b";
+        newDirection = "down";
         if (this.isMovePossible(x, y + 1)) {
           this.setState({
             direction: newDirection,
@@ -136,11 +136,11 @@ class Game extends React.Component {
     }
   }
 
-  getAttack(event) {
-    let newKeyCode = event.keyCode;
-    if (newKeyCode === 69)
+  attack(event) {
+    let newKeyCode = event.key;
+    if (newKeyCode === "e")
       switch (this.state.direction) {
-        case "g":
+        case "left":
           if (this.state.NPC.x === this.state.x - 1) {
             this.setState({
               NPC: {
@@ -150,7 +150,7 @@ class Game extends React.Component {
             });
           }
           break;
-        case "h":
+        case "up":
           if (this.state.NPC.y === this.state.y - 1) {
             this.setState({
               NPC: {
@@ -160,7 +160,7 @@ class Game extends React.Component {
             });
           }
           break;
-        case "d":
+        case "right":
           if (this.state.NPC.x === this.state.x + 1) {
             this.setState({
               NPC: {
@@ -170,7 +170,7 @@ class Game extends React.Component {
             });
           }
           break;
-        case "b":
+        case "down":
           if (this.state.NPC.y === this.state.y + 1) {
             this.setState({
               NPC: {
@@ -184,30 +184,30 @@ class Game extends React.Component {
   }
 
   NPCmoves = [
-    "h",
-    "h",
-    "g",
-    "g",
-    "g",
-    "g",
-    "b",
-    "b",
-    "b",
-    "b",
-    "b",
-    "d",
-    "d",
-    "d",
-    "d",
-    "h",
-    "h",
-    "h"
+    "up",
+    "up",
+    "left",
+    "left",
+    "left",
+    "left",
+    "down",
+    "down",
+    "down",
+    "down",
+    "down",
+    "right",
+    "right",
+    "right",
+    "right",
+    "up",
+    "up",
+    "up"
   ];
 
-  getNPCMove(indexNPCmove) {
+  NPCMove(indexNPCmove) {
     let newNPCPosition = 0;
     switch (this.NPCmoves[indexNPCmove]) {
-      case "g":
+      case "left":
         newNPCPosition = this.state.NPC.x - 1;
         if (
           newNPCPosition !== this.state.x ||
@@ -223,7 +223,7 @@ class Game extends React.Component {
           this.indexNPCmove += 1;
         }
         break;
-      case "h":
+      case "up":
         newNPCPosition = this.state.NPC.y - 1;
         if (
           newNPCPosition !== this.state.y ||
@@ -239,7 +239,7 @@ class Game extends React.Component {
           this.indexNPCmove += 1;
         }
         break;
-      case "d":
+      case "right":
         newNPCPosition = this.state.NPC.x + 1;
         if (
           newNPCPosition !== this.state.x ||
@@ -255,7 +255,7 @@ class Game extends React.Component {
           this.indexNPCmove += 1;
         }
         break;
-      case "b":
+      case "down":
         newNPCPosition = this.state.NPC.y + 1;
         if (
           newNPCPosition !== this.state.y ||

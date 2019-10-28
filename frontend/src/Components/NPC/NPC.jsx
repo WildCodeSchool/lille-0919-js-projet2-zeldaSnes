@@ -5,19 +5,16 @@ class NPC extends React.Component {
   getAsset() {
     let direction;
     switch (this.props.NPCdirection) {
-      case "g":
+      case "left":
         direction = "NPC/enemies-left.png";
         break;
-
-      case "h":
+      case "up":
         direction = "NPC/enemies-top.png";
         break;
-
-      case "d":
+      case "right":
         direction = "NPC/enemies-right.png";
         break;
-
-      case "b":
+      case "down":
         direction = "NPC/enemies-bottom.png";
         break;
       default:
