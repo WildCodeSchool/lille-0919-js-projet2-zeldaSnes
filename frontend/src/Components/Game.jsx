@@ -12,7 +12,8 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
-      canMove: true
+      canMove: true,
+      rubyCounter: 0
     };
   }
 
@@ -92,7 +93,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <GameTopBar />
+        <GameTopBar rubyCounter={this.state.rubyCounter} />
         <div className="gameScreen">
           <Map />
           <Player
