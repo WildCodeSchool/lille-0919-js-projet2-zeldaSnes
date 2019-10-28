@@ -2,6 +2,7 @@ import React from "react";
 import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
+import GameTopBar from "./GameTopBar";
 import { tileNames, tilesMap } from "./tilesMap.js";
 
 class Game extends React.Component {
@@ -91,7 +92,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <div className="gameUI"></div>
+        <GameTopBar />
         <div className="gameScreen">
           <Map />
           <Player
