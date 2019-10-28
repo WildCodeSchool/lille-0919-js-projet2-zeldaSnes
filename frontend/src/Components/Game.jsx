@@ -12,11 +12,14 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
+      direction: "h",
       canMove: true,
-      xNPC: 10,
-      yNPC: 10,
-      NPCIsAlive: true,
-      NPCdirection: "h"
+      NPC: {
+        x: 10,
+        y: 10,
+        isAlive: true,
+        direction: "h"
+      }
     };
   }
 
@@ -37,7 +40,7 @@ class Game extends React.Component {
   }
 
   makeNpcMove = setInterval(() => {
-    if (this.state.NPCIsAlive) {
+    if (this.state.NPC.isAlive) {
       if (this.indexNPCmove > this.NPCmoves.length - 1) {
         this.indexNPCmove = 0;
       }
@@ -53,8 +56,8 @@ class Game extends React.Component {
     let newPosition;
     let x = this.state.x;
     let y = this.state.y;
-    let xNPC = this.state.xNPC;
-    let yNPC = this.state.yNPC;
+    let xNPC = this.state.NPC.x;
+    let yNPC = this.state.NPC.y;
     let newDirection = "b";
     const topBorder = 0;
     const leftBorder = 0;
@@ -68,7 +71,7 @@ class Game extends React.Component {
         if (
           newPosition >= leftBorder &&
           !tilesMap[y][x - 1].includes("Z") &&
-          (newPosition !== xNPC || y !== yNPC || !this.state.NPCIsAlive)
+          (newPosition !== xNPC || y !== yNPC || !this.state.NPC.isAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -85,7 +88,7 @@ class Game extends React.Component {
         if (
           newPosition >= topBorder &&
           !tilesMap[y - 1][x].includes("Z") &&
-          (newPosition !== yNPC || x !== xNPC || !this.state.NPCIsAlive)
+          (newPosition !== yNPC || x !== xNPC || !this.state.NPC.isAlivesAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -102,7 +105,7 @@ class Game extends React.Component {
         if (
           newPosition <= rightBorder &&
           !tilesMap[y][x + 1].includes("Z") &&
-          (newPosition !== xNPC || y !== yNPC || !this.state.NPCIsAlive)
+          (newPosition !== xNPC || y !== yNPC || !this.state.NPC.isAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -119,7 +122,7 @@ class Game extends React.Component {
         if (
           newPosition <= bottomBorder &&
           !tilesMap[y + 1][x].includes("Z") &&
-          (newPosition !== yNPC || x !== xNPC || !this.state.NPCIsAlive)
+          (newPosition !== yNPC || x !== xNPC || !this.state.NPC.isAlive)
         ) {
           this.setState({
             direction: newDirection,
@@ -138,23 +141,43 @@ class Game extends React.Component {
     if (newKeyCode === 69)
       switch (this.state.direction) {
         case "g":
-          if (this.state.xNPC === this.state.x - 1) {
-            this.setState({ NPCIsAlive: false });
+          if (this.state.NPC.x === this.state.x - 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
           }
           break;
         case "h":
-          if (this.state.yNPC === this.state.y - 1) {
-            this.setState({ NPCIsAlive: false });
+          if (this.state.NPC.y === this.state.y - 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
           }
           break;
         case "d":
-          if (this.state.xNPC === this.state.x + 1) {
-            this.setState({ NPCIsAlive: false });
+          if (this.state.NPC.x === this.state.x + 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
           }
           break;
         case "b":
-          if (this.state.yNPC === this.state.y + 1) {
-            this.setState({ NPCIsAlive: false });
+          if (this.state.NPC.y === this.state.y + 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
           }
           break;
       }
@@ -185,55 +208,67 @@ class Game extends React.Component {
     let newNPCPosition = 0;
     switch (this.NPCmoves[indexNPCmove]) {
       case "g":
-        newNPCPosition = this.state.xNPC - 1;
+        newNPCPosition = this.state.NPC.x - 1;
         if (
           newNPCPosition !== this.state.x ||
-          this.state.y !== this.state.yNPC
+          this.state.y !== this.state.NPC.y
         ) {
           this.setState({
-            xNPC: newNPCPosition
+            NPC: {
+              ...this.state.NPC,
+              x: newNPCPosition,
+              direction: this.NPCmoves[indexNPCmove]
+            }
           });
           this.indexNPCmove += 1;
-          this.setState({ NPCdirection: this.NPCmoves[indexNPCmove] });
         }
         break;
       case "h":
-        newNPCPosition = this.state.yNPC - 1;
+        newNPCPosition = this.state.NPC.y - 1;
         if (
           newNPCPosition !== this.state.y ||
           this.state.x !== this.state.xNPC
         ) {
           this.setState({
-            yNPC: newNPCPosition
+            NPC: {
+              ...this.state.NPC,
+              y: newNPCPosition,
+              direction: this.NPCmoves[indexNPCmove]
+            }
           });
           this.indexNPCmove += 1;
-          this.setState({ NPCdirection: this.NPCmoves[indexNPCmove] });
         }
         break;
       case "d":
-        newNPCPosition = this.state.xNPC + 1;
+        newNPCPosition = this.state.NPC.x + 1;
         if (
           newNPCPosition !== this.state.x ||
           this.state.y !== this.state.yNPC
         ) {
           this.setState({
-            xNPC: newNPCPosition
+            NPC: {
+              ...this.state.NPC,
+              x: newNPCPosition,
+              direction: this.NPCmoves[indexNPCmove]
+            }
           });
           this.indexNPCmove += 1;
-          this.setState({ NPCdirection: this.NPCmoves[indexNPCmove] });
         }
         break;
       case "b":
-        newNPCPosition = this.state.yNPC + 1;
+        newNPCPosition = this.state.NPC.y + 1;
         if (
           newNPCPosition !== this.state.y ||
           this.state.x !== this.state.xNPC
         ) {
           this.setState({
-            yNPC: newNPCPosition
+            NPC: {
+              ...this.state.NPC,
+              y: newNPCPosition,
+              direction: this.NPCmoves[indexNPCmove]
+            }
           });
           this.indexNPCmove += 1;
-          this.setState({ NPCdirection: this.NPCmoves[indexNPCmove] });
         }
         break;
       default:
@@ -252,11 +287,11 @@ class Game extends React.Component {
             x={this.state.x}
             y={this.state.y}
           />
-          {this.state.NPCIsAlive && (
+          {this.state.NPC.isAlive && (
             <NPC
-              NPCdirection={this.state.NPCdirection}
-              xNPC={this.state.xNPC}
-              yNPC={this.state.yNPC}
+              NPCdirection={this.state.NPC.direction}
+              xNPC={this.state.NPC.x}
+              yNPC={this.state.NPC.y}
             />
           )}
         </div>

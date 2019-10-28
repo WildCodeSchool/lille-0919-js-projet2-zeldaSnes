@@ -31,7 +31,6 @@ class NPC extends React.Component {
       <div
         className="NPC"
         style={{
-          // display: this.props.NPCIsAlive ? "block" : "none",
           top: `${this.props.yNPC * 32}px`,
           left: `${this.props.xNPC * 32}px`
         }}
