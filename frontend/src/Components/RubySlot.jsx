@@ -11,7 +11,7 @@ class RubySlot extends React.Component {
         <div id="rubySlot">
           <img src="./tiles/greenRupi.png" alt="ruby image" />
           <p>
-            x <span id="rubyCounter">0</span>
+            x <span>{this.props.rubyCounter}</span>
           </p>
         </div>
       </div>
