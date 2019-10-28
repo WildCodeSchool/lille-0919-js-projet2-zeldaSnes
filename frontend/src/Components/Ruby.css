@@ -1,0 +1,7 @@
+div.Ruby {
+  background-image: url("/items/greenRuby.png");
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  z-index: 2;
+}
