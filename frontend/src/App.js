@@ -1,19 +1,14 @@
-import React from "react";
-import Game from './Components/Game';
-import Title from './Components/Title';
-import LeftDiv from './Components/LeftDiv';
-import ControlsTab from './Components/ControlsTab';
-import "./App.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import Gamepage from './Gamepage';
 
 function App() {
-  return <div className="App">
-    <Title />
-    <div className="Container">
-      <LeftDiv />
-      <Game />
-      <ControlsTab />
-    </div>
-  </div>;
+  return
+  <Switch>
+    <Route exact path='/' component={Hompegage} />
+
+  </Switch>
 }
 
 export default App;
