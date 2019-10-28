@@ -3,8 +3,6 @@ import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
 import { tileNames, tilesMap } from "./tilesMap.js";
-import UIfx from "uifx";
-import blocked from "../..public/sound/Bounce.mp3";
 
 class Game extends React.Component {
   constructor(props) {
@@ -17,8 +15,6 @@ class Game extends React.Component {
       blocked: false
     };
   }
-
-  blocked = new UIfx({ asset: blocked });
 
   // Method which get inputs from the keyboard on all the screen
 
