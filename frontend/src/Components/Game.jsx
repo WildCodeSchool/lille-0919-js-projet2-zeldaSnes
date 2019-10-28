@@ -4,7 +4,7 @@ import "./Game.css";
 import Player from "./Player";
 import { tileNames, tilesMap } from "./tilesMap.js";
 import UIfx from "uifx";
-import blocked from "./Bounce.mp3";
+import blocked from "../..public/sound/Bounce.mp3";
 
 class Game extends React.Component {
   constructor(props) {
