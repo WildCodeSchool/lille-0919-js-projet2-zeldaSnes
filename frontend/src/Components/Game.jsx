@@ -2,6 +2,7 @@ import React from "react";
 import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
+import Ruby from "./Ruby";
 import { tileNames, tilesMap } from "./tilesMap.js";
 
 class Game extends React.Component {
@@ -11,7 +12,14 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
-      canMove: true
+      canMove: true,
+      rubyCounter: 0,
+      rubyList: [
+        { x: 3, y: 5 },
+        { x: 6, y: 8 },
+        { x: 9, y: 12 },
+        { x: 15, y: 6 }
+      ]
     };
   }
 
@@ -86,6 +94,23 @@ class Game extends React.Component {
       default:
         return;
     }
+    this.getRuby();
+  }
+
+  // This function check if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + incrementing rubyCounter by 1
+  getRuby() {
+    let xPlayer = this.state.x;
+    let yPlayer = this.state.y;
+    let newRubyList = this.state.rubyList;
+
+    for (let i = 0; i < newRubyList.length; i++) {
+      if (newRubyList[i].x === xPlayer && newRubyList[i].y === yPlayer) {
+        this.setState({
+          newRubyList: newRubyList.splice(i, 1),
+          rubyCounter: this.state.rubyCounter + 1
+        });
+      }
+    }
   }
 
   render() {
@@ -99,6 +124,10 @@ class Game extends React.Component {
             x={this.state.x}
             y={this.state.y}
           />
+          {this.state.rubyList.map((ruby, index) => {
+            return <Ruby xRuby={ruby.x} yRuby={ruby.y} />;
+          })}
+          ;
         </div>
       </div>
     );
