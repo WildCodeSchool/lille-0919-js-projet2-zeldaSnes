@@ -5,3 +5,14 @@ div.Ruby {
   position: absolute;
   z-index: 2;
 }
+
+.RubyTaken {
+  background-image: url("/items/greenRuby.png");
+  position: absolute;
+  z-index: 2;
+  transition: all 200ms;
+  transform: translateY(-32px);
+  transform-origin: center center;
+  width: 0%;
+  height: 0%;
+}

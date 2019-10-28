@@ -15,10 +15,10 @@ class Game extends React.Component {
       canMove: true,
       rubyCounter: 0,
       rubyList: [
-        { x: 3, y: 5 },
-        { x: 6, y: 8 },
-        { x: 9, y: 12 },
-        { x: 15, y: 6 }
+        { x: 3, y: 5, rubyClass: "Ruby" },
+        { x: 6, y: 8, rubyClass: "Ruby" },
+        { x: 9, y: 12, rubyClass: "Ruby" },
+        { x: 15, y: 6, rubyClass: "Ruby" }
       ]
     };
   }
@@ -105,10 +105,13 @@ class Game extends React.Component {
 
     for (let i = 0; i < newRubyList.length; i++) {
       if (newRubyList[i].x === xPlayer && newRubyList[i].y === yPlayer) {
-        this.setState({
-          newRubyList: newRubyList.splice(i, 1),
-          rubyCounter: this.state.rubyCounter + 1
-        });
+        this.setState((newRubyList[i] = { rubyClass: "RubyTaken" }));
+        setTimeout(() => {
+          this.setState({
+            newRubyList: newRubyList.splice(i, 1),
+            rubyCounter: this.state.rubyCounter + 1
+          });
+        }, 200);
         this.playRuby();
       }
     }
@@ -131,9 +134,10 @@ class Game extends React.Component {
             y={this.state.y}
           />
           {this.state.rubyList.map((ruby, index) => {
-            return <Ruby xRuby={ruby.x} yRuby={ruby.y} />;
+            return (
+              <Ruby xRuby={ruby.x} yRuby={ruby.y} rubyClass={ruby.rubyClass} />
+            );
           })}
-          ;
         </div>
       </div>
     );

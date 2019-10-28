@@ -14,7 +14,7 @@ class Ruby extends React.Component {
     return (
       <div>
         <div
-          className="Ruby"
+          className={this.props.rubyClass}
           style={{
             top: `${this.props.yRuby * this.state.assetHeight}px`,
             left: `${this.props.xRuby * this.state.assetWidth}px`
