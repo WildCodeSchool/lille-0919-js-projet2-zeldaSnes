@@ -50,29 +50,41 @@ class Game extends React.Component {
     }
   }, 1000);
 
+  isMovePossible(x, y) {
+    const topBorder = 0;
+    const leftBorder = 0;
+    const bottomBorder = 14;
+    const rightBorder = 19;
+    if (
+      rightBorder >= x &&
+      leftBorder <= x &&
+      bottomBorder >= y &&
+      topBorder <= y &&
+      !tilesMap[y][x].includes("Z") &&
+      (x !== this.state.NPC.x ||
+        y !== this.state.NPC.y ||
+        !this.state.NPC.isAlive)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
     let newKey = event.key;
     let newPosition;
     let x = this.state.x;
     let y = this.state.y;
-    let xNPC = this.state.NPC.x;
-    let yNPC = this.state.NPC.y;
     let newDirection = "b";
-    const topBorder = 0;
-    const leftBorder = 0;
-    const bottomBorder = 14;
-    const rightBorder = 19;
+
     switch (newKey) {
       case "ArrowLeft":
         event.preventDefault();
         newPosition = x - 1;
         newDirection = "g";
-        if (
-          newPosition >= leftBorder &&
-          !tilesMap[y][x - 1].includes("Z") &&
-          (newPosition !== xNPC || y !== yNPC || !this.state.NPC.isAlive)
-        ) {
+        if (this.isMovePossible(x - 1, y)) {
           this.setState({
             direction: newDirection,
             x: newPosition,
@@ -85,11 +97,7 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = y - 1;
         newDirection = "h";
-        if (
-          newPosition >= topBorder &&
-          !tilesMap[y - 1][x].includes("Z") &&
-          (newPosition !== yNPC || x !== xNPC || !this.state.NPC.isAlivesAlive)
-        ) {
+        if (this.isMovePossible(x, y - 1)) {
           this.setState({
             direction: newDirection,
             y: newPosition,
@@ -102,11 +110,7 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = x + 1;
         newDirection = "d";
-        if (
-          newPosition <= rightBorder &&
-          !tilesMap[y][x + 1].includes("Z") &&
-          (newPosition !== xNPC || y !== yNPC || !this.state.NPC.isAlive)
-        ) {
+        if (this.isMovePossible(x + 1, y)) {
           this.setState({
             direction: newDirection,
             x: newPosition,
@@ -119,11 +123,7 @@ class Game extends React.Component {
         event.preventDefault();
         newPosition = y + 1;
         newDirection = "b";
-        if (
-          newPosition <= bottomBorder &&
-          !tilesMap[y + 1][x].includes("Z") &&
-          (newPosition !== yNPC || x !== xNPC || !this.state.NPC.isAlive)
-        ) {
+        if (this.isMovePossible(x, y + 1)) {
           this.setState({
             direction: newDirection,
             y: newPosition,
