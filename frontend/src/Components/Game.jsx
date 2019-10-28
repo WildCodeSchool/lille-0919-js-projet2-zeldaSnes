@@ -109,8 +109,14 @@ class Game extends React.Component {
           newRubyList: newRubyList.splice(i, 1),
           rubyCounter: this.state.rubyCounter + 1
         });
+        this.playRuby();
       }
     }
+  }
+
+  playRuby() {
+    const pickupRuby = new Audio("sound/getRuby.mp3");
+    pickupRuby.play();
   }
 
   render() {
