@@ -3,6 +3,7 @@ import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
 import { tilesMap } from "./tilesMap.js";
+import NPC from "./NPC/NPC.jsx";
 
 class Game extends React.Component {
   constructor(props) {
