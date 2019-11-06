@@ -3,10 +3,6 @@ import React from "react";
 let heartsTab = ["fullHeart", "fullHeart", "fullHeart", "halfHeart"];
 
 class HealthBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div id="healthBar">
