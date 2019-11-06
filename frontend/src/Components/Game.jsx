@@ -14,6 +14,7 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
+      blocked: false,
       canMove: true,
       rubyCounter: 0,
       rubyList: [
@@ -30,6 +31,11 @@ class Game extends React.Component {
         direction: "up"
       }
     };
+  }
+
+  playBounce() {
+    const bounce = new Audio("sound/Bounce.mp3");
+    bounce.play();
   }
 
   indexNPCmove = 0;
@@ -99,6 +105,8 @@ class Game extends React.Component {
             x: newPosition,
             keyName: newKey
           });
+        } else {
+          this.playBounce();
         }
         break;
 
@@ -112,6 +120,8 @@ class Game extends React.Component {
             y: newPosition,
             keyName: newKey
           });
+        } else {
+          this.playBounce();
         }
         break;
 
@@ -125,7 +135,10 @@ class Game extends React.Component {
             x: newPosition,
             keyName: newKey
           });
+        } else {
+          this.playBounce();
         }
+
         break;
 
       case "ArrowDown":
@@ -138,6 +151,8 @@ class Game extends React.Component {
             y: newPosition,
             keyName: newKey
           });
+        } else {
+          this.playBounce();
         }
         break;
       default:
@@ -321,6 +336,7 @@ class Game extends React.Component {
             keyName={this.state.keyName}
             x={this.state.x}
             y={this.state.y}
+            blocked={this.state.blocked}
           />
           {this.state.rubyList.map((ruby, index) => {
             return (
