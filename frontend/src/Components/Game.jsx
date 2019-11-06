@@ -230,6 +230,8 @@ class Game extends React.Component {
             });
           }
           break;
+        default:
+          break;
       }
   }
 
