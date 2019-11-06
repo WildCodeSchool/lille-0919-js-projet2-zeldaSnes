@@ -342,7 +342,12 @@ class Game extends React.Component {
           />
           {this.state.rubyList.map((ruby, index) => {
             return (
-              <Ruby xRuby={ruby.x} yRuby={ruby.y} rubyClass={ruby.rubyClass} />
+              <Ruby
+                key={index}
+                xRuby={ruby.x}
+                yRuby={ruby.y}
+                rubyClass={ruby.rubyClass}
+              />
             );
           })}
           {this.state.NPC.isAlive && (
