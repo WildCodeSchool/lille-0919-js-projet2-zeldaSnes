@@ -6,8 +6,8 @@ class HealthBar extends React.Component {
   render() {
     return (
       <div id="healthBar">
-        {heartsTab.map(heart => {
-          return <img src={`/tiles/${heart}.png`} alt="*" />;
+        {heartsTab.map((heart, index) => {
+          return <img key={index} src={`/tiles/${heart}.png`} alt="*" />;
         })}
       </div>
     );
