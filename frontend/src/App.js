@@ -1,19 +1,18 @@
 import React from "react";
-import Game from './Components/Game';
-import Title from './Components/Title';
-import LeftDiv from './Components/LeftDiv';
-import ControlsTab from './Components/ControlsTab';
-import "./App.css";
+import "./index.css";
+import { Switch, Route } from "react-router-dom";
+import HomePage from "./Components/HomePage";
+import GamePage from "./Components/GamePage";
 
 function App() {
-  return <div className="App">
-    <Title />
-    <div className="Container">
-      <LeftDiv />
-      <Game />
-      <ControlsTab />
-    </div>
-  </div>;
+  return (
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/Gamepage" component={GamePage} />
+      <Route path="/About" component={HomePage} />
+      <Route path="/Timeline" component={HomePage} />
+    </Switch>
+  );
 }
 
 export default App;

@@ -1,6 +1,6 @@
-.App {
+.GamePage {
   background-color: #608863;
-  background-image: url("./img/background.svg");
+  background-image: url("/background_zelda.jpg");
   background-position: bottom right;
   background-repeat: no-repeat;
   min-height: calc(100vh);

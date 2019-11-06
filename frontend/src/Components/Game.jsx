@@ -2,7 +2,10 @@ import React from "react";
 import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
+import GameTopBar from "./GameTopBar";
+import Ruby from "./Ruby";
 import { tilesMap } from "./tilesMap.js";
+import NPC from "./NPC/NPC.jsx";
 
 class Game extends React.Component {
   constructor(props) {
@@ -11,10 +14,16 @@ class Game extends React.Component {
       x: 3,
       y: 4,
       keyName: "ArrowDown",
-      canMove: true,
       blocked: false,
-      direction: "down",
       canMove: true,
+      rubyCounter: 0,
+      rubyList: [
+        { x: 3, y: 5, rubyClass: "Ruby" },
+        { x: 6, y: 8, rubyClass: "Ruby" },
+        { x: 9, y: 12, rubyClass: "Ruby" },
+        { x: 15, y: 6, rubyClass: "Ruby" }
+      ],
+      direction: "down",
       NPC: {
         x: 10,
         y: 10,
@@ -30,8 +39,8 @@ class Game extends React.Component {
   }
 
   indexNPCmove = 0;
-  // Method which get inputs from the keyboard on all the screen
 
+  // Method which get inputs from the keyboard on all the screen
   componentDidMount() {
     window.onkeydown = event => {
       if (this.state.canMove) {
@@ -149,6 +158,32 @@ class Game extends React.Component {
       default:
         return;
     }
+    this.getRuby();
+  }
+
+  // This function check if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + incrementing rubyCounter by 1
+  getRuby() {
+    let xPlayer = this.state.x;
+    let yPlayer = this.state.y;
+    let newRubyList = this.state.rubyList;
+
+    for (let i = 0; i < newRubyList.length; i++) {
+      if (newRubyList[i].x === xPlayer && newRubyList[i].y === yPlayer) {
+        this.setState((newRubyList[i] = { rubyClass: "RubyTaken" }));
+        setTimeout(() => {
+          this.setState({
+            newRubyList: newRubyList.splice(i, 1),
+            rubyCounter: this.state.rubyCounter + 1
+          });
+        }, 200);
+        this.playRuby();
+      }
+    }
+  }
+
+  playRuby() {
+    const pickupRuby = new Audio("sound/getRuby.mp3");
+    pickupRuby.play();
   }
 
   attack(event) {
@@ -294,7 +329,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <div className="gameUI"></div>
+        <GameTopBar rubyCounter={this.state.rubyCounter} />
         <div className="gameScreen">
           <Map />
           <Player
@@ -303,6 +338,11 @@ class Game extends React.Component {
             y={this.state.y}
             blocked={this.state.blocked}
           />
+          {this.state.rubyList.map((ruby, index) => {
+            return (
+              <Ruby xRuby={ruby.x} yRuby={ruby.y} rubyClass={ruby.rubyClass} />
+            );
+          })}
           {this.state.NPC.isAlive && (
             <NPC
               NPCdirection={this.state.NPC.direction}
