@@ -33,11 +33,6 @@ class Game extends React.Component {
     };
   }
 
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
-  }
-
   indexNPCmove = 0;
 
   // Method which get inputs from the keyboard on all the screen
@@ -106,7 +101,7 @@ class Game extends React.Component {
             keyName: newKey
           });
         } else {
-          this.playBounce();
+          this.props.playBounce();
         }
         break;
 
@@ -121,7 +116,7 @@ class Game extends React.Component {
             keyName: newKey
           });
         } else {
-          this.playBounce();
+          this.props.playBounce();
         }
         break;
 
@@ -136,7 +131,7 @@ class Game extends React.Component {
             keyName: newKey
           });
         } else {
-          this.playBounce();
+          this.props.playBounce();
         }
 
         break;
@@ -152,7 +147,7 @@ class Game extends React.Component {
             keyName: newKey
           });
         } else {
-          this.playBounce();
+          this.props.playBounce();
         }
         break;
       default:
@@ -176,14 +171,9 @@ class Game extends React.Component {
             rubyCounter: this.state.rubyCounter + 1
           });
         }, 200);
-        this.playRuby();
+        this.props.playRuby();
       }
     }
-  }
-
-  playRuby() {
-    const pickupRuby = new Audio("sound/getRuby.mp3");
-    pickupRuby.play();
   }
 
   attack(event) {
