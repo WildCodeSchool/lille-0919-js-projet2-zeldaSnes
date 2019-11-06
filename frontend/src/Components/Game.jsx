@@ -2,6 +2,7 @@ import React from "react";
 import Map from "./Map";
 import "./Game.css";
 import Player from "./Player";
+import GameTopBar from "./GameTopBar";
 import Ruby from "./Ruby";
 import { tilesMap } from "./tilesMap.js";
 import NPC from "./NPC/NPC.jsx";
@@ -20,9 +21,8 @@ class Game extends React.Component {
         { x: 6, y: 8, rubyClass: "Ruby" },
         { x: 9, y: 12, rubyClass: "Ruby" },
         { x: 15, y: 6, rubyClass: "Ruby" }
-      ]
+      ],
       direction: "down",
-      canMove: true,
       NPC: {
         x: 10,
         y: 10,
@@ -33,8 +33,8 @@ class Game extends React.Component {
   }
 
   indexNPCmove = 0;
-  // Method which get inputs from the keyboard on all the screen
 
+  // Method which get inputs from the keyboard on all the screen
   componentDidMount() {
     window.onkeydown = event => {
       if (this.state.canMove) {
@@ -314,7 +314,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <div className="gameUI"></div>
+        <GameTopBar rubyCounter={this.state.rubyCounter} />
         <div className="gameScreen">
           <Map />
           <Player
