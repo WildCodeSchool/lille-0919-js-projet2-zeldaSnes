@@ -6,6 +6,7 @@ import GameTopBar from "./GameTopBar";
 import Ruby from "./Ruby";
 import { tilesMap } from "./tilesMap.js";
 import NPC from "./NPC/NPC.jsx";
+import NPCmoves from "./NPC/NPCmoves.jsx";
 
 class Game extends React.Component {
   constructor(props) {
@@ -56,7 +57,7 @@ class Game extends React.Component {
 
   makeNpcMove = setInterval(() => {
     if (this.state.NPC.isAlive) {
-      if (this.indexNPCmove > this.NPCmoves.length - 1) {
+      if (this.indexNPCmove > NPCmoves.length - 1) {
         this.indexNPCmove = 0;
       }
       this.NPCMove(this.indexNPCmove);
@@ -235,32 +236,11 @@ class Game extends React.Component {
       }
   }
 
-  NPCmoves = [
-    "up",
-    "up",
-    "left",
-    "left",
-    "left",
-    "left",
-    "down",
-    "down",
-    "down",
-    "down",
-    "down",
-    "right",
-    "right",
-    "right",
-    "right",
-    "up",
-    "up",
-    "up"
-  ];
-
   NPCMove(indexNPCmove) {
     let newNPCPositionX = this.state.NPC.x;
     let newNPCPositionY = this.state.NPC.y;
 
-    switch (this.NPCmoves[indexNPCmove]) {
+    switch (NPCmoves[indexNPCmove]) {
       case "left":
         newNPCPositionX = this.state.NPC.x - 1;
         break;
@@ -282,7 +262,7 @@ class Game extends React.Component {
           ...this.state.NPC,
           y: newNPCPositionY,
           x: newNPCPositionX,
-          direction: this.NPCmoves[indexNPCmove]
+          direction: NPCmoves[indexNPCmove]
         }
       });
       this.indexNPCmove += 1;
