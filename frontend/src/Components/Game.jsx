@@ -33,14 +33,7 @@ class Game extends React.Component {
     };
   }
 
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
-  }
-
-  indexNPCmove = 0;
-
-  // Method which get inputs from the keyboard on all the screen
+  // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
     window.onkeydown = event => {
       if (this.state.canMove) {
@@ -54,39 +47,9 @@ class Game extends React.Component {
     };
   }
 
-  makeNpcMove = setInterval(() => {
-    if (this.state.NPC.isAlive) {
-      if (this.indexNPCmove > this.NPCmoves.length - 1) {
-        this.indexNPCmove = 0;
-      }
-      this.NPCMove(this.indexNPCmove);
-    } else {
-      clearInterval(this.makeNpcMove);
-    }
-  }, 1000);
+  /* Player  Movement  */
 
-  isMovePossible(x, y) {
-    const topBorder = 0;
-    const leftBorder = 0;
-    const bottomBorder = 14;
-    const rightBorder = 19;
-    if (
-      rightBorder >= x &&
-      leftBorder <= x &&
-      bottomBorder >= y &&
-      topBorder <= y &&
-      !tilesMap[y][x].includes("Z") &&
-      (x !== this.state.NPC.x ||
-        y !== this.state.NPC.y ||
-        !this.state.NPC.isAlive)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
+  //  Method which get inputs from ComponentDidMount and send the movement to do on the Player
   getMovement(event) {
     let newKey = event.key;
     let newPosition;
@@ -160,8 +123,36 @@ class Game extends React.Component {
     }
     this.getRuby();
   }
+  // this method is a dependency of getMovement  that performs all the collision tests to determine whether to allow or to prevent movement of the player
+  isMovePossible(x, y) {
+    const topBorder = 0;
+    const leftBorder = 0;
+    const bottomBorder = 14;
+    const rightBorder = 19;
+    if (
+      rightBorder >= x &&
+      leftBorder <= x &&
+      bottomBorder >= y &&
+      topBorder <= y &&
+      !tilesMap[y][x].includes("Z") &&
+      (x !== this.state.NPC.x ||
+        y !== this.state.NPC.y ||
+        !this.state.NPC.isAlive)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  // this method is a dependency of getMovement that plays a sound effect when the player attempt to move on a blocking tile
+  playBounce() {
+    const bounce = new Audio("sound/Bounce.mp3");
+    bounce.play();
+  }
 
-  // This function check if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + incrementing rubyCounter by 1
+  /*  Ruby   */
+
+  // This function checks if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + increments rubyCounter by 1
   getRuby() {
     let xPlayer = this.state.x;
     let yPlayer = this.state.y;
@@ -180,60 +171,13 @@ class Game extends React.Component {
       }
     }
   }
-
+  // this method is a dependency of getRuby that plays a sound effect when the player collects a ruby
   playRuby() {
     const pickupRuby = new Audio("sound/getRuby.mp3");
     pickupRuby.play();
   }
 
-  attack(event) {
-    let newKeyCode = event.key;
-    if (newKeyCode === "e")
-      switch (this.state.direction) {
-        case "left":
-          if (this.state.NPC.x === this.state.x - 1) {
-            this.setState({
-              NPC: {
-                ...this.state.NPC,
-                isAlive: false
-              }
-            });
-          }
-          break;
-        case "up":
-          if (this.state.NPC.y === this.state.y - 1) {
-            this.setState({
-              NPC: {
-                ...this.state.NPC,
-                isAlive: false
-              }
-            });
-          }
-          break;
-        case "right":
-          if (this.state.NPC.x === this.state.x + 1) {
-            this.setState({
-              NPC: {
-                ...this.state.NPC,
-                isAlive: false
-              }
-            });
-          }
-          break;
-        case "down":
-          if (this.state.NPC.y === this.state.y + 1) {
-            this.setState({
-              NPC: {
-                ...this.state.NPC,
-                isAlive: false
-              }
-            });
-          }
-          break;
-        default:
-          break;
-      }
-  }
+  /*  NPC    */
 
   NPCmoves = [
     "up",
@@ -255,6 +199,8 @@ class Game extends React.Component {
     "up",
     "up"
   ];
+
+  indexNPCmove = 0;
 
   NPCMove(indexNPCmove) {
     let newNPCPosition = 0;
@@ -326,6 +272,68 @@ class Game extends React.Component {
       default:
         return;
     }
+  }
+
+  makeNpcMove = setInterval(() => {
+    if (this.state.NPC.isAlive) {
+      if (this.indexNPCmove > this.NPCmoves.length - 1) {
+        this.indexNPCmove = 0;
+      }
+      this.NPCMove(this.indexNPCmove);
+    } else {
+      clearInterval(this.makeNpcMove);
+    }
+  }, 1000);
+
+  /*   attack the NPC       */
+
+  attack(event) {
+    let newKeyCode = event.key;
+    if (newKeyCode === "e")
+      switch (this.state.direction) {
+        case "left":
+          if (this.state.NPC.x === this.state.x - 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
+          }
+          break;
+        case "up":
+          if (this.state.NPC.y === this.state.y - 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
+          }
+          break;
+        case "right":
+          if (this.state.NPC.x === this.state.x + 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
+          }
+          break;
+        case "down":
+          if (this.state.NPC.y === this.state.y + 1) {
+            this.setState({
+              NPC: {
+                ...this.state.NPC,
+                isAlive: false
+              }
+            });
+          }
+          break;
+        default:
+          break;
+      }
   }
 
   render() {
