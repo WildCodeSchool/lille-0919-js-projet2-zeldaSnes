@@ -92,72 +92,104 @@ class Game extends React.Component {
     let newPosition;
     let x = this.state.x;
     let y = this.state.y;
-    let newDirection = "down";
+    let newDirection;
 
-    switch (newKey) {
-      case "ArrowLeft":
-        event.preventDefault();
-        newPosition = x - 1;
-        newDirection = "left";
-        if (this.isMovePossible(x - 1, y)) {
-          this.setState({
-            direction: newDirection,
-            x: newPosition,
-            keyName: newKey
-          });
-        } else {
-          this.playBounce();
-        }
-        break;
+    if (newKey === this.state.keyName) {
+      switch (newKey) {
+        case "ArrowLeft":
+          event.preventDefault();
+          newPosition = x - 1;
+          newDirection = "left";
+          if (this.isMovePossible(x - 1, y)) {
+            this.setState({
+              direction: newDirection,
+              x: newPosition,
+              keyName: newKey
+            });
+          } else {
+            this.playBounce();
+          }
+          break;
 
-      case "ArrowUp":
-        event.preventDefault();
-        newPosition = y - 1;
-        newDirection = "up";
-        if (this.isMovePossible(x, y - 1)) {
-          this.setState({
-            direction: newDirection,
-            y: newPosition,
-            keyName: newKey
-          });
-        } else {
-          this.playBounce();
-        }
-        break;
+        case "ArrowUp":
+          event.preventDefault();
+          newPosition = y - 1;
+          newDirection = "up";
+          if (this.isMovePossible(x, y - 1)) {
+            this.setState({
+              direction: newDirection,
+              y: newPosition,
+              keyName: newKey
+            });
+          } else {
+            this.playBounce();
+          }
+          break;
 
-      case "ArrowRight":
-        event.preventDefault();
-        newPosition = x + 1;
-        newDirection = "right";
-        if (this.isMovePossible(x + 1, y)) {
-          this.setState({
-            direction: newDirection,
-            x: newPosition,
-            keyName: newKey
-          });
-        } else {
-          this.playBounce();
-        }
+        case "ArrowRight":
+          event.preventDefault();
+          newPosition = x + 1;
+          newDirection = "right";
+          if (this.isMovePossible(x + 1, y)) {
+            this.setState({
+              direction: newDirection,
+              x: newPosition,
+              keyName: newKey
+            });
+          } else {
+            this.playBounce();
+          }
 
-        break;
+          break;
 
-      case "ArrowDown":
-        event.preventDefault();
-        newPosition = y + 1;
-        newDirection = "down";
-        if (this.isMovePossible(x, y + 1)) {
-          this.setState({
-            direction: newDirection,
-            y: newPosition,
-            keyName: newKey
-          });
-        } else {
-          this.playBounce();
-        }
-        break;
-      default:
-        return;
+        case "ArrowDown":
+          event.preventDefault();
+          newPosition = y + 1;
+          newDirection = "down";
+          if (this.isMovePossible(x, y + 1)) {
+            this.setState({
+              direction: newDirection,
+              y: newPosition,
+              keyName: newKey
+            });
+          } else {
+            this.playBounce();
+          }
+          break;
+        default:
+          return;
+      }
     }
+    // if player can not move just change the asset direction
+    else {
+      switch (newKey) {
+        case "ArrowLeft":
+          event.preventDefault();
+          this.setState({
+            direction: "left",
+            keyName: newKey
+          });
+          break;
+
+        case "ArrowUp":
+          event.preventDefault();
+          this.setState({ direction: "up", keyName: newKey });
+          break;
+
+        case "ArrowRight":
+          event.preventDefault();
+          this.setState({ direction: "right", keyName: newKey });
+          break;
+
+        case "ArrowDown":
+          event.preventDefault();
+          this.setState({ direction: "down", keyName: newKey });
+          break;
+        default:
+          break;
+      }
+    }
+
     this.getRuby();
   }
 
