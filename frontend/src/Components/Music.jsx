@@ -21,7 +21,11 @@ class Music extends React.Component {
             this.toggleMusic();
           }}
         >
-          <p>Music</p>
+          <i
+            className={
+              this.state.canMusic ? "fas fa-volume-up" : "fas fa-volume-mute"
+            }
+          ></i>
         </button>
         <audio
           autoPlay
