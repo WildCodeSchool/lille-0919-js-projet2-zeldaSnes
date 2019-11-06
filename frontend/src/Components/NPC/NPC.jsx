@@ -24,17 +24,21 @@ class NPC extends React.Component {
   }
 
   render() {
-    return (
-      <div
-        className="NPC"
-        style={{
-          top: `${this.props.yNPC * 32}px`,
-          left: `${this.props.xNPC * 32}px`
-        }}
-      >
-        <img src={this.getAsset()} alt={"NPC"} />
-      </div>
-    );
+    if (this.props.mapNumber === this.props.NPCMap) {
+      return (
+        <div
+          className="NPC"
+          style={{
+            top: `${this.props.yNPC * 32}px`,
+            left: `${this.props.xNPC * 32}px`
+          }}
+        >
+          <img src={this.getAsset()} alt={"NPC"} />
+        </div>
+      );
+    } else {
+      return <div></div>;
+    }
   }
 }
 

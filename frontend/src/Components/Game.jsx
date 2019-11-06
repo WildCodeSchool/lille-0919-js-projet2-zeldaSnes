@@ -29,7 +29,8 @@ class Game extends React.Component {
         x: 10,
         y: 10,
         isAlive: true,
-        direction: "up"
+        direction: "up",
+        NPCMap: tilesMap
       }
     };
   }
@@ -236,7 +237,10 @@ class Game extends React.Component {
     if (newKeyCode === "e")
       switch (this.state.direction) {
         case "left":
-          if (this.state.NPC.x === this.state.x - 1) {
+          if (
+            this.state.NPC.x === this.state.x - 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -246,7 +250,10 @@ class Game extends React.Component {
           }
           break;
         case "up":
-          if (this.state.NPC.y === this.state.y - 1) {
+          if (
+            this.state.NPC.y === this.state.y - 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -256,7 +263,10 @@ class Game extends React.Component {
           }
           break;
         case "right":
-          if (this.state.NPC.x === this.state.x + 1) {
+          if (
+            this.state.NPC.x === this.state.x + 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -266,7 +276,10 @@ class Game extends React.Component {
           }
           break;
         case "down":
-          if (this.state.NPC.y === this.state.y + 1) {
+          if (
+            this.state.NPC.y === this.state.y + 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -402,6 +415,8 @@ class Game extends React.Component {
               NPCdirection={this.state.NPC.direction}
               xNPC={this.state.NPC.x}
               yNPC={this.state.NPC.y}
+              NPCMap={this.state.NPC.NPCMap}
+              mapNumber={this.state.mapNumber}
             />
           )}
         </div>
