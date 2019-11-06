@@ -71,6 +71,7 @@ class Game extends React.Component {
     const leftBorder = 0;
     const bottomBorder = 14;
     const rightBorder = 19;
+
     if (
       rightBorder >= x &&
       leftBorder <= x &&
@@ -90,7 +91,8 @@ class Game extends React.Component {
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
     let newKey = event.key;
-    let newPosition;
+    let newPositionX = this.state.x;
+    let newPositionY = this.state.y;
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
@@ -99,66 +101,42 @@ class Game extends React.Component {
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
-          newPosition = x - 1;
+          newPositionX = x - 1;
           newDirection = "left";
-          if (this.isMovePossible(x - 1, y)) {
-            this.setState({
-              direction: newDirection,
-              x: newPosition,
-              keyName: newKey
-            });
-          } else {
-            this.playBounce();
-          }
+
           break;
 
         case "ArrowUp":
           event.preventDefault();
-          newPosition = y - 1;
+          newPositionY = y - 1;
           newDirection = "up";
-          if (this.isMovePossible(x, y - 1)) {
-            this.setState({
-              direction: newDirection,
-              y: newPosition,
-              keyName: newKey
-            });
-          } else {
-            this.playBounce();
-          }
+
           break;
 
         case "ArrowRight":
           event.preventDefault();
-          newPosition = x + 1;
+          newPositionX = x + 1;
           newDirection = "right";
-          if (this.isMovePossible(x + 1, y)) {
-            this.setState({
-              direction: newDirection,
-              x: newPosition,
-              keyName: newKey
-            });
-          } else {
-            this.playBounce();
-          }
-
           break;
 
         case "ArrowDown":
           event.preventDefault();
-          newPosition = y + 1;
+          newPositionY = y + 1;
           newDirection = "down";
-          if (this.isMovePossible(x, y + 1)) {
-            this.setState({
-              direction: newDirection,
-              y: newPosition,
-              keyName: newKey
-            });
-          } else {
-            this.playBounce();
-          }
           break;
         default:
           return;
+      }
+      if (this.isMovePossible(newPositionX, newPositionY)) {
+        console.log("ok");
+        this.setState({
+          direction: newDirection,
+          x: newPositionX,
+          y: newPositionY,
+          keyName: newKey
+        });
+      } else {
+        this.playBounce();
       }
     }
     //if player can not move just change the asset direction
