@@ -55,3 +55,9 @@
   font-size: 18px;
   align-self: center;
 }
+
+@media screen and (max-width: 1000px) {
+  .gameTopBar {
+    display: none;
+  }
+}
