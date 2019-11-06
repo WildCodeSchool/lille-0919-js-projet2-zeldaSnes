@@ -12,14 +12,7 @@ class Game extends React.Component {
       y: 4,
       keyName: "ArrowDown",
       canMove: true,
-      blocked: false
-    };
-  }
-
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
-  }
+      blocked: false,
       direction: "down",
       canMove: true,
       NPC: {
@@ -29,6 +22,11 @@ class Game extends React.Component {
         direction: "up"
       }
     };
+  }
+
+  playBounce() {
+    const bounce = new Audio("sound/Bounce.mp3");
+    bounce.play();
   }
 
   indexNPCmove = 0;
