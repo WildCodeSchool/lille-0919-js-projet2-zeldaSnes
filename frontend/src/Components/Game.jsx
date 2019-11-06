@@ -160,7 +160,7 @@ class Game extends React.Component {
           return;
       }
     }
-    // if player can not move just change the asset direction
+    //if player can not move just change the asset direction
     else {
       switch (newKey) {
         case "ArrowLeft":
