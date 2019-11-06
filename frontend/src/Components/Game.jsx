@@ -4,7 +4,7 @@ import "./Game.css";
 import Player from "./Player";
 import GameTopBar from "./GameTopBar";
 import Ruby from "./Ruby";
-import { tilesMap } from "./tilesMap.js";
+import { tilesMap, tilesMap2 } from "./tilesMap.js";
 import NPC from "./NPC/NPC.jsx";
 
 class Game extends React.Component {
@@ -16,6 +16,7 @@ class Game extends React.Component {
       keyName: "ArrowDown",
       blocked: false,
       canMove: true,
+      mapNumber: tilesMap,
       rubyCounter: 0,
       rubyList: [
         { x: 3, y: 5, rubyClass: "Ruby" },
@@ -88,12 +89,26 @@ class Game extends React.Component {
 
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
+    if (this.state.x === 3 && this.state.y === 4 && event.key === "ArrowUp") {
+      return (
+        this.setState({
+          y: 3,
+          x: 5,
+          mapNumber: tilesMap2,
+          shouldUpdate: true
+        }),
+        this.setState({
+          shouldUpdate: false
+        })
+      );
+    }
     let newKey = event.key;
     let newPosition;
     let x = this.state.x;
     let y = this.state.y;
-    let newDirection = "down";
-
+    let newDirection;
+    if (this.state.x === 19 && this.state.y === 4 && newDirection === "top") {
+    }
     switch (newKey) {
       case "ArrowLeft":
         event.preventDefault();
@@ -331,7 +346,10 @@ class Game extends React.Component {
       <div className="game">
         <GameTopBar rubyCounter={this.state.rubyCounter} />
         <div className="gameScreen">
-          <Map />
+          <Map
+            mapNumber={this.state.mapNumber}
+            shouldUpdate={this.state.shouldUpdate}
+          />
           <Player
             keyName={this.state.keyName}
             x={this.state.x}
