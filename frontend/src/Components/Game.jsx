@@ -17,6 +17,7 @@ class Game extends React.Component {
       blocked: false,
       canMove: true,
       mapNumber: tilesMap,
+      shouldUpdate: false,
       rubyCounter: 0,
       rubyList: [
         { x: 3, y: 5, rubyClass: "Ruby", rubyMap: tilesMap },
