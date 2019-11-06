@@ -25,10 +25,11 @@ class Map extends React.Component {
   render() {
     return (
       <div className="map">
-        {tilesMap.map(row =>
-          row.map(tile => {
+        {tilesMap.map((row, rowIndex) =>
+          row.map((tile, tileIndex) => {
             return (
               <div
+                key={[rowIndex, tileIndex]}
                 style={{
                   background: `url(/tiles/${
                     tile === "v001" ? this.randomGrass() : tileNames[tile]
