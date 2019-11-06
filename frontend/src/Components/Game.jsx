@@ -29,7 +29,8 @@ class Game extends React.Component {
         y: 10,
         isAlive: true,
         direction: "up"
-      }
+      },
+      pressKey: 0
     };
   }
 
@@ -189,7 +190,7 @@ class Game extends React.Component {
           break;
       }
     }
-
+    this.setState({ pressKey: this.state.pressKey + 1 });
     this.getRuby();
   }
 
@@ -369,6 +370,8 @@ class Game extends React.Component {
             x={this.state.x}
             y={this.state.y}
             blocked={this.state.blocked}
+            canMove={this.state.canMove}
+            pressKey={this.state.pressKey}
           />
           {this.state.rubyList.map((ruby, index) => {
             return (

@@ -9,7 +9,8 @@ class Player extends React.Component {
     this.state = {
       assetHeight: 32,
       assetWidth: 32,
-      asset: "link/linkFront/linkFront-Step4.png"
+      asset: "link/linkFront/linkFront-Step4.png",
+      mouvementAnimation: true
     };
   }
   assetAnimation(direction) {
@@ -20,12 +21,10 @@ class Player extends React.Component {
         });
       }, delay);
     }
-    console.log(this.state.asset);
   }
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
     let newKey = this.props.keyName;
-    console.log(newKey);
     if (this.props.keyName === newKey) {
       switch (newKey) {
         case "ArrowLeft":
@@ -47,8 +46,15 @@ class Player extends React.Component {
       }
     }
   }
-  componentWillReceiveProps() {
-    this.getAsset();
+
+  componentDidUpdate(prevProps) {
+    console.log("------");
+    //console.log(prevProps.keyName);
+    console.log(this.props.keyName);
+    console.log("------");
+    if (prevProps.pressKey !== this.props.pressKey) {
+      this.getAsset();
+    }
   }
 
   render() {
