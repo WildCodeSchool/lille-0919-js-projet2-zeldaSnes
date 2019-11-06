@@ -128,42 +128,6 @@ class Game extends React.Component {
 
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
-    // if (
-    //   this.state.x === 3 &&
-    //   this.state.y === 4 &&
-    //   event.key === "ArrowUp" &&
-    //   this.state.mapNumber === tilesMap
-    // ) {
-    //   return (
-    //     this.setState({
-    //       y: 10,
-    //       x: 10,
-    //       mapNumber: tilesMap2,
-    //       shouldUpdate: true
-    //     }),
-    //     this.setState({
-    //       shouldUpdate: false
-    //     })
-    //   );
-    // }
-    // if (
-    //   this.state.x === 10 &&
-    //   this.state.y === 10 &&
-    //   event.key === "ArrowDown" &&
-    //   this.state.mapNumber === tilesMap2
-    // ) {
-    //   return (
-    //     this.setState({
-    //       y: 4,
-    //       x: 3,
-    //       mapNumber: tilesMap,
-    //       shouldUpdate: true
-    //     }),
-    //     this.setState({
-    //       shouldUpdate: false
-    //     })
-    //   );
-    // }
     let newKey = event.key;
     let newPosition;
     let x = this.state.x;
