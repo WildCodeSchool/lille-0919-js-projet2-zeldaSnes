@@ -23,7 +23,8 @@ class Game extends React.Component {
         { x: 3, y: 5, rubyClass: "Ruby", rubyMap: tilesMap },
         { x: 6, y: 8, rubyClass: "Ruby", rubyMap: tilesMap },
         { x: 9, y: 12, rubyClass: "Ruby", rubyMap: tilesMap },
-        { x: 15, y: 6, rubyClass: "Ruby", rubyMap: tilesMap }
+        { x: 15, y: 6, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 3, y: 4, rubyClass: "Ruby", rubyMap: tilesMap2 }
       ],
       direction: "down",
       NPC: {
