@@ -373,7 +373,7 @@ class Game extends React.Component {
             canMove={this.state.canMove}
             pressKey={this.state.pressKey}
           />
-          {this.state.rubyList.map((ruby, index) => {
+          {this.state.rubyList.map(ruby => {
             return (
               <Ruby xRuby={ruby.x} yRuby={ruby.y} rubyClass={ruby.rubyClass} />
             );

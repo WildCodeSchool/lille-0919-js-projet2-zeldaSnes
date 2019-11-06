@@ -48,10 +48,6 @@ class Player extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log("------");
-    //console.log(prevProps.keyName);
-    console.log(this.props.keyName);
-    console.log("------");
     if (prevProps.pressKey !== this.props.pressKey) {
       this.getAsset();
     }
