@@ -51,6 +51,7 @@ class Game extends React.Component {
         }, 120);
         this.getMovement(event);
       }
+      this.mapModification(event);
       this.attack(event);
     };
   }
@@ -76,7 +77,7 @@ class Game extends React.Component {
       leftBorder <= x &&
       bottomBorder >= y &&
       topBorder <= y &&
-      !tilesMap[y][x].includes("Z") &&
+      !this.state.mapNumber[y][x].includes("Z") &&
       (x !== this.state.NPC.x ||
         y !== this.state.NPC.y ||
         !this.state.NPC.isAlive)
@@ -86,14 +87,17 @@ class Game extends React.Component {
       return false;
     }
   }
-
-  //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
-  getMovement(event) {
-    if (this.state.x === 3 && this.state.y === 4 && event.key === "ArrowUp") {
+  mapModification(event) {
+    if (
+      this.state.x === 3 &&
+      this.state.y === 3 &&
+      event.key === "ArrowUp" &&
+      this.state.mapNumber === tilesMap
+    ) {
       return (
         this.setState({
-          y: 3,
-          x: 5,
+          y: 10,
+          x: 10,
           mapNumber: tilesMap2,
           shouldUpdate: true
         }),
@@ -102,6 +106,64 @@ class Game extends React.Component {
         })
       );
     }
+    if (
+      this.state.x === 10 &&
+      this.state.y === 11 &&
+      event.key === "ArrowDown" &&
+      this.state.mapNumber === tilesMap2
+    ) {
+      return (
+        this.setState({
+          y: 4,
+          x: 3,
+          mapNumber: tilesMap,
+          shouldUpdate: true
+        }),
+        this.setState({
+          shouldUpdate: false
+        })
+      );
+    }
+  }
+
+  //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
+  getMovement(event) {
+    // if (
+    //   this.state.x === 3 &&
+    //   this.state.y === 4 &&
+    //   event.key === "ArrowUp" &&
+    //   this.state.mapNumber === tilesMap
+    // ) {
+    //   return (
+    //     this.setState({
+    //       y: 10,
+    //       x: 10,
+    //       mapNumber: tilesMap2,
+    //       shouldUpdate: true
+    //     }),
+    //     this.setState({
+    //       shouldUpdate: false
+    //     })
+    //   );
+    // }
+    // if (
+    //   this.state.x === 10 &&
+    //   this.state.y === 10 &&
+    //   event.key === "ArrowDown" &&
+    //   this.state.mapNumber === tilesMap2
+    // ) {
+    //   return (
+    //     this.setState({
+    //       y: 4,
+    //       x: 3,
+    //       mapNumber: tilesMap,
+    //       shouldUpdate: true
+    //     }),
+    //     this.setState({
+    //       shouldUpdate: false
+    //     })
+    //   );
+    // }
     let newKey = event.key;
     let newPosition;
     let x = this.state.x;
