@@ -19,10 +19,10 @@ class Game extends React.Component {
       mapNumber: tilesMap,
       rubyCounter: 0,
       rubyList: [
-        { x: 3, y: 5, rubyClass: "Ruby" },
-        { x: 6, y: 8, rubyClass: "Ruby" },
-        { x: 9, y: 12, rubyClass: "Ruby" },
-        { x: 15, y: 6, rubyClass: "Ruby" }
+        { x: 3, y: 5, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 6, y: 8, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 9, y: 12, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 15, y: 6, rubyClass: "Ruby", rubyMap: tilesMap }
       ],
       direction: "down",
       NPC: {
@@ -209,7 +209,11 @@ class Game extends React.Component {
     let newRubyList = this.state.rubyList;
 
     for (let i = 0; i < newRubyList.length; i++) {
-      if (newRubyList[i].x === xPlayer && newRubyList[i].y === yPlayer) {
+      if (
+        newRubyList[i].x === xPlayer &&
+        newRubyList[i].y === yPlayer &&
+        newRubyList[i].rubyMap === this.state.mapNumber
+      ) {
         this.setState((newRubyList[i] = { rubyClass: "RubyTaken" }));
         setTimeout(() => {
           this.setState({
@@ -384,7 +388,13 @@ class Game extends React.Component {
           />
           {this.state.rubyList.map((ruby, index) => {
             return (
-              <Ruby xRuby={ruby.x} yRuby={ruby.y} rubyClass={ruby.rubyClass} />
+              <Ruby
+                xRuby={ruby.x}
+                yRuby={ruby.y}
+                rubyClass={ruby.rubyClass}
+                rubyMap={ruby.rubyMap}
+                mapNumber={this.state.mapNumber}
+              />
             );
           })}
           {this.state.NPC.isAlive && (
