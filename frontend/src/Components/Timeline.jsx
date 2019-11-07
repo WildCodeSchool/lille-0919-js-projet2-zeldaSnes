@@ -61,6 +61,33 @@ class TimeLine extends React.Component {
     return (
       <div className="Timeline">
         <h1>Zelda games Timeline</h1>
+        {this.state.zeldaData ? (
+          <Timeline className="Timeline">
+            {this.state.zeldaData ? (
+              this.state.zeldaData.map((game, i) => {
+                return (
+                  <TimelineItem
+                    key={i}
+                    dateText={game.expected_release_year}
+                    style={{ color: "#287e25" }}
+                  >
+                    <a href={game.image.original_url}>
+                      <img src={game.image.small_url} alt="" />
+                    </a>
+                    <div>
+                      <h3>{game.name}</h3>
+                      <p>{game.deck}</p>
+                    </div>
+                  </TimelineItem>
+                );
+              })
+            ) : (
+              <div>Nothing to show now</div>
+            )}
+          </Timeline>
+        ) : (
+          <div id="loadingPage">Loading, please wait...</div>
+        )}
       </div>
     );
   }
