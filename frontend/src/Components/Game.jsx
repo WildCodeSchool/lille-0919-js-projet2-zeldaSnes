@@ -13,6 +13,7 @@ class Game extends React.Component {
     this.state = {
       x: 3,
       y: 4,
+      HP: 6,
       keyName: "ArrowDown",
       blocked: false,
       canMove: true,
@@ -38,8 +39,6 @@ class Game extends React.Component {
     bounce.play();
   }
 
-  indexNPCmove = 0;
-
   // Method which get inputs from the keyboard on all the screen
   componentDidMount() {
     window.onkeydown = event => {
@@ -54,16 +53,70 @@ class Game extends React.Component {
     };
   }
 
+  pathFinding(xNPC, yNPC, x, y) {
+    const easystarjs = require("easystarjs");
+    const easystar = new easystarjs.js();
+
+    const grid = tilesMap.map(row =>
+      row.map(tile => {
+        return tile.includes("Z") ? (tile = 1) : (tile = 0);
+      })
+    );
+
+    easystar.setGrid(grid);
+    easystar.setIterationsPerCalculation(1000);
+    easystar.setAcceptableTiles([0]);
+
+    easystar.findPath(xNPC, yNPC, x, y, path => {
+      if (path.length > 0) {
+        let newx = path[1].x;
+        let newy = path[1].y;
+        if (newx - xNPC !== 0) {
+          if (xNPC - newx > 0) {
+            this.state.NPC.direction = "left";
+          } else {
+            this.state.NPC.direction = "right";
+          }
+        } else {
+          if (yNPC - newy > 0) {
+            this.state.NPC.direction = "up";
+          } else {
+            this.state.NPC.direction = "down";
+          }
+        }
+        if (newx !== this.state.x || newy !== this.state.y) {
+          this.setState({
+            NPC: {
+              ...this.state.NPC,
+              x: newx,
+              y: newy
+            }
+          });
+        } else {
+          let newHP = this.state.HP - 1;
+          this.setState({
+            ...this.state,
+            HP: newHP
+          });
+        }
+      }
+    });
+
+    easystar.calculate();
+  }
+
   makeNpcMove = setInterval(() => {
     if (this.state.NPC.isAlive) {
-      if (this.indexNPCmove > this.NPCmoves.length - 1) {
-        this.indexNPCmove = 0;
-      }
-      this.NPCMove(this.indexNPCmove);
+      this.pathFinding(
+        this.state.NPC.x,
+        this.state.NPC.y,
+        this.state.x,
+        this.state.y
+      );
     } else {
       clearInterval(this.makeNpcMove);
     }
-  }, 1000);
+  }, 300);
 
   isMovePossible(x, y) {
     const topBorder = 0;
@@ -231,99 +284,6 @@ class Game extends React.Component {
           }
           break;
       }
-  }
-
-  NPCmoves = [
-    "up",
-    "up",
-    "left",
-    "left",
-    "left",
-    "left",
-    "down",
-    "down",
-    "down",
-    "down",
-    "down",
-    "right",
-    "right",
-    "right",
-    "right",
-    "up",
-    "up",
-    "up"
-  ];
-
-  NPCMove(indexNPCmove) {
-    let newNPCPosition = 0;
-    switch (this.NPCmoves[indexNPCmove]) {
-      case "left":
-        newNPCPosition = this.state.NPC.x - 1;
-        if (
-          newNPCPosition !== this.state.x ||
-          this.state.y !== this.state.NPC.y
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              x: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      case "up":
-        newNPCPosition = this.state.NPC.y - 1;
-        if (
-          newNPCPosition !== this.state.y ||
-          this.state.x !== this.state.xNPC
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              y: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      case "right":
-        newNPCPosition = this.state.NPC.x + 1;
-        if (
-          newNPCPosition !== this.state.x ||
-          this.state.y !== this.state.yNPC
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              x: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      case "down":
-        newNPCPosition = this.state.NPC.y + 1;
-        if (
-          newNPCPosition !== this.state.y ||
-          this.state.x !== this.state.xNPC
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              y: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      default:
-        return;
-    }
   }
 
   render() {
