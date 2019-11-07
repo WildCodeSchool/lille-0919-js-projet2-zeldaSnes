@@ -33,7 +33,8 @@ class Game extends React.Component {
         isAlive: true,
         direction: "up",
         NPCMap: tilesMap
-      }
+      },
+      transition: 0.3
     };
   }
 
@@ -102,11 +103,13 @@ class Game extends React.Component {
           y: 10,
           x: 10,
           mapNumber: tilesMap2,
-          shouldUpdate: true
+          shouldUpdate: true,
+          transition: 0
         }),
         this.setState({
           shouldUpdate: false
-        })
+        }),
+        setTimeout(() => this.setState({ transition: 0.3 }), 300)
       );
     }
     if (
@@ -120,11 +123,13 @@ class Game extends React.Component {
           y: 4,
           x: 3,
           mapNumber: tilesMap,
-          shouldUpdate: true
+          shouldUpdate: true,
+          transition: 0
         }),
         this.setState({
           shouldUpdate: false
-        })
+        }),
+        setTimeout(() => this.setState({ transition: 0.3 }), 300)
       );
     }
   }
@@ -400,6 +405,7 @@ class Game extends React.Component {
             x={this.state.x}
             y={this.state.y}
             blocked={this.state.blocked}
+            transition={this.state.transition}
           />
           {this.state.rubyList.map((ruby, index) => {
             return (
