@@ -1,5 +1,7 @@
 import React from "react";
+import "./Timeline.css";
 import axios from "axios";
+import { Timeline, TimelineItem } from "vertical-timeline-component-for-react";
 
 class TimeLine extends React.Component {
   constructor(props) {
