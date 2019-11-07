@@ -42,11 +42,40 @@ class Game extends React.Component {
     const bounce = new Audio("sound/Bounce.mp3");
     bounce.play();
   }
+  supportsGamepads() {
+    console.log("ok");
+    return !!navigator.getGamepads;
+  }
+
+  testGamepad() {
+    let gamepads = navigator.getGamepads();
+    for (let i = 0; i < gamepads.length; i++) {
+      console.log("Gamepad " + i + ":");
+
+      if (gamepads[i] === null) {
+        console.log("[null]");
+        continue;
+      }
+
+      if (!gamepads[i].connected) {
+        console.log("[disconnected]");
+        continue;
+      }
+
+      console.log("    Index: " + gamepads[i].index);
+      console.log("    ID: " + gamepads[i].id);
+      console.log("    Axes: " + gamepads[i].axes.length);
+      console.log("    Buttons: " + gamepads[i].buttons.length);
+      console.log("    Mapping: " + gamepads[i].mapping);
+    }
+  }
 
   indexNPCmove = 0;
 
   // Method which get inputs from the keyboard on all the screen
   componentDidMount() {
+    this.testGamepad();
+    this.supportsGamepads();
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -141,6 +170,8 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
+    this.testGamepad();
+
     if (this.state.x === 19 && this.state.y === 4 && newDirection === "top") {
     }
     switch (newKey) {
