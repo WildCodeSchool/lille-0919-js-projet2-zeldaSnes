@@ -13,6 +13,7 @@ class Game extends React.Component {
     this.state = {
       x: 3,
       y: 4,
+      HP: 8,
       keyName: "ArrowDown",
       blocked: false,
       canMove: true,
@@ -329,7 +330,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <GameTopBar rubyCounter={this.state.rubyCounter} />
+        <GameTopBar rubyCounter={this.state.rubyCounter} HP={this.state.HP} />
         <div className="gameScreen">
           <Map />
           <Player
