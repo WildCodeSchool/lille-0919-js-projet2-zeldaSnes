@@ -10,7 +10,8 @@ class Player extends React.Component {
       assetHeight: 32,
       assetWidth: 32,
       asset: "link/linkFront/linkFront-Step4.png",
-      mouvementAnimation: true
+      mouvementAnimation: true,
+      canAttack: true
     };
   }
   assetAnimation(direction) {
@@ -22,10 +23,35 @@ class Player extends React.Component {
       }, delay);
     }
   }
+
+  attackAnimation() {
+    if (this.state.canAttack === true) {
+      let oldprop = this.state.asset;
+      console.log(oldprop);
+      this.setState({
+        asset: `link/linkFront/attackFront.png`,
+        canAttack: false
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            asset: oldprop,
+            canAttack: true
+          }),
+        300
+      );
+    }
+  }
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
     let newKey = this.props.keyName;
-    if (this.props.keyName === newKey) {
+    console.log(this.props.keyName);
+    console.log(this.props.attackAction);
+
+    if (this.props.attackAction === true) {
+      this.attackAnimation();
+      console.log("attack");
+    } else if (this.props.keyName === newKey) {
       switch (newKey) {
         case "ArrowLeft":
           this.assetAnimation("Left");

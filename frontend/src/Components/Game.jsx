@@ -30,7 +30,8 @@ class Game extends React.Component {
         isAlive: true,
         direction: "up"
       },
-      pressKey: 0
+      pressKey: 0,
+      attackAction: false
     };
   }
 
@@ -96,8 +97,12 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
-
-    if (newKey === this.state.keyName) {
+    console.log(newKey);
+    if (newKey === "e") {
+      console.log("e tapé");
+      this.setState({ attackAction: true });
+      setTimeout(() => this.setState({ attackAction: false }), 200);
+    } else if (newKey === this.state.keyName) {
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
@@ -124,11 +129,11 @@ class Game extends React.Component {
           newPositionY = y + 1;
           newDirection = "down";
           break;
+
         default:
           return;
       }
       if (this.isMovePossible(newPositionX, newPositionY)) {
-        console.log("ok");
         this.setState({
           direction: newDirection,
           x: newPositionX,
@@ -350,6 +355,7 @@ class Game extends React.Component {
             blocked={this.state.blocked}
             canMove={this.state.canMove}
             pressKey={this.state.pressKey}
+            attackAction={this.state.attackAction}
           />
           {this.state.rubyList.map(ruby => {
             return (
