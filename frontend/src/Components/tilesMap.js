@@ -74,7 +74,7 @@ const tileNames = {                 /* v = vegetal, w = water, g = ground, b = b
     'o001': 'floorSword',
     'o002Z': 'sign',
     'm001Z': 'blacktile',
-    'm002': 'whitetile'
+    'm002': 'houseDoor'
 }
 
 
