@@ -17,6 +17,7 @@ class Game extends React.Component {
       blocked: false,
       canMove: true,
       rubyCounter: 0,
+      gampadConnected: false,
       rubyList: [
         { x: 3, y: 5, rubyClass: "Ruby" },
         { x: 6, y: 8, rubyClass: "Ruby" },
@@ -134,10 +135,12 @@ class Game extends React.Component {
     window.addEventListener("gamepadconnected", event => {
       console.log("Gamepad connected");
       console.log(event.gamepad);
+      this.setState({ gampadConnected: true });
     });
     window.addEventListener("gamepaddisconnected", event => {
       console.log("Gamepad disconnected");
       console.log(event.gamepad);
+      this.setState({ gampadConnected: false });
     });
     const gamepadDisplay = document.getElementById("gamepad-display");
     let update = () => {
@@ -159,7 +162,7 @@ class Game extends React.Component {
           ]
         };
         console.log("boblbo");
-        gamepadDisplay.textContent = JSON.stringify(gamepadState, null, 2);
+
         this.setState({ buttonPressed: gamepadState });
       }
       window.requestAnimationFrame(update);
@@ -472,7 +475,7 @@ class Game extends React.Component {
               yNPC={this.state.NPC.y}
             />
           )}
-          <pre id="gamepad-display"></pre>
+          <p>{this.state.gampadConnected ? "GamePadConnected" : ""}</p>
         </div>
       </div>
     );
