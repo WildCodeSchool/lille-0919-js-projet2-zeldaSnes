@@ -63,7 +63,8 @@ class Game extends React.Component {
       if (this.isMovePossible(x, y + 1)) {
         this.setState({
           direction: newDirection,
-          y: newPosition
+          y: newPosition,
+          keyName: "ArrowDown"
         });
       }
     } else if (this.state.buttonPressed.axes[1] === "-1.00") {
@@ -72,7 +73,8 @@ class Game extends React.Component {
       if (this.isMovePossible(x, y - 1)) {
         this.setState({
           direction: newDirection,
-          y: newPosition
+          y: newPosition,
+          keyName: "ArrowUp"
         });
       }
     } else if (this.state.buttonPressed.axes[0] === "-1.00") {
@@ -81,7 +83,8 @@ class Game extends React.Component {
       if (this.isMovePossible(x - 1, y)) {
         this.setState({
           direction: newDirection,
-          x: newPosition
+          x: newPosition,
+          keyName: "ArrowLeft"
         });
       }
     } else if (this.state.buttonPressed.axes[0] === "1.00") {
@@ -90,10 +93,12 @@ class Game extends React.Component {
       if (this.isMovePossible(x + 1, y)) {
         this.setState({
           direction: newDirection,
-          x: newPosition
+          x: newPosition,
+          keyName: "ArrowRight"
         });
       }
     }
+    this.getRuby();
   }
   componentDidUpdate(prevProps) {
     if (
