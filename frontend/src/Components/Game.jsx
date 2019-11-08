@@ -99,6 +99,7 @@ class Game extends React.Component {
       }
     }
     this.getRuby();
+    this.attack(this.state.keyName);
   }
   componentDidUpdate(prevProps) {
     if (
