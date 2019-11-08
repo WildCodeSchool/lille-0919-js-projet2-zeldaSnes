@@ -66,8 +66,7 @@ class Game extends React.Component {
           y: newPosition
         });
       }
-    }
-    if (this.state.buttonPressed.axes[1] === "-1.00") {
+    } else if (this.state.buttonPressed.axes[1] === "-1.00") {
       newPosition = y - 1;
       newDirection = "up";
       if (this.isMovePossible(x, y - 1)) {
@@ -76,8 +75,7 @@ class Game extends React.Component {
           y: newPosition
         });
       }
-    }
-    if (this.state.buttonPressed.axes[0] === "-1.00") {
+    } else if (this.state.buttonPressed.axes[0] === "-1.00") {
       newPosition = x - 1;
       newDirection = "left";
       if (this.isMovePossible(x - 1, y)) {
@@ -86,8 +84,7 @@ class Game extends React.Component {
           x: newPosition
         });
       }
-    }
-    if (this.state.buttonPressed.axes[0] === "1.00") {
+    } else if (this.state.buttonPressed.axes[0] === "1.00") {
       newPosition = x + 1;
       newDirection = "rigth";
       if (this.isMovePossible(x + 1, y)) {
@@ -251,7 +248,7 @@ class Game extends React.Component {
 
         break;
 
-      case "ArrowDown" || this.state.buttonPressed.axes[1].includes("1"):
+      case "ArrowDown":
         console.log(typeof this.state.buttonPressed.axes[1]);
         console.log("au dessus");
         event.preventDefault();
