@@ -356,6 +356,7 @@ class Game extends React.Component {
             canMove={this.state.canMove}
             pressKey={this.state.pressKey}
             attackAction={this.state.attackAction}
+            direction={this.state.direction}
           />
           {this.state.rubyList.map(ruby => {
             return (

@@ -27,11 +27,33 @@ class Player extends React.Component {
   attackAnimation() {
     if (this.state.canAttack === true) {
       let oldprop = this.state.asset;
-      console.log(oldprop);
-      this.setState({
-        asset: `link/linkFront/attackFront.png`,
-        canAttack: false
-      });
+      switch (this.props.direction) {
+        case "down":
+          this.setState({
+            asset: `link/linkFront/attackFront.png`,
+            canAttack: false
+          });
+          break;
+        case "up":
+          this.setState({
+            asset: `link/linkBack/attackBack.png`,
+            canAttack: false
+          });
+          break;
+        case "right":
+          this.setState({
+            asset: `link/linkFront/attackFront.png`,
+            canAttack: false
+          });
+          break;
+        case "left":
+          this.setState({
+            asset: `link/linkFront/attackFront.png`,
+            canAttack: false
+          });
+          break;
+      }
+
       setTimeout(
         () =>
           this.setState({
@@ -45,8 +67,6 @@ class Player extends React.Component {
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
     let newKey = this.props.keyName;
-    console.log(this.props.keyName);
-    console.log(this.props.attackAction);
 
     if (this.props.attackAction === true) {
       this.attackAnimation();
