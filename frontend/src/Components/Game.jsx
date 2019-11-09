@@ -97,9 +97,8 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
-    console.log(newKey);
+
     if (newKey === "e") {
-      console.log("e tapé");
       this.setState({ attackAction: true });
       setTimeout(() => this.setState({ attackAction: false }), 200);
     } else if (newKey === this.state.keyName) {

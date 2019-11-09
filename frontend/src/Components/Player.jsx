@@ -70,7 +70,6 @@ class Player extends React.Component {
 
     if (this.props.attackAction === true) {
       this.attackAnimation();
-      console.log("attack");
     } else if (this.props.keyName === newKey) {
       switch (newKey) {
         case "ArrowLeft":
