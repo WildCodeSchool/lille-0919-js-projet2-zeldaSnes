@@ -42,13 +42,13 @@ class Player extends React.Component {
           break;
         case "right":
           this.setState({
-            asset: `link/linkFront/attackFront.png`,
+            asset: `link/linkRight/attackRight.png`,
             canAttack: false
           });
           break;
         case "left":
           this.setState({
-            asset: `link/linkFront/attackFront.png`,
+            asset: `link/linkLeft/attackLeft.png`,
             canAttack: false
           });
           break;
@@ -101,7 +101,11 @@ class Player extends React.Component {
   render() {
     return (
       <div
-        className="player"
+        className={
+          this.state.asset === "link/linkLeft/attackLeft.png"
+            ? "player attackLeft"
+            : "player"
+        }
         style={{
           top: `${this.props.y * this.state.assetHeight}px`,
           left: `${this.props.x * this.state.assetWidth}px`
