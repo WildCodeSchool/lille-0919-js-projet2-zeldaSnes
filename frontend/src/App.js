@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import HomePage from "./Components/HomePage";
 import GamePage from "./Components/GamePage";
 import AboutPage from './Components/AboutPage';
+import Timeline from "./Components/Timeline";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       <Route exact path="/" component={HomePage} />
       <Route path="/Gamepage" component={GamePage} />
       <Route path="/About" component={AboutPage} />
-      <Route path="/Timeline" component={HomePage} />
+      <Route path="/Timeline" component={Timeline} />
     </Switch>
   );
 }
