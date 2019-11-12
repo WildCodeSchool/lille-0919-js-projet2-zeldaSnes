@@ -347,8 +347,6 @@ class Game extends React.Component {
     this.getSword();
   }
 
-  playBounce() {}
-
   // This function check if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + incrementing rubyCounter by 1
   getRuby() {
     let xPlayer = this.state.x;
