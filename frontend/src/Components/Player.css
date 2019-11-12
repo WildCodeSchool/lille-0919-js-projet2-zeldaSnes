@@ -1,3 +1,10 @@
 .player {
   position: absolute;
+  display: flex;
+}
+
+.attackLeft::before {
+  position: absolute;
+  right: 32px;
+  content: url("/link/linkLeft/swordLeft.png");
 }

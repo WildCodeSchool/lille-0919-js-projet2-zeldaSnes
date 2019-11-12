@@ -10,7 +10,8 @@ class Player extends React.Component {
       assetHeight: 32,
       assetWidth: 32,
       asset: "link/linkFront/linkFront-Step4.png",
-      mouvementAnimation: true
+      mouvementAnimation: true,
+      canAttack: true
     };
   }
   assetAnimation(direction) {
@@ -22,10 +23,54 @@ class Player extends React.Component {
       }, delay);
     }
   }
+
+  attackAnimation() {
+    if (this.state.canAttack === true) {
+      let oldprop = this.state.asset;
+      switch (this.props.direction) {
+        case "down":
+          this.setState({
+            asset: `link/linkFront/attackFront.png`,
+            canAttack: false
+          });
+          break;
+        case "up":
+          this.setState({
+            asset: `link/linkBack/attackBack.png`,
+            canAttack: false
+          });
+          break;
+        case "right":
+          this.setState({
+            asset: `link/linkRight/attackRight.png`,
+            canAttack: false
+          });
+          break;
+        case "left":
+          this.setState({
+            asset: `link/linkLeft/attackLeft.png`,
+            canAttack: false
+          });
+          break;
+      }
+
+      setTimeout(
+        () =>
+          this.setState({
+            asset: oldprop,
+            canAttack: true
+          }),
+        300
+      );
+    }
+  }
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
     let newKey = this.props.keyName;
-    if (this.props.keyName === newKey) {
+
+    if (this.props.attackAction === true) {
+      this.attackAnimation();
+    } else if (this.props.keyName === newKey) {
       switch (newKey) {
         case "ArrowLeft":
           this.assetAnimation("Left");
@@ -56,7 +101,11 @@ class Player extends React.Component {
   render() {
     return (
       <div
-        className="player"
+        className={
+          this.state.asset === "link/linkLeft/attackLeft.png"
+            ? "player attackLeft"
+            : "player"
+        }
         style={{
           top: `${this.props.y * this.state.assetHeight}px`,
           left: `${this.props.x * this.state.assetWidth}px`,

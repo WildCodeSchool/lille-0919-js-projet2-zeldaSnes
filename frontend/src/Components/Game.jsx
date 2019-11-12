@@ -53,7 +53,8 @@ class Game extends React.Component {
           { button_5: false }
         ]
       },
-      pressKey: 0
+      pressKey: 0,
+      attackAction: false
     };
   }
 
@@ -315,6 +316,10 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
+    if (newKey === "e") {
+      this.setState({ attackAction: true });
+      setTimeout(() => this.setState({ attackAction: false }), 200);
+    } else if (newKey === this.state.keyName) {
     if (newKey === this.state.keyName) {
       switch (newKey) {
         case "ArrowLeft":
@@ -342,6 +347,7 @@ class Game extends React.Component {
           newPositionY = y + 1;
           newDirection = "down";
           break;
+
         default:
           return;
       }
@@ -597,6 +603,8 @@ class Game extends React.Component {
             transition={this.state.transition}
             canMove={this.state.canMove}
             pressKey={this.state.pressKey}
+            attackAction={this.state.attackAction}
+            direction={this.state.direction}
           />
           {this.state.rubyList.map(ruby => {
             return (
