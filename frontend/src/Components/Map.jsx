@@ -29,7 +29,7 @@ class Map extends React.Component {
           row.map(tile => {
             return (
               <div
-                key={[rowIndex, tileIndex]}
+                key={[row.Index, tile.Index]}
                 style={{
                   background: `url(/tiles/${
                     tile === "v001" ? this.randomGrass() : tileNames[tile]

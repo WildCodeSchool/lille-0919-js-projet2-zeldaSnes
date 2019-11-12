@@ -60,7 +60,6 @@ class Game extends React.Component {
 
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
-    this.gamepadMove();
     this.getGamepad();
     window.onkeydown = event => {
       if (this.state.canMove) {
@@ -73,6 +72,16 @@ class Game extends React.Component {
       this.mapModification(event);
       this.attack(event);
     };
+    // window.requestAnimationFrame = update => {
+    //   console.log(update);
+    //   if (this.state.canMove && this.state.gampadConnected) {
+    //     this.setState({ canMove: false });
+    //     setTimeout(() => {
+    //       this.setState({ canMove: true });
+    //     }, 120);
+    //     this.gamepadMove();
+    //   }
+    // };
   }
 
   pathFinding(xNPC, yNPC, x, y) {
@@ -90,7 +99,7 @@ class Game extends React.Component {
     easystar.setAcceptableTiles([0]);
 
     easystar.findPath(xNPC, yNPC, x, y, path => {
-      if (path.length > 0) {
+      if (path.length > 0 && path.length < 10) {
         let newx = path[1].x;
         let newy = path[1].y;
         if (newx - xNPC !== 0) {
@@ -125,8 +134,8 @@ class Game extends React.Component {
     });
 
     easystar.calculate();
-}
-        
+  }
+
   getGamepad() {
     window.addEventListener("gamepadconnected", event => {
       this.setState({ gampadConnected: true });
@@ -134,7 +143,6 @@ class Game extends React.Component {
     window.addEventListener("gamepaddisconnected", event => {
       this.setState({ gampadConnected: false });
     });
-    const gamepadDisplay = document.getElementById("gamepad-display");
     let update = () => {
       const gamepads = navigator.getGamepads();
       if (gamepads[0]) {
@@ -156,13 +164,23 @@ class Game extends React.Component {
 
         this.setState({ buttonPressed: gamepadState });
       }
-      window.requestAnimationFrame(update);
+      setTimeout(() => {
+        window.requestAnimationFrame(update);
+        if (this.state.canMove && this.state.gampadConnected) {
+          this.setState({ canMove: false });
+          setTimeout(() => {
+            this.setState({ canMove: true });
+            this.gamepadMove();
+          }, 120);
+        }
+      }, 120);
     };
     window.requestAnimationFrame(update);
 
-   /* Player  Movement  */
+    /* Player  Movement  */
+  }
   makeNpcMove = setInterval(() => {
-    if (this.state.NPC.isAlive) {
+    if (this.state.NPC.isAlive && this.state.mapNumber === tilesMap) {
       this.pathFinding(
         this.state.NPC.x,
         this.state.NPC.y,
@@ -172,13 +190,13 @@ class Game extends React.Component {
     } else {
       clearInterval(this.makeNpcMove);
     }
-  }, 300);
+  }, 1000);
 
   gamepadMove() {
     let newPosition;
     let x = this.state.x;
     let y = this.state.y;
-    let newDirection = "down";
+    let newDirection;
     if (this.state.buttonPressed.axes[1] === "1.00") {
       newPosition = y + 1;
       newDirection = "down";
@@ -230,18 +248,9 @@ class Game extends React.Component {
     }
     this.getRuby();
     this.attack(this.state.keyName);
-  }
-  componentDidUpdate(prevProps) {
-    if (
-      this.state.canMove &&
-      prevProps.buttonPressed !== this.state.buttonPressed
-    ) {
-      this.setState({ canMove: false });
-      setTimeout(() => {
-        this.setState({ canMove: true });
-      }, 120);
-      this.gamepadMove();
-    }
+    this.setState({ pressKey: this.state.pressKey + 1 });
+    this.getRuby();
+    this.getSword();
   }
 
   isMovePossible(x, y) {
@@ -269,7 +278,7 @@ class Game extends React.Component {
     if (
       this.state.x === 3 &&
       this.state.y === 3 &&
-      event.key === "ArrowUp" &&
+      this.state.keyName === "ArrowUp" &&
       this.state.mapNumber === tilesMap
     ) {
       return (
@@ -320,7 +329,6 @@ class Game extends React.Component {
       this.setState({ attackAction: true });
       setTimeout(() => this.setState({ attackAction: false }), 200);
     } else if (newKey === this.state.keyName) {
-    if (newKey === this.state.keyName) {
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
@@ -406,10 +414,11 @@ class Game extends React.Component {
       leftBorder <= x &&
       bottomBorder >= y &&
       topBorder <= y &&
-      !tilesMap[y][x].includes("Z") &&
+      !this.state.mapNumber[y][x].includes("Z") &&
       (x !== this.state.NPC.x ||
         y !== this.state.NPC.y ||
-        !this.state.NPC.isAlive)
+        !this.state.NPC.isAlive ||
+        this.state.mapNumber === tilesMap2)
     ) {
       return true;
     } else {
@@ -503,9 +512,9 @@ class Game extends React.Component {
       this.indexNPCmove += 1;
     }
   }
-        
+
   makeNpcMove = setInterval(() => {
-    if (this.state.NPC.isAlive) {
+    if (this.state.NPC.isAlive && this.state.mapNumber === tilesMap) {
       if (this.indexNPCmove > NPCmoves.length - 1) {
         this.indexNPCmove = 0;
       }
@@ -521,9 +530,9 @@ class Game extends React.Component {
     let newKeyCode = event.key;
     if (
       (newKeyCode === "e" ||
-      this.state.buttonPressed.buttons[2].button_2 === true) && haveSword === true
+        this.state.buttonPressed.buttons[2].button_2 === true) &&
+      this.state.haveSword === true
     )
-    let haveSword = this.state.haveSword;
       switch (this.state.direction) {
         case "left":
           if (
@@ -611,7 +620,7 @@ class Game extends React.Component {
               <Ruby
                 rubyMap={ruby.rubyMap}
                 mapNumber={this.state.mapNumber}
-                key={index}
+                key={this.state.index}
                 xRuby={ruby.x}
                 yRuby={ruby.y}
                 rubyClass={ruby.rubyClass}
