@@ -61,7 +61,7 @@ class Game extends React.Component {
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
     this.gamepadMove();
-    this.getGamepad();
+    // this.getGamepad();
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -125,42 +125,42 @@ class Game extends React.Component {
     });
 
     easystar.calculate();
-}
-        
-  getGamepad() {
-    window.addEventListener("gamepadconnected", event => {
-      this.setState({ gampadConnected: true });
-    });
-    window.addEventListener("gamepaddisconnected", event => {
-      this.setState({ gampadConnected: false });
-    });
-    const gamepadDisplay = document.getElementById("gamepad-display");
-    let update = () => {
-      const gamepads = navigator.getGamepads();
-      if (gamepads[0]) {
-        const gamepadState = {
-          id: gamepads[0].id,
-          axes: [
-            gamepads[0].axes[0].toFixed(2),
-            gamepads[0].axes[1].toFixed(2)
-          ],
-          buttons: [
-            { button_0: gamepads[0].buttons[0].pressed },
-            { button_1: gamepads[0].buttons[1].pressed },
-            { button_2: gamepads[0].buttons[2].pressed },
-            { button_3: gamepads[0].buttons[3].pressed },
-            { button_4: gamepads[0].buttons[4].pressed },
-            { button_5: gamepads[0].buttons[5].pressed }
-          ]
-        };
+  }
 
-        this.setState({ buttonPressed: gamepadState });
-      }
-      window.requestAnimationFrame(update);
-    };
-    window.requestAnimationFrame(update);
+  // getGamepad() {
+  //   window.addEventListener("gamepadconnected", event => {
+  //     this.setState({ gampadConnected: true });
+  //   });
+  //   window.addEventListener("gamepaddisconnected", event => {
+  //     this.setState({ gampadConnected: false });
+  //   });
+  //   const gamepadDisplay = document.getElementById("gamepad-display");
+  //   let update = () => {
+  //     const gamepads = navigator.getGamepads();
+  //     if (gamepads[0]) {
+  //       const gamepadState = {
+  //         id: gamepads[0].id,
+  //         axes: [
+  //           gamepads[0].axes[0].toFixed(2),
+  //           gamepads[0].axes[1].toFixed(2)
+  //         ],
+  //         buttons: [
+  //           { button_0: gamepads[0].buttons[0].pressed },
+  //           { button_1: gamepads[0].buttons[1].pressed },
+  //           { button_2: gamepads[0].buttons[2].pressed },
+  //           { button_3: gamepads[0].buttons[3].pressed },
+  //           { button_4: gamepads[0].buttons[4].pressed },
+  //           { button_5: gamepads[0].buttons[5].pressed }
+  //         ]
+  //       };
 
-   /* Player  Movement  */
+  //       this.setState({ buttonPressed: gamepadState });
+  //     }
+  //     window.requestAnimationFrame(update);
+  //   };
+  //   window.requestAnimationFrame(update);
+
+  /* Player  Movement  */
   makeNpcMove = setInterval(() => {
     if (this.state.NPC.isAlive) {
       this.pathFinding(
@@ -231,18 +231,18 @@ class Game extends React.Component {
     this.getRuby();
     this.attack(this.state.keyName);
   }
-  componentDidUpdate(prevProps) {
-    if (
-      this.state.canMove &&
-      prevProps.buttonPressed !== this.state.buttonPressed
-    ) {
-      this.setState({ canMove: false });
-      setTimeout(() => {
-        this.setState({ canMove: true });
-      }, 120);
-      this.gamepadMove();
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (
+  //     this.state.canMove &&
+  //     prevProps.buttonPressed !== this.state.buttonPressed
+  //   ) {
+  //     this.setState({ canMove: false });
+  //     setTimeout(() => {
+  //       this.setState({ canMove: true });
+  //     }, 120);
+  //     this.gamepadMove();
+  //   }
+  // }
 
   isMovePossible(x, y) {
     const topBorder = 0;
@@ -320,7 +320,6 @@ class Game extends React.Component {
       this.setState({ attackAction: true });
       setTimeout(() => this.setState({ attackAction: false }), 200);
     } else if (newKey === this.state.keyName) {
-    if (newKey === this.state.keyName) {
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
@@ -416,11 +415,12 @@ class Game extends React.Component {
       return false;
     }
   }
+
   // this method is a dependency of getMovement that plays a sound effect when the player attempt to move on a blocking tile
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
-  }
+  // playBounce() {
+  //   const bounce = new Audio("sound/Bounce.mp3");
+  //   bounce.play();
+  // }
 
   /*  Ruby   */
 
@@ -503,7 +503,7 @@ class Game extends React.Component {
       this.indexNPCmove += 1;
     }
   }
-        
+
   makeNpcMove = setInterval(() => {
     if (this.state.NPC.isAlive) {
       if (this.indexNPCmove > NPCmoves.length - 1) {
@@ -519,11 +519,12 @@ class Game extends React.Component {
 
   attack(event) {
     let newKeyCode = event.key;
+    let haveSword = this.state.haveSword;
     if (
       (newKeyCode === "e" ||
-      this.state.buttonPressed.buttons[2].button_2 === true) && haveSword === true
+        this.state.buttonPressed.buttons[2].button_2 === true) &&
+      haveSword === true
     )
-    let haveSword = this.state.haveSword;
       switch (this.state.direction) {
         case "left":
           if (
@@ -606,13 +607,13 @@ class Game extends React.Component {
             attackAction={this.state.attackAction}
             direction={this.state.direction}
           />
-          {this.state.rubyList.map(ruby => {
+          {this.state.rubyList.map((ruby, index) => {
             return (
               <Ruby
                 rubyMap={ruby.rubyMap}
                 mapNumber={this.state.mapNumber}
-                key={index}
                 xRuby={ruby.x}
+                key={index}
                 yRuby={ruby.y}
                 rubyClass={ruby.rubyClass}
               />
@@ -623,6 +624,7 @@ class Game extends React.Component {
               <Sword
                 xSword={sword.x}
                 ySword={sword.y}
+                key={index}
                 swordClass={sword.swordClass}
               />
             );
