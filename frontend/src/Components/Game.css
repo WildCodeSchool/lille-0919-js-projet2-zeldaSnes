@@ -9,3 +9,9 @@
   height: 80px;
   background-color: black;
 }
+
+pre {
+  background-color: #555;
+  color: #5f5;
+  padding: 30px;
+}

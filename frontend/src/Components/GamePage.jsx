@@ -27,6 +27,13 @@ class GamePage extends React.Component {
     }
   };
 
+  playSword = () => {
+    if (this.state.canMusic) {
+      const pickupSword = new Audio("sound/getSword.mp3");
+      pickupSword.play();
+    }
+  };
+
   toggleMusic = () => {
     this.setState({ canMusic: !this.state.canMusic });
   };
@@ -37,7 +44,11 @@ class GamePage extends React.Component {
         <Title />
         <div className="Container">
           <LeftDiv />
-          <Game playBounce={this.playBounce} playRuby={this.playRuby} />
+          <Game
+            playBounce={this.playBounce}
+            playRuby={this.playRuby}
+            playSword={this.playSword}
+          />
           <ControlsTab toggleMusic={this.toggleMusic} />
         </div>
       </div>
