@@ -17,7 +17,7 @@ class ControlsTab extends React.Component {
           <p>MENU</p>
           <img src={arrows} alt="" />
           <p>MOOVES</p>
-          <Music />
+          <Music toggleMusic={this.props.toggleMusic} />
         </div>
       </div>
     );
