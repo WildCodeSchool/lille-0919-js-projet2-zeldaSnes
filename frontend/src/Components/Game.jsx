@@ -71,6 +71,58 @@ class Game extends React.Component {
     };
   }
 
+  pathFinding(xNPC, yNPC, x, y) {
+    const easystarjs = require("easystarjs");
+    const easystar = new easystarjs.js();
+
+    const grid = tilesMap.map(row =>
+      row.map(tile => {
+        return tile.includes("Z") ? (tile = 1) : (tile = 0);
+      })
+    );
+
+    easystar.setGrid(grid);
+    easystar.setIterationsPerCalculation(1000);
+    easystar.setAcceptableTiles([0]);
+
+    easystar.findPath(xNPC, yNPC, x, y, path => {
+      if (path.length > 0) {
+        let newx = path[1].x;
+        let newy = path[1].y;
+        if (newx - xNPC !== 0) {
+          if (xNPC - newx > 0) {
+            this.state.NPC.direction = "left";
+          } else {
+            this.state.NPC.direction = "right";
+          }
+        } else {
+          if (yNPC - newy > 0) {
+            this.state.NPC.direction = "up";
+          } else {
+            this.state.NPC.direction = "down";
+          }
+        }
+        if (newx !== this.state.x || newy !== this.state.y) {
+          this.setState({
+            NPC: {
+              ...this.state.NPC,
+              x: newx,
+              y: newy
+            }
+          });
+        } else {
+          let newHP = this.state.HP - 1;
+          this.setState({
+            ...this.state,
+            HP: newHP
+          });
+        }
+      }
+    });
+
+    easystar.calculate();
+}
+        
   getGamepad() {
     window.addEventListener("gamepadconnected", event => {
       this.setState({ gampadConnected: true });
@@ -103,19 +155,20 @@ class Game extends React.Component {
       window.requestAnimationFrame(update);
     };
     window.requestAnimationFrame(update);
-  }
 
    /* Player  Movement  */
   makeNpcMove = setInterval(() => {
     if (this.state.NPC.isAlive) {
-      if (this.indexNPCmove > this.NPCmoves.length - 1) {
-        this.indexNPCmove = 0;
-      }
-      this.NPCMove(this.indexNPCmove);
+      this.pathFinding(
+        this.state.NPC.x,
+        this.state.NPC.y,
+        this.state.x,
+        this.state.y
+      );
     } else {
       clearInterval(this.makeNpcMove);
     }
-  }, 1000);
+  }, 300);
 
   gamepadMove() {
     let newPosition;

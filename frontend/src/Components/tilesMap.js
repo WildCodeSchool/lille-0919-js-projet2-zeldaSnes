@@ -75,6 +75,7 @@ const tileNames = {
   o002Z: "sign"
 };
 
+// prettier-ignore
 const tilesMap = [
   [
     "g001",
