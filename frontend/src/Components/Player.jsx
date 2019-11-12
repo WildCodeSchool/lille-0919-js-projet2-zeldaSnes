@@ -108,7 +108,8 @@ class Player extends React.Component {
         }
         style={{
           top: `${this.props.y * this.state.assetHeight}px`,
-          left: `${this.props.x * this.state.assetWidth}px`
+          left: `${this.props.x * this.state.assetWidth}px`,
+          transition: `${this.props.transition}s`
         }}
       >
         <img src={this.state.asset} alt={"Player"} />

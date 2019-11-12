@@ -4,9 +4,10 @@ import "./Game.css";
 import Player from "./Player";
 import GameTopBar from "./GameTopBar";
 import Ruby from "./Ruby";
+import { tilesMap, tilesMap2 } from "./tilesMap.js";
 import Sword from "./Sword";
-import { tilesMap } from "./tilesMap.js";
 import NPC from "./NPC/NPC.jsx";
+import NPCmoves from "./NPC/NPCmoves.jsx";
 
 class Game extends React.Component {
   constructor(props) {
@@ -18,23 +19,28 @@ class Game extends React.Component {
       keyName: "ArrowDown",
       blocked: false,
       canMove: true,
+      mapNumber: tilesMap,
+      shouldUpdate: false,
       haveSword: false,
       swordPosition: [{ x: 6, y: 3, swordClass: "Sword" }],
       rubyCounter: 0,
       gampadConnected: false,
       rubyList: [
-        { x: 3, y: 5, rubyClass: "Ruby" },
-        { x: 6, y: 8, rubyClass: "Ruby" },
-        { x: 9, y: 12, rubyClass: "Ruby" },
-        { x: 15, y: 6, rubyClass: "Ruby" }
+        { x: 3, y: 5, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 6, y: 8, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 9, y: 12, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 15, y: 6, rubyClass: "Ruby", rubyMap: tilesMap },
+        { x: 3, y: 4, rubyClass: "Ruby", rubyMap: tilesMap2 }
       ],
       direction: "down",
       NPC: {
         x: 10,
         y: 10,
         isAlive: true,
-        direction: "up"
+        direction: "up",
+        NPCMap: tilesMap
       },
+      transition: 0.3,
       buttonPressed: {
         id: 0,
         axes: [0, 0],
@@ -52,9 +58,7 @@ class Game extends React.Component {
     };
   }
 
-  indexNPCmove = 0;
-
-  // Method which get inputs from the keyboard on all the screen
+  // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
     this.gamepadMove();
     this.getGamepad();
@@ -66,10 +70,63 @@ class Game extends React.Component {
         }, 120);
         this.getMovement(event);
       }
+      this.mapModification(event);
       this.attack(event);
     };
   }
 
+  pathFinding(xNPC, yNPC, x, y) {
+    const easystarjs = require("easystarjs");
+    const easystar = new easystarjs.js();
+
+    const grid = tilesMap.map(row =>
+      row.map(tile => {
+        return tile.includes("Z") ? (tile = 1) : (tile = 0);
+      })
+    );
+
+    easystar.setGrid(grid);
+    easystar.setIterationsPerCalculation(1000);
+    easystar.setAcceptableTiles([0]);
+
+    easystar.findPath(xNPC, yNPC, x, y, path => {
+      if (path.length > 0) {
+        let newx = path[1].x;
+        let newy = path[1].y;
+        if (newx - xNPC !== 0) {
+          if (xNPC - newx > 0) {
+            this.state.NPC.direction = "left";
+          } else {
+            this.state.NPC.direction = "right";
+          }
+        } else {
+          if (yNPC - newy > 0) {
+            this.state.NPC.direction = "up";
+          } else {
+            this.state.NPC.direction = "down";
+          }
+        }
+        if (newx !== this.state.x || newy !== this.state.y) {
+          this.setState({
+            NPC: {
+              ...this.state.NPC,
+              x: newx,
+              y: newy
+            }
+          });
+        } else {
+          let newHP = this.state.HP - 1;
+          this.setState({
+            ...this.state,
+            HP: newHP
+          });
+        }
+      }
+    });
+
+    easystar.calculate();
+}
+        
   getGamepad() {
     window.addEventListener("gamepadconnected", event => {
       this.setState({ gampadConnected: true });
@@ -102,18 +159,20 @@ class Game extends React.Component {
       window.requestAnimationFrame(update);
     };
     window.requestAnimationFrame(update);
-  }
 
+   /* Player  Movement  */
   makeNpcMove = setInterval(() => {
     if (this.state.NPC.isAlive) {
-      if (this.indexNPCmove > this.NPCmoves.length - 1) {
-        this.indexNPCmove = 0;
-      }
-      this.NPCMove(this.indexNPCmove);
+      this.pathFinding(
+        this.state.NPC.x,
+        this.state.NPC.y,
+        this.state.x,
+        this.state.y
+      );
     } else {
       clearInterval(this.makeNpcMove);
     }
-  }, 1000);
+  }, 300);
 
   gamepadMove() {
     let newPosition;
@@ -196,7 +255,7 @@ class Game extends React.Component {
       leftBorder <= x &&
       bottomBorder >= y &&
       topBorder <= y &&
-      !tilesMap[y][x].includes("Z") &&
+      !this.state.mapNumber[y][x].includes("Z") &&
       (x !== this.state.NPC.x ||
         y !== this.state.NPC.y ||
         !this.state.NPC.isAlive)
@@ -206,8 +265,50 @@ class Game extends React.Component {
       return false;
     }
   }
+  mapModification(event) {
+    if (
+      this.state.x === 3 &&
+      this.state.y === 3 &&
+      event.key === "ArrowUp" &&
+      this.state.mapNumber === tilesMap
+    ) {
+      return (
+        this.setState({
+          y: 10,
+          x: 10,
+          mapNumber: tilesMap2,
+          shouldUpdate: true,
+          transition: 0
+        }),
+        this.setState({
+          shouldUpdate: false
+        }),
+        setTimeout(() => this.setState({ transition: 0.3 }), 300)
+      );
+    }
+    if (
+      this.state.x === 10 &&
+      this.state.y === 11 &&
+      event.key === "ArrowDown" &&
+      this.state.mapNumber === tilesMap2
+    ) {
+      return (
+        this.setState({
+          y: 4,
+          x: 3,
+          mapNumber: tilesMap,
+          shouldUpdate: true,
+          transition: 0
+        }),
+        this.setState({
+          shouldUpdate: false
+        }),
+        setTimeout(() => this.setState({ transition: 0.3 }), 300)
+      );
+    }
+  }
 
-  //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
+  //  Method which get inputs from ComponentDidMount and send the movement to do on the Player
   getMovement(event) {
     let newKey = event.key;
     let newPositionX = this.state.x;
@@ -215,11 +316,11 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
-
     if (newKey === "e") {
       this.setState({ attackAction: true });
       setTimeout(() => this.setState({ attackAction: false }), 200);
     } else if (newKey === this.state.keyName) {
+    if (newKey === this.state.keyName) {
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
@@ -294,15 +395,47 @@ class Game extends React.Component {
     this.getRuby();
     this.getSword();
   }
+  // this method is a dependency of getMovement  that performs all the collision tests to determine whether to allow or to prevent movement of the player
+  isMovePossible(x, y) {
+    const topBorder = 0;
+    const leftBorder = 0;
+    const bottomBorder = 14;
+    const rightBorder = 19;
+    if (
+      rightBorder >= x &&
+      leftBorder <= x &&
+      bottomBorder >= y &&
+      topBorder <= y &&
+      !tilesMap[y][x].includes("Z") &&
+      (x !== this.state.NPC.x ||
+        y !== this.state.NPC.y ||
+        !this.state.NPC.isAlive)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  // this method is a dependency of getMovement that plays a sound effect when the player attempt to move on a blocking tile
+  playBounce() {
+    const bounce = new Audio("sound/Bounce.mp3");
+    bounce.play();
+  }
 
-  // This function check if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + incrementing rubyCounter by 1
+  /*  Ruby   */
+
+  // This function checks if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + increments rubyCounter by 1
   getRuby() {
     let xPlayer = this.state.x;
     let yPlayer = this.state.y;
     let newRubyList = this.state.rubyList;
 
     for (let i = 0; i < newRubyList.length; i++) {
-      if (newRubyList[i].x === xPlayer && newRubyList[i].y === yPlayer) {
+      if (
+        newRubyList[i].x === xPlayer &&
+        newRubyList[i].y === yPlayer &&
+        newRubyList[i].rubyMap === this.state.mapNumber
+      ) {
         this.setState((newRubyList[i] = { rubyClass: "RubyTaken" }));
         setTimeout(() => {
           this.setState({
@@ -337,6 +470,53 @@ class Game extends React.Component {
     }
   }
 
+  /*  NPC    */
+  NPCMove(indexNPCmove) {
+    let newNPCPositionX = this.state.NPC.x;
+    let newNPCPositionY = this.state.NPC.y;
+
+    switch (NPCmoves[indexNPCmove]) {
+      case "left":
+        newNPCPositionX = this.state.NPC.x - 1;
+        break;
+      case "up":
+        newNPCPositionY = this.state.NPC.y - 1;
+        break;
+      case "right":
+        newNPCPositionX = this.state.NPC.x + 1;
+        break;
+      case "down":
+        newNPCPositionY = this.state.NPC.y + 1;
+        break;
+      default:
+        return;
+    }
+    if (newNPCPositionY !== this.state.y || newNPCPositionX !== this.state.x) {
+      this.setState({
+        NPC: {
+          ...this.state.NPC,
+          y: newNPCPositionY,
+          x: newNPCPositionX,
+          direction: NPCmoves[indexNPCmove]
+        }
+      });
+      this.indexNPCmove += 1;
+    }
+  }
+        
+  makeNpcMove = setInterval(() => {
+    if (this.state.NPC.isAlive) {
+      if (this.indexNPCmove > NPCmoves.length - 1) {
+        this.indexNPCmove = 0;
+      }
+      this.NPCMove(this.indexNPCmove);
+    } else {
+      clearInterval(this.makeNpcMove);
+    }
+  }, 1000);
+
+  /*   attack the NPC       */
+
   attack(event) {
     let newKeyCode = event.key;
     if (
@@ -346,7 +526,10 @@ class Game extends React.Component {
     let haveSword = this.state.haveSword;
       switch (this.state.direction) {
         case "left":
-          if (this.state.NPC.x === this.state.x - 1) {
+          if (
+            this.state.NPC.x === this.state.x - 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -356,7 +539,10 @@ class Game extends React.Component {
           }
           break;
         case "up":
-          if (this.state.NPC.y === this.state.y - 1) {
+          if (
+            this.state.NPC.y === this.state.y - 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -366,7 +552,10 @@ class Game extends React.Component {
           }
           break;
         case "right":
-          if (this.state.NPC.x === this.state.x + 1) {
+          if (
+            this.state.NPC.x === this.state.x + 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -376,7 +565,10 @@ class Game extends React.Component {
           }
           break;
         case "down":
-          if (this.state.NPC.y === this.state.y + 1) {
+          if (
+            this.state.NPC.y === this.state.y + 1 &&
+            this.state.NPC.NPCMap === this.state.mapNumber
+          ) {
             this.setState({
               NPC: {
                 ...this.state.NPC,
@@ -385,100 +577,9 @@ class Game extends React.Component {
             });
           }
           break;
+        default:
+          break;
       }
-  }
-
-  NPCmoves = [
-    "up",
-    "up",
-    "left",
-    "left",
-    "left",
-    "left",
-    "down",
-    "down",
-    "down",
-    "down",
-    "down",
-    "right",
-    "right",
-    "right",
-    "right",
-    "up",
-    "up",
-    "up"
-  ];
-
-  NPCMove(indexNPCmove) {
-    let newNPCPosition = 0;
-    switch (this.NPCmoves[indexNPCmove]) {
-      case "left":
-        newNPCPosition = this.state.NPC.x - 1;
-        if (
-          newNPCPosition !== this.state.x ||
-          this.state.y !== this.state.NPC.y
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              x: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      case "up":
-        newNPCPosition = this.state.NPC.y - 1;
-        if (
-          newNPCPosition !== this.state.y ||
-          this.state.x !== this.state.xNPC
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              y: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      case "right":
-        newNPCPosition = this.state.NPC.x + 1;
-        if (
-          newNPCPosition !== this.state.x ||
-          this.state.y !== this.state.yNPC
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              x: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      case "down":
-        newNPCPosition = this.state.NPC.y + 1;
-        if (
-          newNPCPosition !== this.state.y ||
-          this.state.x !== this.state.xNPC
-        ) {
-          this.setState({
-            NPC: {
-              ...this.state.NPC,
-              y: newNPCPosition,
-              direction: this.NPCmoves[indexNPCmove]
-            }
-          });
-          this.indexNPCmove += 1;
-        }
-        break;
-      default:
-        return;
-    }
   }
 
   render() {
@@ -490,12 +591,16 @@ class Game extends React.Component {
           HP={this.state.HP}
         />
         <div className="gameScreen">
-          <Map />
+          <Map
+            mapNumber={this.state.mapNumber}
+            shouldUpdate={this.state.shouldUpdate}
+          />
           <Player
             keyName={this.state.keyName}
             x={this.state.x}
             y={this.state.y}
             blocked={this.state.blocked}
+            transition={this.state.transition}
             canMove={this.state.canMove}
             pressKey={this.state.pressKey}
             attackAction={this.state.attackAction}
@@ -503,7 +608,14 @@ class Game extends React.Component {
           />
           {this.state.rubyList.map(ruby => {
             return (
-              <Ruby xRuby={ruby.x} yRuby={ruby.y} rubyClass={ruby.rubyClass} />
+              <Ruby
+                rubyMap={ruby.rubyMap}
+                mapNumber={this.state.mapNumber}
+                key={index}
+                xRuby={ruby.x}
+                yRuby={ruby.y}
+                rubyClass={ruby.rubyClass}
+              />
             );
           })}
           {this.state.swordPosition.map((sword, index) => {
@@ -520,9 +632,14 @@ class Game extends React.Component {
               NPCdirection={this.state.NPC.direction}
               xNPC={this.state.NPC.x}
               yNPC={this.state.NPC.y}
+              NPCMap={this.state.NPC.NPCMap}
+              mapNumber={this.state.mapNumber}
             />
           )}
           <p>{this.state.gampadConnected ? "GamePadConnected" : ""}</p>
+        </div>
+        <div className="gameMobileScreen">
+          <h2>Sorry but our game is not avaible on mobile</h2>
         </div>
       </div>
     );

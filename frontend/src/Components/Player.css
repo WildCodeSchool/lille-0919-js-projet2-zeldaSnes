@@ -1,7 +1,5 @@
 .player {
   position: absolute;
-  z-index: 3;
-  transition: all 0.2s;
   display: flex;
 }
 
