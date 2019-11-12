@@ -5,18 +5,14 @@ import Music from "./Music";
 import "./ControlsTab.css";
 
 class ControlsTab extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="ControlsTab">
         <div className="ControlsBg">
           <img src={spacebar} alt="" />
-          <p>MENU</p>
+          <p className="ControlsTabTitle">MENU</p>
           <img src={arrows} alt="" />
-          <p>MOOVES</p>
+          <p className="ControlsTabTitle">MOOVES</p>
           <Music toggleMusic={this.props.toggleMusic} />
         </div>
       </div>
