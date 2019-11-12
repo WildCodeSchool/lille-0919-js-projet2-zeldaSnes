@@ -34,13 +34,9 @@ class Game extends React.Component {
         direction: "up",
         NPCMap: tilesMap
       },
-      transition: 0.3
+      transition: 0.3,
+      pressKey: 0
     };
-  }
-
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
   }
 
   indexNPCmove = 0;
@@ -76,6 +72,7 @@ class Game extends React.Component {
     const leftBorder = 0;
     const bottomBorder = 14;
     const rightBorder = 19;
+
     if (
       rightBorder >= x &&
       leftBorder <= x &&
@@ -137,76 +134,82 @@ class Game extends React.Component {
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct movment to do on the Player
   getMovement(event) {
     let newKey = event.key;
-    let newPosition;
+    let newPositionX = this.state.x;
+    let newPositionY = this.state.y;
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
-    if (this.state.x === 19 && this.state.y === 4 && newDirection === "top") {
+    if (newKey === this.state.keyName) {
+      switch (newKey) {
+        case "ArrowLeft":
+          event.preventDefault();
+          newPositionX = x - 1;
+          newDirection = "left";
+
+          break;
+
+        case "ArrowUp":
+          event.preventDefault();
+          newPositionY = y - 1;
+          newDirection = "up";
+
+          break;
+
+        case "ArrowRight":
+          event.preventDefault();
+          newPositionX = x + 1;
+          newDirection = "right";
+          break;
+
+        case "ArrowDown":
+          event.preventDefault();
+          newPositionY = y + 1;
+          newDirection = "down";
+          break;
+        default:
+          return;
+      }
+      if (this.isMovePossible(newPositionX, newPositionY)) {
+        this.setState({
+          direction: newDirection,
+          x: newPositionX,
+          y: newPositionY,
+          keyName: newKey
+        });
+      } else {
+        this.playBounce();
+      }
     }
-    switch (newKey) {
-      case "ArrowLeft":
-        event.preventDefault();
-        newPosition = x - 1;
-        newDirection = "left";
-        if (this.isMovePossible(x - 1, y)) {
+    //if player can not move just change the asset direction
+    else {
+      switch (newKey) {
+        case "ArrowLeft":
+          event.preventDefault();
           this.setState({
-            direction: newDirection,
-            x: newPosition,
+            direction: "left",
             keyName: newKey
           });
-        } else {
-          this.playBounce();
-        }
-        break;
+          break;
 
-      case "ArrowUp":
-        event.preventDefault();
-        newPosition = y - 1;
-        newDirection = "up";
-        if (this.isMovePossible(x, y - 1)) {
-          this.setState({
-            direction: newDirection,
-            y: newPosition,
-            keyName: newKey
-          });
-        } else {
-          this.playBounce();
-        }
-        break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.setState({ direction: "up", keyName: newKey });
+          break;
 
-      case "ArrowRight":
-        event.preventDefault();
-        newPosition = x + 1;
-        newDirection = "right";
-        if (this.isMovePossible(x + 1, y)) {
-          this.setState({
-            direction: newDirection,
-            x: newPosition,
-            keyName: newKey
-          });
-        } else {
-          this.playBounce();
-        }
+        case "ArrowRight":
+          event.preventDefault();
+          this.setState({ direction: "right", keyName: newKey });
+          break;
 
-        break;
-
-      case "ArrowDown":
-        event.preventDefault();
-        newPosition = y + 1;
-        newDirection = "down";
-        if (this.isMovePossible(x, y + 1)) {
-          this.setState({
-            direction: newDirection,
-            y: newPosition,
-            keyName: newKey
-          });
-        } else {
-          this.playBounce();
-        }
-        break;
-      default:
-        return;
+        case "ArrowDown":
+          event.preventDefault();
+          this.setState({ direction: "down", keyName: newKey });
+          break;
+        default:
+          break;
+      }
     }
+    this.setState({ pressKey: this.state.pressKey + 1 });
     this.getRuby();
   }
 
@@ -229,14 +232,9 @@ class Game extends React.Component {
             rubyCounter: this.state.rubyCounter + 1
           });
         }, 200);
-        this.playRuby();
+        this.props.playRuby();
       }
     }
-  }
-
-  playRuby() {
-    const pickupRuby = new Audio("sound/getRuby.mp3");
-    pickupRuby.play();
   }
 
   attack(event) {
@@ -406,8 +404,10 @@ class Game extends React.Component {
             y={this.state.y}
             blocked={this.state.blocked}
             transition={this.state.transition}
+            canMove={this.state.canMove}
+            pressKey={this.state.pressKey}
           />
-          {this.state.rubyList.map((ruby, index) => {
+          {this.state.rubyList.map(ruby => {
             return (
               <Ruby
                 xRuby={ruby.x}
