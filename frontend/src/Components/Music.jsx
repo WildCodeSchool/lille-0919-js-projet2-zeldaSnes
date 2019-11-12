@@ -5,32 +5,33 @@ class Music extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      canMusic: false
+      musicIcon: false
     };
   }
 
-  toggleMusic() {
-    this.setState({ canMusic: !this.state.canMusic });
+  onClickFunction() {
+    this.props.toggleMusic();
+    this.setState({ musicIcon: !this.state.musicIcon });
   }
 
   render() {
     return (
       <div className="music">
         <button
-          onClick={event => {
-            this.toggleMusic();
+          onClick={() => {
+            this.onClickFunction();
           }}
         >
           <i
             className={
-              this.state.canMusic ? "fas fa-volume-up" : "fas fa-volume-mute"
+              this.state.musicIcon ? "fas fa-volume-mute" : "fas fa-volume-up"
             }
           ></i>
         </button>
         <audio
           className="audio"
           autoPlay
-          muted={this.state.canMusic}
+          muted={this.state.musicIcon}
           loop
           src="mainMusic.mp3"
         ></audio>
