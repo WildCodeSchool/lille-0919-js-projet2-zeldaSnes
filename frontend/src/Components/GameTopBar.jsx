@@ -10,7 +10,7 @@ class GameTopBar extends React.Component {
       <div className="gameTopBar">
         <HealthBar />
 
-        <WeaponSlot />
+        <WeaponSlot haveSword={this.props.haveSword} />
 
         <RubySlot rubyCounter={this.props.rubyCounter} />
       </div>
