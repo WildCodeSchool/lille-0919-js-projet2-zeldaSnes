@@ -95,7 +95,6 @@ class Game extends React.Component {
     let y = this.state.y;
     let newDirection;
 
-
     if (newKey === this.state.keyName) {
       switch (newKey) {
         case "ArrowLeft":
@@ -135,7 +134,7 @@ class Game extends React.Component {
           keyName: newKey
         });
       } else {
-        this.playBounce();
+        this.props.playBounce();
       }
     }
     //if player can not move just change the asset direction
@@ -204,7 +203,7 @@ class Game extends React.Component {
         swordPosition[i].y === yPlayer &&
         haveSword === false
       ) {
-        this.playSword();
+        this.props.playSword();
         this.setState((swordPosition[i] = { swordClass: "SwordTaken" }));
         this.setState({
           swordPosition: swordPosition.splice(i, 1),
@@ -212,11 +211,6 @@ class Game extends React.Component {
         });
       }
     }
-  }
-  // This function is used to play sword pickup sound
-  playSword() {
-    const pickupSword = new Audio("sound/getSword.mp3");
-    pickupSword.play();
   }
 
   attack(event) {
