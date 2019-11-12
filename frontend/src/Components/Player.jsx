@@ -8,32 +8,49 @@ class Player extends React.Component {
     super(props);
     this.state = {
       assetHeight: 32,
-      assetWidth: 32
+      assetWidth: 32,
+      asset: "link/linkFront/linkFront-Step4.png",
+      mouvementAnimation: true
     };
+  }
+  assetAnimation(direction) {
+    for (let i = 1, delay = 0; i <= 4; i++, delay = delay + 30) {
+      setTimeout(() => {
+        this.setState({
+          asset: `link/link${direction}/link${direction}-Step${i}.png`
+        });
+      }, delay);
+    }
   }
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
   getAsset() {
-    let direction;
-    switch (this.props.keyName) {
-      case "ArrowLeft":
-        direction = "link/linkLeft.png";
-        break;
+    let newKey = this.props.keyName;
+    if (this.props.keyName === newKey) {
+      switch (newKey) {
+        case "ArrowLeft":
+          this.assetAnimation("Left");
 
-      case "ArrowUp":
-        direction = "link/linkBack.png";
-        break;
+          break;
 
-      case "ArrowRight":
-        direction = "link/linkRight.png";
-        break;
+        case "ArrowUp":
+          this.assetAnimation("Back");
+          break;
 
-      case "ArrowDown":
-        direction = "link/linkFront.png";
-        break;
-      default:
-        direction = "link/linkFront.png";
+        case "ArrowRight":
+          this.assetAnimation("Right");
+          break;
+
+        case "ArrowDown":
+          this.assetAnimation("Front");
+          break;
+      }
     }
-    return direction;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.pressKey !== this.props.pressKey) {
+      this.getAsset();
+    }
   }
 
   render() {
@@ -45,7 +62,7 @@ class Player extends React.Component {
           left: `${this.props.x * this.state.assetWidth}px`
         }}
       >
-        <img src={this.getAsset()} alt={"Player"} />
+        <img src={this.state.asset} alt={"Player"} />
       </div>
     );
   }
