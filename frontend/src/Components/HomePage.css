@@ -13,7 +13,8 @@
   text-align: center;
 }
 .HomePage > .playButton > a {
-  padding: 5px;
+  transform: scale(0.9);
+  padding: 10px;
   border: 1px solid black;
   border-radius: 3px;
 }
@@ -25,7 +26,14 @@
 }
 
 .HomePage > .aboutTimeline > a {
-  padding: 5px;
+  transform: scale(0.9);
+  padding: 10px;
   border: 1px solid black;
   border-radius: 3px;
+}
+
+.HomePage > .aboutTimeline > a:hover,
+.HomePage > .playButton > a:hover {
+  transform: scale(1);
+  background-color: rgb(253, 236, 216);
 }
