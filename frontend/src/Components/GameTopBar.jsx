@@ -5,9 +5,6 @@ import HealthBar from "./HealthBar";
 import "./GameTopBar.css";
 
 class GameTopBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div className="gameTopBar">

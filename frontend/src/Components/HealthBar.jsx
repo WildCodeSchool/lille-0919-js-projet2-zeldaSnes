@@ -1,9 +1,6 @@
 import React from "react";
 
 class HealthBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   generateHeartsTab() {
     let heartsTab = [];

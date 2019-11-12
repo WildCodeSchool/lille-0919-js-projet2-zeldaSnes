@@ -5,10 +5,6 @@ import Music from "./Music";
 import "./ControlsTab.css";
 
 class ControlsTab extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="ControlsTab">

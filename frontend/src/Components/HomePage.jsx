@@ -8,9 +8,7 @@ function HomePage() {
     <div className="HomePage">
       <Title />
       <div className="playButton">
-        <Link exact to="/GamePage">
-          Play
-        </Link>
+        <Link to="/GamePage">Play</Link>
       </div>
       <div className="aboutTimeline">
         <Link to="/About">About</Link>
