@@ -521,6 +521,9 @@ class Game extends React.Component {
           )}
           <p>{this.state.gampadConnected ? "GamePadConnected" : ""}</p>
         </div>
+        <div className="gameMobileScreen">
+          <h2>Sorry but our game is not avaible on mobile</h2>
+        </div>
       </div>
     );
   }

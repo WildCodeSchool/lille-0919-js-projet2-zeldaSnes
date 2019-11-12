@@ -29,6 +29,7 @@ class Music extends React.Component {
           ></i>
         </button>
         <audio
+          className="audio"
           autoPlay
           muted={this.state.musicIcon}
           loop
