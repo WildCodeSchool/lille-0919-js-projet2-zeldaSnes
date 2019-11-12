@@ -4,6 +4,7 @@ import "./Game.css";
 import Player from "./Player";
 import GameTopBar from "./GameTopBar";
 import Ruby from "./Ruby";
+import Sword from "./Sword";
 import { tilesMap } from "./tilesMap.js";
 import NPC from "./NPC/NPC.jsx";
 
@@ -16,6 +17,8 @@ class Game extends React.Component {
       keyName: "ArrowDown",
       blocked: false,
       canMove: true,
+      haveSword: false,
+      swordPosition: [{ x: 6, y: 3, swordClass: "Sword" }],
       rubyCounter: 0,
       rubyList: [
         { x: 3, y: 5, rubyClass: "Ruby" },
@@ -166,6 +169,7 @@ class Game extends React.Component {
     }
     this.setState({ pressKey: this.state.pressKey + 1 });
     this.getRuby();
+    this.getSword();
   }
 
   // This function check if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + incrementing rubyCounter by 1
@@ -188,9 +192,37 @@ class Game extends React.Component {
     }
   }
 
+  // This function check if the sword position correspond to the player position and remove the concerned sword from the swordPosition array + showing sword in WeaponSlot
+  getSword() {
+    let xPlayer = this.state.x;
+    let yPlayer = this.state.y;
+    const swordPosition = this.state.swordPosition;
+    let haveSword = this.state.haveSword;
+    for (let i = 0; i < swordPosition.length; i++) {
+      if (
+        swordPosition[i].x === xPlayer &&
+        swordPosition[i].y === yPlayer &&
+        haveSword === false
+      ) {
+        this.playSword();
+        this.setState((swordPosition[i] = { swordClass: "SwordTaken" }));
+        this.setState({
+          swordPosition: swordPosition.splice(i, 1),
+          haveSword: true
+        });
+      }
+    }
+  }
+  // This function is used to play sword pickup sound
+  playSword() {
+    const pickupSword = new Audio("sound/getSword.mp3");
+    pickupSword.play();
+  }
+
   attack(event) {
     let newKeyCode = event.key;
-    if (newKeyCode === "e")
+    let haveSword = this.state.haveSword;
+    if (newKeyCode === "e" && haveSword === true)
       switch (this.state.direction) {
         case "left":
           if (this.state.NPC.x === this.state.x - 1) {
@@ -331,7 +363,10 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <GameTopBar rubyCounter={this.state.rubyCounter} />
+        <GameTopBar
+          rubyCounter={this.state.rubyCounter}
+          haveSword={this.state.haveSword}
+        />
         <div className="gameScreen">
           <Map />
           <Player
@@ -345,6 +380,15 @@ class Game extends React.Component {
           {this.state.rubyList.map(ruby => {
             return (
               <Ruby xRuby={ruby.x} yRuby={ruby.y} rubyClass={ruby.rubyClass} />
+            );
+          })}
+          {this.state.swordPosition.map((sword, index) => {
+            return (
+              <Sword
+                xSword={sword.x}
+                ySword={sword.y}
+                swordClass={sword.swordClass}
+              />
             );
           })}
           {this.state.NPC.isAlive && (
