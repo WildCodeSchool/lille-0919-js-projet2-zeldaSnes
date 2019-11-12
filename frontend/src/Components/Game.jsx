@@ -34,11 +34,6 @@ class Game extends React.Component {
     };
   }
 
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
-  }
-
   indexNPCmove = 0;
 
   // Method which get inputs from the keyboard on all the screen
@@ -96,6 +91,7 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
+
 
     if (newKey === this.state.keyName) {
       switch (newKey) {
@@ -187,14 +183,9 @@ class Game extends React.Component {
             rubyCounter: this.state.rubyCounter + 1
           });
         }, 200);
-        this.playRuby();
+        this.props.playRuby();
       }
     }
-  }
-
-  playRuby() {
-    const pickupRuby = new Audio("sound/getRuby.mp3");
-    pickupRuby.play();
   }
 
   attack(event) {
