@@ -1,0 +1,55 @@
+.Timeline,
+#loadingPage {
+  background-image: url("/background_zelda.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#loadingPage {
+  height: 100vh;
+  text-align: center;
+  padding-top: 30vh;
+}
+.Timeline h1 {
+  text-align: center;
+  padding: 1.5em 0;
+}
+.body-container {
+  display: flex;
+  border: solid 1px black;
+  border-radius: 8px;
+  padding: 0.8em;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.body-container img {
+  object-fit: contain;
+  width: 100%;
+  border: solid 3px rgb(25, 25, 25);
+  border-radius: 5px;
+}
+.body-container a {
+  min-width: 30%;
+}
+
+.body-container > div {
+  padding: 0.6em;
+  text-align: center;
+}
+
+.body-container p {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin-top: 0.6em;
+  text-align: justify;
+}
+
+.body-container h3 {
+  font-size: 16px;
+  line-height: 1.2em;
+}
+.timeline-item-dateinner {
+  background-color: #287e25 !important;
+}

@@ -36,6 +36,9 @@
 }
 
 #weaponSlot div > div {
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center center;
   border: solid 2px white;
   width: 25%;
   height: 34px;
