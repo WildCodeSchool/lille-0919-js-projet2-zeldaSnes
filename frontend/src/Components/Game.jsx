@@ -617,7 +617,6 @@ class Game extends React.Component {
               <Ruby
                 rubyMap={ruby.rubyMap}
                 mapNumber={this.state.mapNumber}
-                key={this.state.index}
                 xRuby={ruby.x}
                 yRuby={ruby.y}
                 rubyClass={ruby.rubyClass}
