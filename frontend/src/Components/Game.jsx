@@ -615,7 +615,7 @@ class Game extends React.Component {
             attackAction={this.state.attackAction}
             direction={this.state.direction}
           />
-          {this.state.rubyList.map(ruby => {
+          {this.state.rubyList.map((ruby, index) => {
             return (
               <Ruby
                 rubyMap={ruby.rubyMap}
@@ -624,6 +624,7 @@ class Game extends React.Component {
                 xRuby={ruby.x}
                 yRuby={ruby.y}
                 rubyClass={ruby.rubyClass}
+                key={index}
               />
             );
           })}
