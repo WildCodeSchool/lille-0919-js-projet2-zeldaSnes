@@ -52,6 +52,8 @@ class Player extends React.Component {
             canAttack: false
           });
           break;
+        default:
+          break;
       }
 
       setTimeout(
@@ -87,6 +89,8 @@ class Player extends React.Component {
 
         case "ArrowDown":
           this.assetAnimation("Front");
+          break;
+        default:
           break;
       }
     }
