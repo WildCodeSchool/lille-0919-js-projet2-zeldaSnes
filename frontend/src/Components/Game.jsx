@@ -182,8 +182,8 @@ class Game extends React.Component {
       newPosition = y + 1;
       newDirection = "down";
       if (this.isMovePossible(x, y + 1)) {
-        this.setState({ pressKey: this.state.pressKey + 1 });
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           y: newPosition,
           keyName: "ArrowDown"
@@ -246,30 +246,30 @@ class Game extends React.Component {
     }
 
     if (this.state.buttonPressed.axes[1] === "1.00") {
-      this.setState({ pressKey: this.state.pressKey + 1 });
       newDirection = "down";
       this.setState({
+        pressKey: this.state.pressKey + 1,
         direction: newDirection,
         keyName: "ArrowDown"
       });
     } else if (this.state.buttonPressed.axes[1] === "-1.00") {
-      this.setState({ pressKey: this.state.pressKey + 1 });
       newDirection = "up";
       this.setState({
+        pressKey: this.state.pressKey + 1,
         direction: newDirection,
         keyName: "ArrowUp"
       });
     } else if (this.state.buttonPressed.axes[0] === "-1.00") {
-      this.setState({ pressKey: this.state.pressKey + 1 });
       newDirection = "left";
       this.setState({
+        pressKey: this.state.pressKey + 1,
         direction: newDirection,
         keyName: "ArrowLeft"
       });
     } else if (this.state.buttonPressed.axes[0] === "1.00") {
-      this.setState({ pressKey: this.state.pressKey + 1 });
       newDirection = "right";
       this.setState({
+        pressKey: this.state.pressKey + 1,
         direction: newDirection,
         keyName: "ArrowRight"
       });
@@ -567,9 +567,8 @@ class Game extends React.Component {
         this.state.buttonPressed.buttons[2].button_2 === true) &&
       this.state.haveSword === true
     ) {
-      this.setState({ attackAction: true });
+      this.setState({ attackAction: true, pressKey: this.state.pressKey + 1 });
       setTimeout(() => this.setState({ attackAction: false }), 200);
-      this.setState({ pressKey: this.state.pressKey + 1 });
       switch (this.state.direction) {
         case "left":
           if (
