@@ -422,11 +422,6 @@ class Game extends React.Component {
       return false;
     }
   }
-  // this method is a dependency of getMovement that plays a sound effect when the player attempt to move on a blocking tile
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
-  }
 
   /*  Ruby   */
 
