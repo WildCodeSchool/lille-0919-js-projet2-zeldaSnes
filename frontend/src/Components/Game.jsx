@@ -461,7 +461,7 @@ class Game extends React.Component {
   /*  Ruby   */
 
   // This function checks if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + increments rubyCounter by 1
-  getRuby() {
+  getRuby = () => {
     let xPlayer = this.state.x;
     let yPlayer = this.state.y;
     let newRubyList = this.state.rubyList;
@@ -471,19 +471,19 @@ class Game extends React.Component {
         newRubyList[i].y === yPlayer &&
         newRubyList[i].rubyMap === this.state.mapNumber
       ) {
-        this.setState(
-          (newRubyList[i] = { ...newRubyList, rubyClass: "RubyTaken" })
-        );
+        newRubyList[i].rubyClass = "RubyTaken";
+        this.setState({ rubyList: newRubyList });
         setTimeout(() => {
+          newRubyList.splice(i, 1);
           this.setState({
-            newRubyList: newRubyList.splice(i, 1),
+            rubyList: newRubyList,
             rubyCounter: this.state.rubyCounter + 1
           });
-        }, 200);
+        }, 120);
         this.props.playRuby();
       }
     }
-  }
+  };
 
   // This function check if the sword position correspond to the player position and remove the concerned sword from the swordPosition array + showing sword in WeaponSlot
   getSword() {
