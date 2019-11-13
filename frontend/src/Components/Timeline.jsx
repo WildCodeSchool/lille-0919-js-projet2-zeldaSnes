@@ -68,7 +68,7 @@ class TimeLine extends React.Component {
               return (
                 <TimelineItem
                   key={i}
-                  dateText={toString(game.expected_release_year)}
+                  dateText={game.expected_release_year.toString()}
                   style={{ color: "#287e25" }}
                 >
                   <a href={game.image.original_url}>
