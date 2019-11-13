@@ -289,10 +289,12 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
-    if (newKey === "e") {
+    if (newKey === "e" && this.state.haveSword) {
       this.setState({ attackAction: true });
       setTimeout(() => this.setState({ attackAction: false }), 200);
+      this.setState({ pressKey: this.state.pressKey + 1 });
     } else if (newKey === this.state.keyName) {
+      this.setState({ pressKey: this.state.pressKey + 1 });
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
@@ -341,29 +343,42 @@ class Game extends React.Component {
           event.preventDefault();
           this.setState({
             direction: "left",
-            keyName: newKey
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
           });
           break;
 
         case "ArrowUp":
           event.preventDefault();
-          this.setState({ direction: "up", keyName: newKey });
+          this.setState({
+            direction: "up",
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
+          });
           break;
 
         case "ArrowRight":
           event.preventDefault();
-          this.setState({ direction: "right", keyName: newKey });
+          this.setState({
+            direction: "right",
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
+          });
           break;
 
         case "ArrowDown":
           event.preventDefault();
-          this.setState({ direction: "down", keyName: newKey });
+          this.setState({
+            direction: "down",
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
+          });
           break;
         default:
           break;
       }
     }
-    this.setState({ pressKey: this.state.pressKey + 1 });
+
     this.getRuby();
     this.getSword();
   }
