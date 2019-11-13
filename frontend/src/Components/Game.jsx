@@ -601,6 +601,7 @@ class Game extends React.Component {
                 ySword={sword.y}
                 swordClass={sword.swordClass}
                 swordMap={this.state.mapNumber}
+                key={index}
               />
             );
           })}
