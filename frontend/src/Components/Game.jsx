@@ -22,7 +22,7 @@ class Game extends React.Component {
       mapNumber: tilesMap,
       shouldUpdate: false,
       haveSword: false,
-      swordPosition: [{ x: 6, y: 3, swordClass: "Sword" }],
+      swordPosition: [{ x: 6, y: 3, swordClass: "Sword", swordMap: tilesMap }],
       rubyCounter: 0,
       gampadConnected: false,
       rubyList: [
@@ -61,6 +61,7 @@ class Game extends React.Component {
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
     this.getGamepad();
+
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -72,16 +73,14 @@ class Game extends React.Component {
       this.mapModification(event);
       this.attack(event);
     };
-    // window.requestAnimationFrame = update => {
-    //   console.log(update);
-    //   if (this.state.canMove && this.state.gampadConnected) {
-    //     this.setState({ canMove: false });
-    //     setTimeout(() => {
-    //       this.setState({ canMove: true });
-    //     }, 120);
-    //     this.gamepadMove();
-    //   }
-    // };
+
+    // if (this.state.canMove && this.state.gampadConnected) {
+    //   this.setState({ canMove: false });
+    //   setTimeout(() => {
+    //     this.setState({ canMove: true });
+    //   }, 120);
+    //   this.gamepadMove();
+    // }
   }
 
   pathFinding(xNPC, yNPC, x, y) {
@@ -164,16 +163,14 @@ class Game extends React.Component {
 
         this.setState({ buttonPressed: gamepadState });
       }
-      setTimeout(() => {
-        window.requestAnimationFrame(update);
-        if (this.state.canMove && this.state.gampadConnected) {
-          this.setState({ canMove: false });
-          setTimeout(() => {
-            this.setState({ canMove: true });
-            this.gamepadMove();
-          }, 120);
-        }
-      }, 120);
+      window.requestAnimationFrame(update);
+
+      if (this.state.canMove && this.state.gampadConnected) {
+        this.setState({ canMove: false });
+        setTimeout(() => {
+          this.setState({ canMove: true });
+        }, 120);
+      }
     };
     window.requestAnimationFrame(update);
 
@@ -633,6 +630,7 @@ class Game extends React.Component {
                 xSword={sword.x}
                 ySword={sword.y}
                 swordClass={sword.swordClass}
+                swordMap={this.state.mapNumber}
               />
             );
           })}
