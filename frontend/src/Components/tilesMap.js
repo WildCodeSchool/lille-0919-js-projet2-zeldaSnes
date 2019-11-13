@@ -89,7 +89,11 @@ const tileNames = {
   m013Z: "houseLeftPillar",
   m014Z: "houseTopPillar",
   m015Z: "houseStorage",
-  m016Z: "houseWell"
+  m016Z: "houseWell",
+  m017Z: "houseTopLeftWallsCorner",
+  m018Z: "houseBottomLeftWallsCorner",
+  m019Z: "houseTopRightWallsCorner",
+  m020Z: "houseBottomRightWallsCorner"
 };
 
 // prettier-ignore
@@ -110,7 +114,7 @@ const tilesMap = [
     ['v001', 'v001', 'v001', 'v001', 'v001', 'g008', 'v001', 'v001', 'v001', 'v001', 'v001', 'v001', 'v001', 'v001', 'v001', 'v020Z', 'v021Z', 'v001', 'v001', 'v001'],
     ['g002Z', 'g002Z', 'g002Z', 'g002Z', 'g005Z', 'g008', 'g006Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z', 'g002Z'],
 ];
-
+// prettier-ignore
 const tilesMap2 = [
   [
     "m001Z",
@@ -181,7 +185,7 @@ const tilesMap2 = [
   [
     "m001Z",
     "m001Z",
-    "m009Z",
+    "m017Z",
     "m010Z",
     "m014Z",
     "m010Z",
@@ -196,7 +200,7 @@ const tilesMap2 = [
     "m010Z",
     "m014Z",
     "m010Z",
-    "m008Z",
+    "m019Z",
     "m001Z",
     "m001Z"
   ],
@@ -357,7 +361,7 @@ const tilesMap2 = [
   [
     "m001Z",
     "m001Z",
-    "m009Z",
+    "m018Z",
     "m007Z",
     "m011Z",
     "m007Z",
@@ -372,7 +376,7 @@ const tilesMap2 = [
     "m007Z",
     "m011Z",
     "m007Z",
-    "m008Z",
+    "m020Z",
     "m001Z",
     "m001Z"
   ],
