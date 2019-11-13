@@ -103,15 +103,15 @@ class Game extends React.Component {
         let newy = path[1].y;
         if (newx - xNPC !== 0) {
           if (xNPC - newx > 0) {
-            this.state.NPC.direction = "left";
+            this.setState({ NPC: { ...this.state.NPC, direction: "left" } });
           } else {
-            this.state.NPC.direction = "right";
+            this.setState({ NPC: { ...this.state.NPC, direction: "right" } });
           }
         } else {
           if (yNPC - newy > 0) {
-            this.state.NPC.direction = "up";
+            this.setState({ NPC: { ...this.state.NPC, direction: "up" } });
           } else {
-            this.state.NPC.direction = "down";
+            this.setState({ NPC: { ...this.state.NPC, direction: "down" } });
           }
         }
         if (newx !== this.state.x || newy !== this.state.y) {
