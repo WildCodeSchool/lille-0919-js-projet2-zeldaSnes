@@ -174,68 +174,69 @@ class Game extends React.Component {
   //   };
   //   window.requestAnimationFrame(update);
 
-  //   /* Player  Movement  */
   // }
 
-  // gamepadMove() {
-  //   let newPosition;
-  //   let x = this.state.x;
-  //   let y = this.state.y;
-  //   let newDirection;
-  //   if (this.state.buttonPressed.axes[1] === "1.00") {
-  //     newPosition = y + 1;
-  //     newDirection = "down";
-  //     if (this.isMovePossible(x, y + 1)) {
-  //       this.setState({
-  //         direction: newDirection,
-  //         y: newPosition,
-  //         keyName: "ArrowDown"
-  //       });
-  //     } else {
-  //       this.playBounce();
-  //     }
-  //   } else if (this.state.buttonPressed.axes[1] === "-1.00") {
-  //     newPosition = y - 1;
-  //     newDirection = "up";
-  //     if (this.isMovePossible(x, y - 1)) {
-  //       this.setState({
-  //         direction: newDirection,
-  //         y: newPosition,
-  //         keyName: "ArrowUp"
-  //       });
-  //     } else {
-  //       this.playBounce();
-  //     }
-  //   } else if (this.state.buttonPressed.axes[0] === "-1.00") {
-  //     newPosition = x - 1;
-  //     newDirection = "left";
-  //     if (this.isMovePossible(x - 1, y)) {
-  //       this.setState({
-  //         direction: newDirection,
-  //         x: newPosition,
-  //         keyName: "ArrowLeft"
-  //       });
-  //     } else {
-  //       this.playBounce();
-  //     }
-  //   } else if (this.state.buttonPressed.axes[0] === "1.00") {
-  //     newPosition = x + 1;
-  //     newDirection = "rigth";
-  //     if (this.isMovePossible(x + 1, y)) {
-  //       this.setState({
-  //         direction: newDirection,
-  //         x: newPosition,
-  //         keyName: "ArrowRight"
-  //       });
-  //     } else {
-  //       this.playBounce();
-  //     }
-  //   }
-  //   this.getRuby();
-  //   this.attack(this.state.keyName);
-  //   this.setState({ pressKey: this.state.pressKey + 1 });
-  //   this.getSword();
-  // }
+  /* Player  Movement  */
+  gamepadMove() {
+    let newPosition;
+    let x = this.state.x;
+    let y = this.state.y;
+    let newDirection;
+    if (this.state.buttonPressed.axes[1] === "1.00") {
+      newPosition = y + 1;
+      newDirection = "down";
+      if (this.isMovePossible(x, y + 1)) {
+        this.setState({
+          direction: newDirection,
+          y: newPosition,
+          keyName: "ArrowDown"
+        });
+      } else {
+        this.playBounce();
+      }
+    } else if (this.state.buttonPressed.axes[1] === "-1.00") {
+      newPosition = y - 1;
+      newDirection = "up";
+      if (this.isMovePossible(x, y - 1)) {
+        this.setState({
+          direction: newDirection,
+          y: newPosition,
+          keyName: "ArrowUp"
+        });
+      } else {
+        this.playBounce();
+      }
+    } else if (this.state.buttonPressed.axes[0] === "-1.00") {
+      newPosition = x - 1;
+      newDirection = "left";
+      if (this.isMovePossible(x - 1, y)) {
+        this.setState({
+          direction: newDirection,
+          x: newPosition,
+          keyName: "ArrowLeft"
+        });
+      } else {
+        this.playBounce();
+      }
+    } else if (this.state.buttonPressed.axes[0] === "1.00") {
+      newPosition = x + 1;
+      newDirection = "rigth";
+      if (this.isMovePossible(x + 1, y)) {
+        this.setState({
+          direction: newDirection,
+          x: newPosition,
+          keyName: "ArrowRight"
+        });
+      } else {
+        this.playBounce();
+      }
+    }
+    this.getRuby();
+    this.attack(this.state.keyName);
+    this.setState({ pressKey: this.state.pressKey + 1 });
+    this.getRuby();
+    this.getSword();
+  }
 
   mapModification(event) {
     if (
@@ -497,7 +498,6 @@ class Game extends React.Component {
         this.state.y
       );
     } else {
-      clearInterval(this.makeNpcMove);
     }
   }, 1000);
 
