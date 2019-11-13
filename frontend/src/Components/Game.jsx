@@ -472,7 +472,7 @@ class Game extends React.Component {
         newRubyList[i].rubyMap === this.state.mapNumber
       ) {
         this.setState(
-          (newRubyList[i] = { ...newRubyList[i], rubyClass: "RubyTaken" })
+          (newRubyList[i] = { ...newRubyList, rubyClass: "RubyTaken" })
         );
         setTimeout(() => {
           this.setState({
@@ -498,7 +498,12 @@ class Game extends React.Component {
         haveSword === false
       ) {
         this.props.playSword();
-        this.setState((swordPosition[i] = { swordClass: "SwordTaken" }));
+        this.setState(
+          (swordPosition[i] = {
+            ...swordPosition,
+            swordClass: "SwordTaken"
+          })
+        );
         this.setState({
           swordPosition: swordPosition.splice(i, 1),
           haveSword: true
@@ -662,13 +667,15 @@ class Game extends React.Component {
           })}
           {this.state.swordPosition.map((sword, index) => {
             return (
-              <Sword
-                xSword={sword.x}
-                ySword={sword.y}
-                swordClass={sword.swordClass}
-                swordMap={this.state.mapNumber}
-                key={index}
-              />
+              !this.state.haveSword && (
+                <Sword
+                  xSword={sword.x}
+                  ySword={sword.y}
+                  swordClass={sword.swordClass}
+                  swordMap={this.state.mapNumber}
+                  key={index}
+                />
+              )
             );
           })}
           {this.state.NPC.isAlive && (
