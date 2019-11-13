@@ -60,7 +60,7 @@ class Game extends React.Component {
 
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
-    this.getGamepad();
+    // this.getGamepad();
 
     window.onkeydown = event => {
       if (this.state.canMove) {
@@ -135,48 +135,48 @@ class Game extends React.Component {
     easystar.calculate();
   }
 
-  getGamepad() {
-    window.addEventListener("gamepadconnected", event => {
-      this.setState({ gampadConnected: true });
-    });
-    window.addEventListener("gamepaddisconnected", event => {
-      this.setState({ gampadConnected: false });
-    });
-    let update = () => {
-      const gamepads = navigator.getGamepads();
-      if (gamepads[0]) {
-        const gamepadState = {
-          id: gamepads[0].id,
-          axes: [
-            gamepads[0].axes[0].toFixed(2),
-            gamepads[0].axes[1].toFixed(2)
-          ],
-          buttons: [
-            { button_0: gamepads[0].buttons[0].pressed },
-            { button_1: gamepads[0].buttons[1].pressed },
-            { button_2: gamepads[0].buttons[2].pressed },
-            { button_3: gamepads[0].buttons[3].pressed },
-            { button_4: gamepads[0].buttons[4].pressed },
-            { button_5: gamepads[0].buttons[5].pressed }
-          ]
-        };
+  // getGamepad() {
+  //   window.addEventListener("gamepadconnected", event => {
+  //     this.setState({ gampadConnected: true });
+  //   });
+  //   window.addEventListener("gamepaddisconnected", event => {
+  //     this.setState({ gampadConnected: false });
+  //   });
+  //   let update = () => {
+  //     const gamepads = navigator.getGamepads();
+  //     if (gamepads[0]) {
+  //       const gamepadState = {
+  //         id: gamepads[0].id,
+  //         axes: [
+  //           gamepads[0].axes[0].toFixed(2),
+  //           gamepads[0].axes[1].toFixed(2)
+  //         ],
+  //         buttons: [
+  //           { button_0: gamepads[0].buttons[0].pressed },
+  //           { button_1: gamepads[0].buttons[1].pressed },
+  //           { button_2: gamepads[0].buttons[2].pressed },
+  //           { button_3: gamepads[0].buttons[3].pressed },
+  //           { button_4: gamepads[0].buttons[4].pressed },
+  //           { button_5: gamepads[0].buttons[5].pressed }
+  //         ]
+  //       };
 
-        this.setState({ buttonPressed: gamepadState });
-      }
-      window.requestAnimationFrame(update);
+  //       this.setState({ buttonPressed: gamepadState });
+  //     }
+  //     window.requestAnimationFrame(update);
 
-      if (this.state.canMove && this.state.gampadConnected) {
-        this.setState({ canMove: false });
-        setTimeout(() => {
-          this.setState({ canMove: true });
-        }, 120);
-      }
-    };
-    window.requestAnimationFrame(update);
+  //     if (this.state.canMove && this.state.gampadConnected) {
+  //       this.setState({ canMove: false });
+  //       setTimeout(() => {
+  //         this.setState({ canMove: true });
+  //       }, 120);
+  //     }
+  //   };
+  //   window.requestAnimationFrame(update);
 
-    /* Player  Movement  */
-  }
+  // }
 
+  /* Player  Movement  */
   gamepadMove() {
     let newPosition;
     let x = this.state.x;
@@ -496,7 +496,6 @@ class Game extends React.Component {
         this.state.y
       );
     } else {
-      clearInterval(this.makeNpcMove);
     }
   }, 1000);
 
