@@ -199,8 +199,8 @@ class Game extends React.Component {
       newPosition = y - 1;
       newDirection = "up";
       if (this.isMovePossible(x, y - 1)) {
-        this.setState({ pressKey: this.state.pressKey + 1 });
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           y: newPosition,
           keyName: "ArrowUp"
@@ -216,8 +216,8 @@ class Game extends React.Component {
       newPosition = x - 1;
       newDirection = "left";
       if (this.isMovePossible(x - 1, y)) {
-        this.setState({ pressKey: this.state.pressKey + 1 });
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           x: newPosition,
           keyName: "ArrowLeft"
@@ -234,8 +234,8 @@ class Game extends React.Component {
       newPosition = x + 1;
       newDirection = "right";
       if (this.isMovePossible(x + 1, y)) {
-        this.setState({ pressKey: this.state.pressKey + 1 });
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           x: newPosition,
           keyName: "ArrowRight"
