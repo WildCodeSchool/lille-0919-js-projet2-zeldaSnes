@@ -471,7 +471,6 @@ class Game extends React.Component {
         newRubyList[i].y === yPlayer &&
         newRubyList[i].rubyMap === this.state.mapNumber
       ) {
-        console.log(newRubyList);
         newRubyList[i].rubyClass = "RubyTaken";
         this.setState({ rubyList: newRubyList });
         setTimeout(() => {
