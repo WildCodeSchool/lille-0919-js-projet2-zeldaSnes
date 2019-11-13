@@ -176,18 +176,6 @@ class Game extends React.Component {
 
     /* Player  Movement  */
   }
-  makeNpcMove = setInterval(() => {
-    if (this.state.NPC.isAlive && this.state.mapNumber === tilesMap) {
-      this.pathFinding(
-        this.state.NPC.x,
-        this.state.NPC.y,
-        this.state.x,
-        this.state.y
-      );
-    } else {
-      clearInterval(this.makeNpcMove);
-    }
-  }, 1000);
 
   gamepadMove() {
     let newPosition;
@@ -250,27 +238,6 @@ class Game extends React.Component {
     this.getSword();
   }
 
-  isMovePossible(x, y) {
-    const topBorder = 0;
-    const leftBorder = 0;
-    const bottomBorder = 14;
-    const rightBorder = 19;
-
-    if (
-      rightBorder >= x &&
-      leftBorder <= x &&
-      bottomBorder >= y &&
-      topBorder <= y &&
-      !this.state.mapNumber[y][x].includes("Z") &&
-      (x !== this.state.NPC.x ||
-        y !== this.state.NPC.y ||
-        !this.state.NPC.isAlive)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   mapModification(event) {
     if (
       this.state.x === 3 &&
@@ -512,10 +479,12 @@ class Game extends React.Component {
 
   makeNpcMove = setInterval(() => {
     if (this.state.NPC.isAlive && this.state.mapNumber === tilesMap) {
-      if (this.indexNPCmove > NPCmoves.length - 1) {
-        this.indexNPCmove = 0;
-      }
-      this.NPCMove(this.indexNPCmove);
+      this.pathFinding(
+        this.state.NPC.x,
+        this.state.NPC.y,
+        this.state.x,
+        this.state.y
+      );
     } else {
       clearInterval(this.makeNpcMove);
     }
