@@ -22,8 +22,8 @@ class HealthBar extends React.Component {
   render() {
     return (
       <div id="healthBar">
-        {this.generateHeartsTab().map(heart => {
-          return <img src={`/tiles/${heart}.png`} alt="*" />;
+        {this.generateHeartsTab().map((heart, index) => {
+          return <img src={`/tiles/${heart}.png`} alt="*" key={index}/>;
         })}
       </div>
     );
