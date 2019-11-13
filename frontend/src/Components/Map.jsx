@@ -1,6 +1,6 @@
 import React from "react";
 
-import { tileNames, tilesMap, tilesMap2 } from "./tilesMap.js";
+import { tileNames } from "./tilesMap.js";
 import "./Map.css";
 
 class Map extends React.Component {
