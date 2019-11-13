@@ -48,6 +48,13 @@ class GamePage extends React.Component {
     }
   };
 
+  playAttack = () => {
+    if (this.state.canMusic) {
+      const playAttack = new Audio("sound/LinkAttackSound.mp3");
+      playAttack.play();
+    }
+  };
+
   toggleMusic = () => {
     this.setState({ canMusic: !this.state.canMusic });
   };
@@ -64,6 +71,7 @@ class GamePage extends React.Component {
             playSword={this.playSword}
             playPauseOpen={this.playPauseOpen}
             playPauseClose={this.playPauseClose}
+            playAttack={this.playAttack}
           />
           <ControlsTab toggleMusic={this.toggleMusic} />
         </div>

@@ -64,6 +64,9 @@ class Player extends React.Component {
           }),
         300
       );
+      {
+        this.props.playAttack();
+      }
     }
   }
   //  Method which get inputs from ComponentDidMount (Game component) and send the correct asset to do on the Player
@@ -76,7 +79,6 @@ class Player extends React.Component {
       switch (newKey) {
         case "ArrowLeft":
           this.assetAnimation("Left");
-
           break;
 
         case "ArrowUp":
