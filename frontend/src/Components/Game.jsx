@@ -8,6 +8,7 @@ import { tilesMap, tilesMap2 } from "./tilesMap.js";
 import Sword from "./Sword";
 import NPC from "./NPC/NPC.jsx";
 import NPCmoves from "./NPC/NPCmoves.jsx";
+import p_key from "../img/p_key.svg";
 
 class Game extends React.Component {
   constructor(props) {
@@ -54,7 +55,9 @@ class Game extends React.Component {
         ]
       },
       pressKey: 0,
-      attackAction: false
+      attackAction: false,
+      isPaused: false,
+      isFrozen: false
     };
   }
 
@@ -70,6 +73,7 @@ class Game extends React.Component {
         }, 120);
         this.getMovement(event);
       }
+      this.getPaused(event);
       this.mapModification(event);
       this.attack(event);
     };
@@ -238,6 +242,8 @@ class Game extends React.Component {
     this.getSword();
   }
 
+  /* Map  Modification  */
+
   mapModification(event) {
     if (
       this.state.x === 3 &&
@@ -288,12 +294,13 @@ class Game extends React.Component {
     let newPositionY = this.state.y;
     let x = this.state.x;
     let y = this.state.y;
+    let isFrozen = this.state.isFrozen;
     let newDirection;
-    if (newKey === "e" && this.state.haveSword) {
+    if (newKey === "e" && this.state.haveSword && isFrozen === false) {
       this.setState({ attackAction: true });
       setTimeout(() => this.setState({ attackAction: false }), 200);
       this.setState({ pressKey: this.state.pressKey + 1 });
-    } else if (newKey === this.state.keyName) {
+    } else if (newKey === this.state.keyName && isFrozen === false) {
       this.setState({ pressKey: this.state.pressKey + 1 });
       switch (newKey) {
         case "ArrowLeft":
@@ -337,7 +344,7 @@ class Game extends React.Component {
       }
     }
     //if player can not move just change the asset direction
-    else {
+    else if (isFrozen === false) {
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
@@ -378,10 +385,10 @@ class Game extends React.Component {
           break;
       }
     }
-
     this.getRuby();
     this.getSword();
   }
+
   // this method is a dependency of getMovement  that performs all the collision tests to determine whether to allow or to prevent movement of the player
   isMovePossible(x, y) {
     const topBorder = 0;
@@ -432,6 +439,8 @@ class Game extends React.Component {
       }
     }
   }
+
+  /*  Sword  */
 
   // This function check if the sword position correspond to the player position and remove the concerned sword from the swordPosition array + showing sword in WeaponSlot
   getSword() {
@@ -490,7 +499,12 @@ class Game extends React.Component {
   }
 
   makeNpcMove = setInterval(() => {
-    if (this.state.NPC.isAlive && this.state.mapNumber === tilesMap) {
+    let isFrozen = this.state.isFrozen;
+    if (
+      this.state.NPC.isAlive &&
+      this.state.mapNumber === tilesMap &&
+      isFrozen === false
+    ) {
       this.pathFinding(
         this.state.NPC.x,
         this.state.NPC.y,
@@ -568,9 +582,35 @@ class Game extends React.Component {
       }
   }
 
+  getPaused(event) {
+    let newKey = event.key;
+    let isPaused = this.state.isPaused;
+    let isFrozen = this.state.isFrozen;
+    if (newKey === "p" && isPaused === false && isFrozen === false) {
+      this.props.playPauseOpen();
+      this.setState({
+        isPaused: true,
+        isFrozen: true
+      });
+    } else if (newKey === "p" && isPaused === true && isFrozen === true) {
+      this.props.playPauseClose();
+      this.setState({
+        isPaused: false,
+        isFrozen: false
+      });
+    }
+  }
+
   render() {
     return (
       <div className="game">
+        <div className={this.state.isPaused ? "isPaused" : "noPause"}>
+          Paused
+          <p>
+            <img src={p_key} alt="" />
+            Resume
+          </p>
+        </div>
         <GameTopBar
           rubyCounter={this.state.rubyCounter}
           haveSword={this.state.haveSword}

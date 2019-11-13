@@ -34,6 +34,20 @@ class GamePage extends React.Component {
     }
   };
 
+  playPauseOpen = () => {
+    if (this.state.canMusic) {
+      const pauseOpen = new Audio("sound/PauseMenuOpen.mp3");
+      pauseOpen.play();
+    }
+  };
+
+  playPauseClose = () => {
+    if (this.state.canMusic) {
+      const pauseClose = new Audio("sound/PauseMenuClose.mp3");
+      pauseClose.play();
+    }
+  };
+
   toggleMusic = () => {
     this.setState({ canMusic: !this.state.canMusic });
   };
@@ -48,6 +62,8 @@ class GamePage extends React.Component {
             playBounce={this.playBounce}
             playRuby={this.playRuby}
             playSword={this.playSword}
+            playPauseOpen={this.playPauseOpen}
+            playPauseClose={this.playPauseClose}
           />
           <ControlsTab toggleMusic={this.toggleMusic} />
         </div>

@@ -25,6 +25,19 @@
   font-size: 20px;
 }
 
+.ControlsTab .SingleKey p {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ControlsTab .SingleKey img {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+}
+
 @media screen and (max-width: 1000px) {
   .ControlsTab .ControlsBg img,
   .ControlsTabTitle {
