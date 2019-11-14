@@ -22,7 +22,7 @@ class Game extends React.Component {
       mapNumber: tilesMap,
       shouldUpdate: false,
       haveSword: false,
-      swordPosition: [{ x: 6, y: 3, swordClass: "Sword" }],
+      swordPosition: [{ x: 6, y: 3, swordClass: "Sword", swordMap: tilesMap }],
       rubyCounter: 0,
       gampadConnected: false,
       rubyList: [
@@ -60,8 +60,8 @@ class Game extends React.Component {
 
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
-    this.gamepadMove();
     this.getGamepad();
+
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -70,7 +70,7 @@ class Game extends React.Component {
         }, 120);
         this.getMovement(event);
       }
-      this.mapModification(event);
+      this.mapModification();
       this.attack(event);
     };
   }
@@ -90,20 +90,20 @@ class Game extends React.Component {
     easystar.setAcceptableTiles([0]);
 
     easystar.findPath(xNPC, yNPC, x, y, path => {
-      if (path.length > 0) {
+      if (path.length > 0 && path.length < 10) {
         let newx = path[1].x;
         let newy = path[1].y;
         if (newx - xNPC !== 0) {
           if (xNPC - newx > 0) {
-            this.state.NPC.direction = "left";
+            this.setState({ NPC: { ...this.state.NPC, direction: "left" } });
           } else {
-            this.state.NPC.direction = "right";
+            this.setState({ NPC: { ...this.state.NPC, direction: "right" } });
           }
         } else {
           if (yNPC - newy > 0) {
-            this.state.NPC.direction = "up";
+            this.setState({ NPC: { ...this.state.NPC, direction: "up" } });
           } else {
-            this.state.NPC.direction = "down";
+            this.setState({ NPC: { ...this.state.NPC, direction: "down" } });
           }
         }
         if (newx !== this.state.x || newy !== this.state.y) {
@@ -125,8 +125,8 @@ class Game extends React.Component {
     });
 
     easystar.calculate();
-}
-        
+  }
+
   getGamepad() {
     window.addEventListener("gamepadconnected", event => {
       this.setState({ gampadConnected: true });
@@ -134,7 +134,6 @@ class Game extends React.Component {
     window.addEventListener("gamepaddisconnected", event => {
       this.setState({ gampadConnected: false });
     });
-    const gamepadDisplay = document.getElementById("gamepad-display");
     let update = () => {
       const gamepads = navigator.getGamepads();
       if (gamepads[0]) {
@@ -157,85 +156,133 @@ class Game extends React.Component {
         this.setState({ buttonPressed: gamepadState });
       }
       window.requestAnimationFrame(update);
+
+      if (this.state.canMove && this.state.gampadConnected) {
+        this.setState({ canMove: false });
+        setTimeout(() => {
+          this.setState({ canMove: true });
+        }, 120);
+      }
     };
     window.requestAnimationFrame(update);
+  }
 
-   /* Player  Movement  */
-  makeNpcMove = setInterval(() => {
-    if (this.state.NPC.isAlive) {
-      this.pathFinding(
-        this.state.NPC.x,
-        this.state.NPC.y,
-        this.state.x,
-        this.state.y
-      );
-    } else {
-      clearInterval(this.makeNpcMove);
-    }
-  }, 300);
-
+  /* Player  Movement  */
   gamepadMove() {
     let newPosition;
     let x = this.state.x;
     let y = this.state.y;
-    let newDirection = "down";
-    if (this.state.buttonPressed.axes[1] === "1.00") {
+    let newDirection;
+
+    if (
+      this.state.buttonPressed.axes[1] === "1.00" &&
+      this.state.direction === "down"
+    ) {
+      this.setState({ pressKey: this.state.pressKey + 1 });
       newPosition = y + 1;
       newDirection = "down";
       if (this.isMovePossible(x, y + 1)) {
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           y: newPosition,
           keyName: "ArrowDown"
         });
       } else {
-        this.playBounce();
+        this.props.playBounce();
       }
-    } else if (this.state.buttonPressed.axes[1] === "-1.00") {
+    } else if (
+      this.state.buttonPressed.axes[1] === "-1.00" &&
+      this.state.direction === "up"
+    ) {
+      this.setState({ pressKey: this.state.pressKey + 1 });
       newPosition = y - 1;
       newDirection = "up";
       if (this.isMovePossible(x, y - 1)) {
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           y: newPosition,
           keyName: "ArrowUp"
         });
       } else {
-        this.playBounce();
+        this.props.playBounce();
       }
-    } else if (this.state.buttonPressed.axes[0] === "-1.00") {
+    } else if (
+      this.state.buttonPressed.axes[0] === "-1.00" &&
+      this.state.direction === "left"
+    ) {
+      this.setState({ pressKey: this.state.pressKey + 1 });
       newPosition = x - 1;
       newDirection = "left";
       if (this.isMovePossible(x - 1, y)) {
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           x: newPosition,
           keyName: "ArrowLeft"
         });
       } else {
-        this.playBounce();
+        this.setState({ pressKey: this.state.pressKey + 1 });
+        this.props.playBounce();
       }
-    } else if (this.state.buttonPressed.axes[0] === "1.00") {
+    } else if (
+      this.state.buttonPressed.axes[0] === "1.00" &&
+      this.state.direction === "right"
+    ) {
+      this.setState({ pressKey: this.state.pressKey + 1 });
       newPosition = x + 1;
-      newDirection = "rigth";
+      newDirection = "right";
       if (this.isMovePossible(x + 1, y)) {
         this.setState({
+          pressKey: this.state.pressKey + 1,
           direction: newDirection,
           x: newPosition,
           keyName: "ArrowRight"
         });
       } else {
-        this.playBounce();
+        this.props.playBounce();
       }
     }
+
+    if (this.state.buttonPressed.axes[1] === "1.00") {
+      newDirection = "down";
+      this.setState({
+        pressKey: this.state.pressKey + 1,
+        direction: newDirection,
+        keyName: "ArrowDown"
+      });
+    } else if (this.state.buttonPressed.axes[1] === "-1.00") {
+      newDirection = "up";
+      this.setState({
+        pressKey: this.state.pressKey + 1,
+        direction: newDirection,
+        keyName: "ArrowUp"
+      });
+    } else if (this.state.buttonPressed.axes[0] === "-1.00") {
+      newDirection = "left";
+      this.setState({
+        pressKey: this.state.pressKey + 1,
+        direction: newDirection,
+        keyName: "ArrowLeft"
+      });
+    } else if (this.state.buttonPressed.axes[0] === "1.00") {
+      newDirection = "right";
+      this.setState({
+        pressKey: this.state.pressKey + 1,
+        direction: newDirection,
+        keyName: "ArrowRight"
+      });
+    }
+
     this.getRuby();
     this.attack(this.state.keyName);
+    this.mapModification(this.state.direction);
+    this.getSword();
   }
-  componentDidUpdate(prevProps) {
-    if (
-      this.state.canMove &&
-      prevProps.buttonPressed !== this.state.buttonPressed
-    ) {
+
+  componentDidUpdate() {
+    if (this.state.canMove && this.state.gampadConnected) {
       this.setState({ canMove: false });
       setTimeout(() => {
         this.setState({ canMove: true });
@@ -244,32 +291,11 @@ class Game extends React.Component {
     }
   }
 
-  isMovePossible(x, y) {
-    const topBorder = 0;
-    const leftBorder = 0;
-    const bottomBorder = 14;
-    const rightBorder = 19;
-
-    if (
-      rightBorder >= x &&
-      leftBorder <= x &&
-      bottomBorder >= y &&
-      topBorder <= y &&
-      !this.state.mapNumber[y][x].includes("Z") &&
-      (x !== this.state.NPC.x ||
-        y !== this.state.NPC.y ||
-        !this.state.NPC.isAlive)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  mapModification(event) {
+  mapModification() {
     if (
       this.state.x === 3 &&
       this.state.y === 3 &&
-      event.key === "ArrowUp" &&
+      this.state.keyName === "ArrowUp" &&
       this.state.mapNumber === tilesMap
     ) {
       return (
@@ -280,16 +306,16 @@ class Game extends React.Component {
           shouldUpdate: true,
           transition: 0
         }),
-        this.setState({
-          shouldUpdate: false
-        }),
-        setTimeout(() => this.setState({ transition: 0.3 }), 300)
+        setTimeout(
+          () => this.setState({ shouldUpdate: false, transition: 0.3 }),
+          300
+        )
       );
     }
     if (
       this.state.x === 10 &&
       this.state.y === 11 &&
-      event.key === "ArrowDown" &&
+      this.state.keyName === "ArrowDown" &&
       this.state.mapNumber === tilesMap2
     ) {
       return (
@@ -300,10 +326,10 @@ class Game extends React.Component {
           shouldUpdate: true,
           transition: 0
         }),
-        this.setState({
-          shouldUpdate: false
-        }),
-        setTimeout(() => this.setState({ transition: 0.3 }), 300)
+        setTimeout(
+          () => this.setState({ shouldUpdate: false, transition: 0.3 }),
+          20
+        )
       );
     }
   }
@@ -316,11 +342,12 @@ class Game extends React.Component {
     let x = this.state.x;
     let y = this.state.y;
     let newDirection;
-    if (newKey === "e") {
+    if (newKey === "e" && this.state.haveSword) {
       this.setState({ attackAction: true });
       setTimeout(() => this.setState({ attackAction: false }), 200);
+      this.setState({ pressKey: this.state.pressKey + 1 });
     } else if (newKey === this.state.keyName) {
-    if (newKey === this.state.keyName) {
+      this.setState({ pressKey: this.state.pressKey + 1 });
       switch (newKey) {
         case "ArrowLeft":
           event.preventDefault();
@@ -369,29 +396,42 @@ class Game extends React.Component {
           event.preventDefault();
           this.setState({
             direction: "left",
-            keyName: newKey
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
           });
           break;
 
         case "ArrowUp":
           event.preventDefault();
-          this.setState({ direction: "up", keyName: newKey });
+          this.setState({
+            direction: "up",
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
+          });
           break;
 
         case "ArrowRight":
           event.preventDefault();
-          this.setState({ direction: "right", keyName: newKey });
+          this.setState({
+            direction: "right",
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
+          });
           break;
 
         case "ArrowDown":
           event.preventDefault();
-          this.setState({ direction: "down", keyName: newKey });
+          this.setState({
+            direction: "down",
+            keyName: newKey,
+            pressKey: this.state.pressKey + 1
+          });
           break;
         default:
           break;
       }
     }
-    this.setState({ pressKey: this.state.pressKey + 1 });
+
     this.getRuby();
     this.getSword();
   }
@@ -406,47 +446,44 @@ class Game extends React.Component {
       leftBorder <= x &&
       bottomBorder >= y &&
       topBorder <= y &&
-      !tilesMap[y][x].includes("Z") &&
+      !this.state.mapNumber[y][x].includes("Z") &&
       (x !== this.state.NPC.x ||
         y !== this.state.NPC.y ||
-        !this.state.NPC.isAlive)
+        !this.state.NPC.isAlive ||
+        this.state.mapNumber === tilesMap2)
     ) {
       return true;
     } else {
       return false;
     }
   }
-  // this method is a dependency of getMovement that plays a sound effect when the player attempt to move on a blocking tile
-  playBounce() {
-    const bounce = new Audio("sound/Bounce.mp3");
-    bounce.play();
-  }
 
   /*  Ruby   */
 
   // This function checks if the ruby position correspond to the player position and remove the concerned ruby from the rubyList array + increments rubyCounter by 1
-  getRuby() {
+  getRuby = () => {
     let xPlayer = this.state.x;
     let yPlayer = this.state.y;
     let newRubyList = this.state.rubyList;
-
     for (let i = 0; i < newRubyList.length; i++) {
       if (
         newRubyList[i].x === xPlayer &&
         newRubyList[i].y === yPlayer &&
         newRubyList[i].rubyMap === this.state.mapNumber
       ) {
-        this.setState((newRubyList[i] = { rubyClass: "RubyTaken" }));
+        newRubyList[i].rubyClass = "RubyTaken";
+        this.setState({ rubyList: newRubyList });
         setTimeout(() => {
+          newRubyList.splice(i, 1);
           this.setState({
-            newRubyList: newRubyList.splice(i, 1),
+            rubyList: newRubyList,
             rubyCounter: this.state.rubyCounter + 1
           });
-        }, 200);
+        }, 120);
         this.props.playRuby();
       }
     }
-  }
+  };
 
   // This function check if the sword position correspond to the player position and remove the concerned sword from the swordPosition array + showing sword in WeaponSlot
   getSword() {
@@ -461,7 +498,12 @@ class Game extends React.Component {
         haveSword === false
       ) {
         this.props.playSword();
-        this.setState((swordPosition[i] = { swordClass: "SwordTaken" }));
+        this.setState(
+          (swordPosition[i] = {
+            ...swordPosition,
+            swordClass: "SwordTaken"
+          })
+        );
         this.setState({
           swordPosition: swordPosition.splice(i, 1),
           haveSword: true
@@ -503,15 +545,16 @@ class Game extends React.Component {
       this.indexNPCmove += 1;
     }
   }
-        
+
   makeNpcMove = setInterval(() => {
-    if (this.state.NPC.isAlive) {
-      if (this.indexNPCmove > NPCmoves.length - 1) {
-        this.indexNPCmove = 0;
-      }
-      this.NPCMove(this.indexNPCmove);
+    if (this.state.NPC.isAlive && this.state.mapNumber === tilesMap) {
+      this.pathFinding(
+        this.state.NPC.x,
+        this.state.NPC.y,
+        this.state.x,
+        this.state.y
+      );
     } else {
-      clearInterval(this.makeNpcMove);
     }
   }, 1000);
 
@@ -521,9 +564,11 @@ class Game extends React.Component {
     let newKeyCode = event.key;
     if (
       (newKeyCode === "e" ||
-      this.state.buttonPressed.buttons[2].button_2 === true) && haveSword === true
-    )
-    let haveSword = this.state.haveSword;
+        this.state.buttonPressed.buttons[2].button_2 === true) &&
+      this.state.haveSword === true
+    ) {
+      this.setState({ attackAction: true, pressKey: this.state.pressKey + 1 });
+      setTimeout(() => this.setState({ attackAction: false }), 200);
       switch (this.state.direction) {
         case "left":
           if (
@@ -580,6 +625,7 @@ class Game extends React.Component {
         default:
           break;
       }
+    }
   }
 
   render() {
@@ -606,25 +652,29 @@ class Game extends React.Component {
             attackAction={this.state.attackAction}
             direction={this.state.direction}
           />
-          {this.state.rubyList.map(ruby => {
+          {this.state.rubyList.map((ruby, index) => {
             return (
               <Ruby
                 rubyMap={ruby.rubyMap}
                 mapNumber={this.state.mapNumber}
-                key={index}
                 xRuby={ruby.x}
                 yRuby={ruby.y}
                 rubyClass={ruby.rubyClass}
+                key={index}
               />
             );
           })}
           {this.state.swordPosition.map((sword, index) => {
             return (
-              <Sword
-                xSword={sword.x}
-                ySword={sword.y}
-                swordClass={sword.swordClass}
-              />
+              !this.state.haveSword && (
+                <Sword
+                  xSword={sword.x}
+                  ySword={sword.y}
+                  swordClass={sword.swordClass}
+                  swordMap={this.state.mapNumber}
+                  key={index}
+                />
+              )
             );
           })}
           {this.state.NPC.isAlive && (

@@ -52,7 +52,6 @@ class TimeLine extends React.Component {
         tabData.sort(function(a, b) {
           return a.expected_release_year - b.expected_release_year;
         });
-        console.log(tabData);
         this.setState({
           zeldaData: tabData
         });
@@ -69,7 +68,7 @@ class TimeLine extends React.Component {
               return (
                 <TimelineItem
                   key={i}
-                  dateText={game.expected_release_year}
+                  dateText={game.expected_release_year.toString()}
                   style={{ color: "#287e25" }}
                 >
                   <a href={game.image.original_url}>

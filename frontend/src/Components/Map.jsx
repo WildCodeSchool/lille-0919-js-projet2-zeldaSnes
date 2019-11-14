@@ -1,6 +1,6 @@
 import React from "react";
 
-import { tileNames, tilesMap, tilesMap2 } from "./tilesMap.js";
+import { tileNames } from "./tilesMap.js";
 import "./Map.css";
 
 class Map extends React.Component {
@@ -25,8 +25,8 @@ class Map extends React.Component {
   render() {
     return (
       <div className="map">
-        {this.props.mapNumber.map(row =>
-          row.map(tile => {
+        {this.props.mapNumber.map((row, rowIndex )=>
+          row.map((tile, tileIndex) => {
             return (
               <div
                 key={[rowIndex, tileIndex]}
