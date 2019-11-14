@@ -61,7 +61,7 @@ class Game extends React.Component {
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
     this.getGamepad();
-    
+
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -504,10 +504,12 @@ class Game extends React.Component {
             swordClass: "SwordTaken"
           })
         );
-        this.setState({
-          swordPosition: swordPosition.splice(i, 1),
-          haveSword: true
-        });
+        setTimeout(() => {
+          this.setState({
+            swordPosition: swordPosition.splice(i, 1),
+            haveSword: true
+          });
+        }, 2000);
       }
     }
   }
