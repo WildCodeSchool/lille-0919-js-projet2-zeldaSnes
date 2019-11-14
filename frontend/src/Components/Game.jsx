@@ -61,7 +61,7 @@ class Game extends React.Component {
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
     this.getGamepad();
-    
+
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -573,6 +573,7 @@ class Game extends React.Component {
         case "left":
           if (
             this.state.NPC.x === this.state.x - 1 &&
+            this.state.NPC.y === this.state.y &&
             this.state.NPC.NPCMap === this.state.mapNumber
           ) {
             this.setState({
@@ -586,6 +587,7 @@ class Game extends React.Component {
         case "up":
           if (
             this.state.NPC.y === this.state.y - 1 &&
+            this.state.NPC.x === this.state.x &&
             this.state.NPC.NPCMap === this.state.mapNumber
           ) {
             this.setState({
@@ -599,6 +601,7 @@ class Game extends React.Component {
         case "right":
           if (
             this.state.NPC.x === this.state.x + 1 &&
+            this.state.NPC.y === this.state.y &&
             this.state.NPC.NPCMap === this.state.mapNumber
           ) {
             this.setState({
@@ -612,6 +615,7 @@ class Game extends React.Component {
         case "down":
           if (
             this.state.NPC.y === this.state.y + 1 &&
+            this.state.NPC.x === this.state.x &&
             this.state.NPC.NPCMap === this.state.mapNumber
           ) {
             this.setState({
