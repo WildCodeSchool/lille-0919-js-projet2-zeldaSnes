@@ -59,6 +59,7 @@ class Game extends React.Component {
 
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
+
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -87,7 +88,7 @@ class Game extends React.Component {
     easystar.setAcceptableTiles([0]);
 
     easystar.findPath(xNPC, yNPC, x, y, path => {
-      if (path.length > 0 && path.length < 10) {
+      if (path.length > 0) {
         let newx = path[1].x;
         let newy = path[1].y;
         if (newx - xNPC !== 0) {

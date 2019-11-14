@@ -29,3 +29,8 @@
   border: 1px solid black;
   border-radius: 3px;
 }
+
+.HomePage > .aboutTimeline > a:hover,
+.HomePage > .playButton > a:hover {
+  background-color: rgb(253, 236, 216);
+}

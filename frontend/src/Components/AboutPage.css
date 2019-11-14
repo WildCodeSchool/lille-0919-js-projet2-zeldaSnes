@@ -1,0 +1,67 @@
+.aboutPage {
+  background-image: url("/background_zelda.jpg");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  min-height: calc(100vh);
+  padding-bottom: 20px;
+  padding-top: 30px;
+}
+
+.aboutPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.devDiv {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 30px;
+  justify-content: center;
+  width: 75%;
+}
+
+.customerDiv {
+  margin: 10px;
+}
+
+.customerDiv div h2,
+.devDiv div h2 {
+  margin: 4px;
+  color: rgb(203, 45, 38);
+  font-size: 15px;
+  min-width: 240px;
+  text-align: center;
+}
+
+.customerDiv div p,
+.devDiv div p {
+  margin: 4px;
+  font-size: 12px;
+  min-width: 240px;
+  text-align: center;
+}
+
+.customerDiv div,
+.devDiv div {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.devDiv div {
+  width: 45%;
+}
+
+@media screen and (max-width: 1000px) {
+  .customerDiv div h2,
+  .devDiv div h2 {
+    font-size: 12px;
+  }
+
+  .customerDiv div p,
+  .devDiv div p {
+    font-size: 10px;
+  }
+}

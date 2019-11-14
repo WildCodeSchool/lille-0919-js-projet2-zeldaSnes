@@ -1,6 +1,7 @@
 import React from "react";
 import "./Timeline.css";
 import axios from "axios";
+import Title from "./Title";
 import { Timeline, TimelineItem } from "vertical-timeline-component-for-react";
 
 class TimeLine extends React.Component {
@@ -61,6 +62,7 @@ class TimeLine extends React.Component {
   render() {
     return (
       <div className="Timeline">
+        <Title />
         <h1>Zelda games Timeline</h1>
         {this.state.zeldaData ? (
           <Timeline className="Timeline">
