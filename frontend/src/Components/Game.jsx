@@ -61,7 +61,7 @@ class Game extends React.Component {
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
     this.getGamepad();
-    
+
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -469,17 +469,15 @@ class Game extends React.Component {
       if (
         newRubyList[i].x === xPlayer &&
         newRubyList[i].y === yPlayer &&
-        newRubyList[i].rubyMap === this.state.mapNumber
+        newRubyList[i].rubyMap === this.state.mapNumber &&
+        newRubyList[i].rubyClass !== "RubyTaken"
       ) {
         newRubyList[i].rubyClass = "RubyTaken";
-        this.setState({ rubyList: newRubyList });
-        setTimeout(() => {
-          newRubyList.splice(i, 1);
-          this.setState({
-            rubyList: newRubyList,
-            rubyCounter: this.state.rubyCounter + 1
-          });
-        }, 120);
+        this.setState({
+          rubyList: newRubyList,
+          rubyCounter: this.state.rubyCounter + 1
+        });
+
         this.props.playRuby();
       }
     }
