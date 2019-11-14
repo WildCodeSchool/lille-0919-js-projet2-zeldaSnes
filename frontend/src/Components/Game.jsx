@@ -60,8 +60,6 @@ class Game extends React.Component {
 
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
-    // this.getGamepad();
-
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -73,14 +71,6 @@ class Game extends React.Component {
       this.mapModification(event);
       this.attack(event);
     };
-
-    // if (this.state.canMove && this.state.gampadConnected) {
-    //   this.setState({ canMove: false });
-    //   setTimeout(() => {
-    //     this.setState({ canMove: true });
-    //   }, 120);
-    //   this.gamepadMove();
-    // }
   }
 
   pathFinding(xNPC, yNPC, x, y) {
@@ -98,7 +88,7 @@ class Game extends React.Component {
     easystar.setAcceptableTiles([0]);
 
     easystar.findPath(xNPC, yNPC, x, y, path => {
-      if (path.length > 0 && path.length < 10) {
+      if (path.length > 0) {
         let newx = path[1].x;
         let newy = path[1].y;
         if (newx - xNPC !== 0) {
@@ -134,47 +124,6 @@ class Game extends React.Component {
 
     easystar.calculate();
   }
-
-  // getGamepad() {
-  //   window.addEventListener("gamepadconnected", event => {
-  //     this.setState({ gampadConnected: true });
-  //   });
-  //   window.addEventListener("gamepaddisconnected", event => {
-  //     this.setState({ gampadConnected: false });
-  //   });
-  //   let update = () => {
-  //     const gamepads = navigator.getGamepads();
-  //     if (gamepads[0]) {
-  //       const gamepadState = {
-  //         id: gamepads[0].id,
-  //         axes: [
-  //           gamepads[0].axes[0].toFixed(2),
-  //           gamepads[0].axes[1].toFixed(2)
-  //         ],
-  //         buttons: [
-  //           { button_0: gamepads[0].buttons[0].pressed },
-  //           { button_1: gamepads[0].buttons[1].pressed },
-  //           { button_2: gamepads[0].buttons[2].pressed },
-  //           { button_3: gamepads[0].buttons[3].pressed },
-  //           { button_4: gamepads[0].buttons[4].pressed },
-  //           { button_5: gamepads[0].buttons[5].pressed }
-  //         ]
-  //       };
-
-  //       this.setState({ buttonPressed: gamepadState });
-  //     }
-  //     window.requestAnimationFrame(update);
-
-  //     if (this.state.canMove && this.state.gampadConnected) {
-  //       this.setState({ canMove: false });
-  //       setTimeout(() => {
-  //         this.setState({ canMove: true });
-  //       }, 120);
-  //     }
-  //   };
-  //   window.requestAnimationFrame(update);
-
-  // }
 
   /* Player  Movement  */
   gamepadMove() {
