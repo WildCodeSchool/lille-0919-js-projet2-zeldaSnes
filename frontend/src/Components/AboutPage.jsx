@@ -15,9 +15,9 @@ function AboutPage() {
           </div>
         </div>
         <div className="devDiv">
-          {devTeam.map(dev => {
+          {devTeam.map((dev, devIndex) => {
             return (
-              <div className="devCard">
+              <div className="devCard" key={devIndex}>
                 <h2>{dev.name}</h2>
                 <p>{dev.role}</p>
               </div>
