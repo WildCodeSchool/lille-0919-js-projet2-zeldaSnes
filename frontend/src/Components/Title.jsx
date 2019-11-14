@@ -5,7 +5,7 @@ import "./Title.css";
 
 function Title() {
   return (
-    <Link exact to="/">
+    <Link to="/">
       <img className="titleImg" alt="logo" src={zeldaLogo} />
     </Link>
   );
