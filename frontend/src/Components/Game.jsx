@@ -90,7 +90,7 @@ class Game extends React.Component {
     easystar.setAcceptableTiles([0]);
 
     easystar.findPath(xNPC, yNPC, x, y, path => {
-      if (path.length > 0) {
+      if (path.length > 0 && path.length < 10) {
         let newx = path[1].x;
         let newy = path[1].y;
         if (newx - xNPC !== 0) {
