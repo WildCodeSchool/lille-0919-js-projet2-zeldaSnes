@@ -24,7 +24,6 @@ class Game extends React.Component {
       haveSword: false,
       swordPosition: [{ x: 6, y: 3, swordClass: "Sword", swordMap: tilesMap }],
       rubyCounter: 0,
-      gampadConnected: false,
       rubyList: [
         { x: 3, y: 5, rubyClass: "Ruby", rubyMap: tilesMap },
         { x: 6, y: 8, rubyClass: "Ruby", rubyMap: tilesMap },
@@ -60,8 +59,6 @@ class Game extends React.Component {
 
   // Method which sets an event listener on keyboard inputs on all the screen as soon as the component mounts
   componentDidMount() {
-    this.getGamepad();
-
     window.onkeydown = event => {
       if (this.state.canMove) {
         this.setState({ canMove: false });
@@ -127,169 +124,7 @@ class Game extends React.Component {
     easystar.calculate();
   }
 
-  getGamepad() {
-    window.addEventListener("gamepadconnected", event => {
-      this.setState({ gampadConnected: true });
-    });
-    window.addEventListener("gamepaddisconnected", event => {
-      this.setState({ gampadConnected: false });
-    });
-    let update = () => {
-      const gamepads = navigator.getGamepads();
-      if (gamepads[0]) {
-        const gamepadState = {
-          id: gamepads[0].id,
-          axes: [
-            gamepads[0].axes[0].toFixed(2),
-            gamepads[0].axes[1].toFixed(2)
-          ],
-          buttons: [
-            { button_0: gamepads[0].buttons[0].pressed },
-            { button_1: gamepads[0].buttons[1].pressed },
-            { button_2: gamepads[0].buttons[2].pressed },
-            { button_3: gamepads[0].buttons[3].pressed },
-            { button_4: gamepads[0].buttons[4].pressed },
-            { button_5: gamepads[0].buttons[5].pressed }
-          ]
-        };
-
-        this.setState({ buttonPressed: gamepadState });
-      }
-      window.requestAnimationFrame(update);
-
-      if (this.state.canMove && this.state.gampadConnected) {
-        this.setState({ canMove: false });
-        setTimeout(() => {
-          this.setState({ canMove: true });
-        }, 120);
-      }
-    };
-    window.requestAnimationFrame(update);
-  }
-
   /* Player  Movement  */
-  gamepadMove() {
-    let newPosition;
-    let x = this.state.x;
-    let y = this.state.y;
-    let newDirection;
-
-    if (
-      this.state.buttonPressed.axes[1] === "1.00" &&
-      this.state.direction === "down"
-    ) {
-      this.setState({ pressKey: this.state.pressKey + 1 });
-      newPosition = y + 1;
-      newDirection = "down";
-      if (this.isMovePossible(x, y + 1)) {
-        this.setState({
-          pressKey: this.state.pressKey + 1,
-          direction: newDirection,
-          y: newPosition,
-          keyName: "ArrowDown"
-        });
-      } else {
-        this.props.playBounce();
-      }
-    } else if (
-      this.state.buttonPressed.axes[1] === "-1.00" &&
-      this.state.direction === "up"
-    ) {
-      this.setState({ pressKey: this.state.pressKey + 1 });
-      newPosition = y - 1;
-      newDirection = "up";
-      if (this.isMovePossible(x, y - 1)) {
-        this.setState({
-          pressKey: this.state.pressKey + 1,
-          direction: newDirection,
-          y: newPosition,
-          keyName: "ArrowUp"
-        });
-      } else {
-        this.props.playBounce();
-      }
-    } else if (
-      this.state.buttonPressed.axes[0] === "-1.00" &&
-      this.state.direction === "left"
-    ) {
-      this.setState({ pressKey: this.state.pressKey + 1 });
-      newPosition = x - 1;
-      newDirection = "left";
-      if (this.isMovePossible(x - 1, y)) {
-        this.setState({
-          pressKey: this.state.pressKey + 1,
-          direction: newDirection,
-          x: newPosition,
-          keyName: "ArrowLeft"
-        });
-      } else {
-        this.setState({ pressKey: this.state.pressKey + 1 });
-        this.props.playBounce();
-      }
-    } else if (
-      this.state.buttonPressed.axes[0] === "1.00" &&
-      this.state.direction === "right"
-    ) {
-      this.setState({ pressKey: this.state.pressKey + 1 });
-      newPosition = x + 1;
-      newDirection = "right";
-      if (this.isMovePossible(x + 1, y)) {
-        this.setState({
-          pressKey: this.state.pressKey + 1,
-          direction: newDirection,
-          x: newPosition,
-          keyName: "ArrowRight"
-        });
-      } else {
-        this.props.playBounce();
-      }
-    }
-
-    if (this.state.buttonPressed.axes[1] === "1.00") {
-      newDirection = "down";
-      this.setState({
-        pressKey: this.state.pressKey + 1,
-        direction: newDirection,
-        keyName: "ArrowDown"
-      });
-    } else if (this.state.buttonPressed.axes[1] === "-1.00") {
-      newDirection = "up";
-      this.setState({
-        pressKey: this.state.pressKey + 1,
-        direction: newDirection,
-        keyName: "ArrowUp"
-      });
-    } else if (this.state.buttonPressed.axes[0] === "-1.00") {
-      newDirection = "left";
-      this.setState({
-        pressKey: this.state.pressKey + 1,
-        direction: newDirection,
-        keyName: "ArrowLeft"
-      });
-    } else if (this.state.buttonPressed.axes[0] === "1.00") {
-      newDirection = "right";
-      this.setState({
-        pressKey: this.state.pressKey + 1,
-        direction: newDirection,
-        keyName: "ArrowRight"
-      });
-    }
-
-    this.getRuby();
-    this.attack(this.state.keyName);
-    this.mapModification(this.state.direction);
-    this.getSword();
-  }
-
-  componentDidUpdate() {
-    if (this.state.canMove && this.state.gampadConnected) {
-      this.setState({ canMove: false });
-      setTimeout(() => {
-        this.setState({ canMove: true });
-      }, 120);
-      this.gamepadMove();
-    }
-  }
 
   mapModification() {
     if (
@@ -686,7 +521,6 @@ class Game extends React.Component {
               mapNumber={this.state.mapNumber}
             />
           )}
-          <p>{this.state.gampadConnected ? "GamePadConnected" : ""}</p>
         </div>
         <div className="gameMobileScreen">
           <h2>Sorry but our game is not avaible on mobile</h2>
