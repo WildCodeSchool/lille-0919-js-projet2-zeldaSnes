@@ -502,10 +502,12 @@ class Game extends React.Component {
             swordClass: "SwordTaken"
           })
         );
-        this.setState({
-          swordPosition: swordPosition.splice(i, 1),
-          haveSword: true
-        });
+        setTimeout(() => {
+          this.setState({
+            swordPosition: swordPosition.splice(i, 1),
+            haveSword: true
+          });
+        }, 2000);
       }
     }
   }
