@@ -8,3 +8,9 @@
   right: 32px;
   content: url("/link/linkLeft/swordLeft.png");
 }
+
+.attackRight::before {
+  position: absolute;
+  left: 32px;
+  content: url("/link/linkRight/swordRight.png");
+}

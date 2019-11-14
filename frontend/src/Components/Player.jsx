@@ -11,7 +11,8 @@ class Player extends React.Component {
       assetWidth: 32,
       asset: "link/linkFront/linkFront-Step4.png",
       mouvementAnimation: true,
-      canAttack: true
+      canAttack: true,
+      attackClass: "player"
     };
   }
   assetAnimation(direction) {
@@ -30,24 +31,28 @@ class Player extends React.Component {
       switch (this.props.direction) {
         case "down":
           this.setState({
+            attackClass: "player",
             asset: `link/linkFront/attackFront.png`,
             canAttack: false
           });
           break;
         case "up":
           this.setState({
+            attackClass: "player",
             asset: `link/linkBack/attackBack.png`,
             canAttack: false
           });
           break;
         case "right":
           this.setState({
+            attackClass: "player attackRight",
             asset: `link/linkRight/attackRight.png`,
             canAttack: false
           });
           break;
         case "left":
           this.setState({
+            attackClass: "player attackLeft",
             asset: `link/linkLeft/attackLeft.png`,
             canAttack: false
           });
@@ -60,7 +65,8 @@ class Player extends React.Component {
         () =>
           this.setState({
             asset: oldprop,
-            canAttack: true
+            canAttack: true,
+            attackClass: "player"
           }),
         300
       );
@@ -105,11 +111,7 @@ class Player extends React.Component {
   render() {
     return (
       <div
-        className={
-          this.state.asset === "link/linkLeft/attackLeft.png"
-            ? "player attackLeft"
-            : "player"
-        }
+        className={this.state.attackClass}
         style={{
           top: `${this.props.y * this.state.assetHeight}px`,
           left: `${this.props.x * this.state.assetWidth}px`,
