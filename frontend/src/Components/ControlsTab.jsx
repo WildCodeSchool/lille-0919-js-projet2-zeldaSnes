@@ -1,5 +1,4 @@
 import React from "react";
-import spacebar from "../img/spacebar.svg";
 import arrows from "../img/arrows.svg";
 import Music from "./Music";
 import "./ControlsTab.css";
