@@ -1,0 +1,36 @@
+.HomePage {
+  background-image: url("/background_zelda.jpg");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  min-height: calc(100vh);
+  padding-bottom: 20px;
+  padding-top: 30px;
+}
+
+.HomePage > .playButton {
+  margin-top: 20vh;
+  width: 100%;
+  text-align: center;
+}
+.HomePage > .playButton > a {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.HomePage > .aboutTimeline {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.HomePage > .aboutTimeline > a {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.HomePage > .aboutTimeline > a:hover,
+.HomePage > .playButton > a:hover {
+  background-color: rgb(253, 236, 216);
+}

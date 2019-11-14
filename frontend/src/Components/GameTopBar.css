@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap");
+
+.gameTopBar {
+  width: 640px;
+  height: 64px;
+  background-color: rgb(0, 0, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Press Start 2P";
+}
+
+.gameTopBar > div {
+  color: white;
+  width: 30%;
+}
+
+#healthBar {
+  display: flex;
+  margin-left: 20px;
+}
+
+#weaponSlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+#weaponSlot > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 90%;
+  padding: 2px;
+}
+
+#weaponSlot div > div {
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: solid 2px white;
+  width: 25%;
+  height: 34px;
+}
+
+#rubySlot {
+  display: flex;
+  justify-content: center;
+}
+
+#rubySlot img {
+  width: 40px;
+  padding-right: 4px;
+}
+
+#rubySlot p {
+  font-size: 18px;
+  align-self: center;
+}
+
+@media screen and (max-width: 1000px) {
+  .gameTopBar {
+    display: none;
+  }
+}

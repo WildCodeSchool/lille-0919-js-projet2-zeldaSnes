@@ -1,0 +1,19 @@
+.leftDiv {
+  flex-basis: calc(50% - 320px);
+  padding: 0;
+  color: transparent;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.leftDiv img {
+  width: 400px;
+  margin: 0;
+}
+
+@media screen and (max-width: 1000px) {
+  .leftDiv {
+    display: none;
+  }
+}

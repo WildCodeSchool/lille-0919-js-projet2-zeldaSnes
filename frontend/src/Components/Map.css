@@ -1,0 +1,13 @@
+.map {
+  display: flex;
+  flex-flow: row wrap;
+  width: 640px;
+  height: 480px;
+  position: relative;
+}
+
+.map div {
+  width: 32px;
+  height: 32px;
+  line-height: 0;
+}
