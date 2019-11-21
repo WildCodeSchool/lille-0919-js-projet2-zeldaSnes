@@ -8,6 +8,7 @@ import { tilesMap, tilesMap2 } from "./tilesMap.js";
 import Sword from "./Sword";
 import NPC from "./NPC/NPC.jsx";
 import NPCmoves from "./NPC/NPCmoves.jsx";
+import { connect } from "react-redux";
 
 class Game extends React.Component {
   constructor(props) {
@@ -15,7 +16,6 @@ class Game extends React.Component {
     this.state = {
       x: 3,
       y: 4,
-      HP: 8,
       keyName: "ArrowDown",
       blocked: false,
       canMove: true,
@@ -115,11 +115,7 @@ class Game extends React.Component {
             }
           });
         } else {
-          let newHP = this.state.HP - 1;
-          this.setState({
-            ...this.state,
-            HP: newHP
-          });
+          this.props.makeDamage();
         }
       }
     });
@@ -435,6 +431,7 @@ class Game extends React.Component {
     this.getRuby();
     this.getSword();
   }
+
   // this method is a dependency of getMovement  that performs all the collision tests to determine whether to allow or to prevent movement of the player
   isMovePossible(x, y) {
     const topBorder = 0;
@@ -638,7 +635,6 @@ class Game extends React.Component {
         <GameTopBar
           rubyCounter={this.state.rubyCounter}
           haveSword={this.state.haveSword}
-          HP={this.state.HP}
         />
         <div className="gameScreen">
           <Map
@@ -700,4 +696,10 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+const mapDispachToProps = dispatch => {
+  return {
+    makeDamage: () => dispatch({ type: "LOOSE_HP" })
+  };
+};
+
+export default connect(null, mapDispachToProps)(Game);

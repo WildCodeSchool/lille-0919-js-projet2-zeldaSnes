@@ -1,7 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 
 class HealthBar extends React.Component {
-
   generateHeartsTab() {
     let heartsTab = [];
     let numOfHearts = this.props.HP / 2;
@@ -23,11 +23,17 @@ class HealthBar extends React.Component {
     return (
       <div id="healthBar">
         {this.generateHeartsTab().map((heart, index) => {
-          return <img src={`/tiles/${heart}.png`} alt="*" key={index}/>;
+          return <img src={`/tiles/${heart}.png`} alt="*" key={index} />;
         })}
       </div>
     );
   }
 }
 
-export default HealthBar;
+const mapStateToProps = state => {
+  return {
+    HP: state.HP
+  };
+};
+
+export default connect(mapStateToProps)(HealthBar);

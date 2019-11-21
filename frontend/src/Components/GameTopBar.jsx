@@ -8,7 +8,7 @@ class GameTopBar extends React.Component {
   render() {
     return (
       <div className="gameTopBar">
-        <HealthBar HP={this.props.HP} />
+        <HealthBar />
 
         <WeaponSlot haveSword={this.props.haveSword} />
 
