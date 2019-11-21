@@ -1,13 +1,10 @@
-const initialState = {
-  HP: 8
-};
+import initialState from "./store";
 
 const reducer = (state = initialState, action) => {
-  const newState = JSON.parse(JSON.stringify(state));
+  const newState = state;
   switch (action.type) {
     case "LOOSE_HP":
-      newState.HP -= 1;
-      break;
+      return { ...state, HP: (newState.HP -= 1) };
   }
   return newState;
 };
